@@ -5,10 +5,19 @@ import { handleAuthRedirect, handleShopifyAccessRequest } from "~/auth.server";
 import { myShopifyDomainExtension } from "~/constants";
 import { destroySession, getSession } from "~/sessionStorage.server";
 import { ParseQueryParams, handleResponseError } from "~/utils";
+import { createServerClient, parse, serialize } from "@supabase/ssr";
+import { getSupabaseAuthClient } from "~/supabaseclient";
 
 // Route to initiate the authentication process
 export let loader: LoaderFunction = async ({ request }) => {
   try {
+    const cookies = parse(request.headers.get("Cookie") ?? "");
+    const headers = new Headers();
+
+    const supabaseClient = getSupabaseAuthClient(cookies, headers);
+
+    supabaseCl;
+
     const params = ParseQueryParams(request.url);
     if (params.shop) {
       return handleShopifyAccessRequest(params);

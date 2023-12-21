@@ -1,3 +1,4 @@
+// import { json, redirect,LoaderFunction, ActionFunction  } from "@remix-run/node";
 import { verifyHMAC, verifyShopifyAuthCodeRequest } from "./securityUtils";
 import crypto from "crypto";
 import { scopeString as scopesString } from "./constants";
@@ -70,11 +71,8 @@ export async function handleAuthRedirect(shop: string, additionalHeaders: Header
 
   console.log("authorizationUrl", authorizationUrl);
 
-  const cookieHeader = await setSignedNonceCookie(nonce);
-
   return new Response(null, {
     headers: {
-      "Set-Cookie": cookieHeader,
       Location: authorizationUrl,
       ...additionalHeaders,
     },
