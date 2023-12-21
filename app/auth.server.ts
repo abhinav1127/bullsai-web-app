@@ -52,7 +52,7 @@ export async function handleShopifyAccessRequest(queryParams: QueryParams): Prom
   }
 }
 
-export async function handleAuthRedirect(shop: string, additionalHeaders: Headers): Promise<Response> {
+export async function handleAuthRedirect(shop: string): Promise<Response> {
   if (!clientId || !clientSecret) {
     throw new Error("Missing Shopify Client ID or Client Secret");
   }
