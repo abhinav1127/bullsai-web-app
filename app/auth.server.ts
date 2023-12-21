@@ -76,7 +76,6 @@ export async function handleAuthRedirect(shop: string): Promise<Response> {
     headers: {
       "Set-Cookie": cookieHeader,
       Location: authorizationUrl,
-      ...additionalHeaders,
     },
     status: 303,
     statusText: "See Other",
