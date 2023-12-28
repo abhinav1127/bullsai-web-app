@@ -24,7 +24,7 @@ export let loader: LoaderFunction = async ({ request }) => {
     let cookieHeader = await commitSession(session);
     console.log("cookieHeader", cookieHeader);
 
-    return redirect("/home", {
+    return redirect("/dashboard/home", {
       headers: {
         "Set-Cookie": cookieHeader,
       },

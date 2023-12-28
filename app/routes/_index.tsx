@@ -1,14 +1,15 @@
 import type { MetaFunction, LoaderFunction, ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useFetcher } from "@remix-run/react";
 import { handleAuthRedirect, handleShopifyAccessRequest } from "~/auth.server";
 import { myShopifyDomainExtension } from "~/constants";
-import { destroySession, getSession } from "~/sessionStorage.server";
-import { ParseQueryParams, handleResponseError } from "~/utils";
+import { ParseQueryParams, handleResponseError, handleSessionForUnprotectedPage } from "~/utils";
+import logo from "../../public/bullsai.png";
 
 // Route to initiate the authentication process
 export let loader: LoaderFunction = async ({ request }) => {
   try {
+    await handleSessionForUnprotectedPage(request);
     const params = ParseQueryParams(request.url);
     if (params.shop) {
       return handleShopifyAccessRequest(params);
@@ -46,7 +47,7 @@ export default function Index() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       <div className="flex-1 bg-primary flex justify-center items-center">
-        <img src="path_to_your_logo.png" alt="Company Logo" className="max-w-xs md:max-w-sm" />
+        <img src={logo} alt="Company Logo" className="h-48 w-48" />
       </div>
       <div className="flex-1 bg-white flex flex-col justify-center items-center p-6">
         <div className="text-center">

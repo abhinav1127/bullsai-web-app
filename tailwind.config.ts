@@ -6,6 +6,10 @@ export default {
     extend: {
       colors: {
         primary: "#7F1011",
+        primaryLight: "#9f3033",
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
       },
     },
   },

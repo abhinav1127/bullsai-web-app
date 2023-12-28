@@ -8,7 +8,7 @@ if (!process.env.SESSION_COOKIE_SECRET_KEY) {
 
 const secretKey = process.env.SESSION_COOKIE_SECRET_KEY;
 
-const cookie = createCookie("__session", {
+const cookie = createCookie("session", {
   secrets: [secretKey],
   httpOnly: true,
   secure: true,
@@ -17,7 +17,6 @@ const cookie = createCookie("__session", {
 const { getSession, commitSession, destroySession } = createSessionStorage({
   cookie,
   async createData(data: Partial<merchant_sessions>, expires: Date | undefined) {
-    console.log("createData", data);
     const session = await prisma.merchant_sessions.create({
       data: {
         ...data,
@@ -33,8 +32,6 @@ const { getSession, commitSession, destroySession } = createSessionStorage({
     });
   },
   async updateData(id: string, data: Partial<merchant_sessions>, expires: Date | undefined) {
-    console.log("updateDataId", id);
-    console.log("updateData", data);
     await prisma.merchant_sessions.update({
       where: { id: BigInt(id) }, // Convert string to BigInt
       data: {

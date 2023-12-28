@@ -1,5 +1,3 @@
-import type { DataFunctionArgs } from "@remix-run/node";
-
 export interface QueryParams {
   [key: string]: string;
 }
@@ -24,10 +22,6 @@ export function getValidShopifySession(session: any): ShopifySession | null {
   }
 
   return null;
-}
-
-export interface LoaderFunctionArgsWithSession extends DataFunctionArgs {
-  shopifySession: ShopifySession;
 }
 
 export interface AuthRedirectInfo {
