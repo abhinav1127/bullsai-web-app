@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@remix-run/react";
 import { CheckCircleIcon, ChartBarIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import { Doughnut, Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, CategoryScale, LinearScale, BarElement } from "chart.js";
+import RingChart from "./RingChart";
 
 ChartJS.register(ArcElement, Tooltip, CategoryScale, LinearScale, BarElement);
 
@@ -88,6 +89,7 @@ export default function DashboardHome() {
 
   return (
     <div className="container mx-auto p-4">
+      <RingChart percentage={38} />
       <h1 className="text-3xl font-bold mb-8">Welcome to BullsAI</h1>
 
       <div className="bg-white rounded-lg shadow-md p-4">
