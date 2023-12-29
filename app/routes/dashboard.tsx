@@ -1,11 +1,22 @@
-// app/routes/dashboard/layout.tsx
-
 import { json, type LoaderFunction } from "@remix-run/node";
 import { Outlet, NavLink } from "@remix-run/react";
 import { useState } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
 import { Bars3CenterLeftIcon, HomeIcon, TagIcon, ClockIcon, CogIcon } from "@heroicons/react/24/outline";
 import logo from "../../public/bullsai.png";
+
+interface SidebarItem {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+}
+
+const sidebarItems: SidebarItem[] = [
+  { to: "/dashboard/home", icon: <HomeIcon className="h-4 w-4" />, label: "Home" },
+  { to: "/dashboard/products", icon: <TagIcon className="h-4 w-4" />, label: "Products" },
+  { to: "/dashboard/pending-versions", icon: <ClockIcon className="h-4 w-4" />, label: "Pending Versions" },
+  { to: "/dashboard/settings", icon: <CogIcon className="h-4 w-4" />, label: "Settings" },
+];
 
 export const loader: LoaderFunction = async ({ request }) => {
   try {
@@ -34,15 +45,11 @@ export default function DashboardLayout() {
           <Bars3CenterLeftIcon
             className="h-5 w-5 cursor-pointer text-white md:hidden absolute right-0"
             onClick={toggleSidebar}
+            aria-label="Toggle sidebar"
           />
         </div>
         <ul className="mt-10">
-          {[
-            { to: "/dashboard/home", icon: <HomeIcon className="h-4 w-4" />, label: "Home" },
-            { to: "/dashboard/products", icon: <TagIcon className="h-4 w-4" />, label: "Products" },
-            { to: "/dashboard/pending-versions", icon: <ClockIcon className="h-4 w-4" />, label: "Pending Versions" },
-            { to: "/dashboard/settings", icon: <CogIcon className="h-4 w-4" />, label: "Settings" },
-          ].map(({ to, icon, label }) => (
+          {sidebarItems.map(({ to, icon, label }) => (
             <li key={to}>
               <NavLink
                 to={to}
@@ -60,11 +67,17 @@ export default function DashboardLayout() {
       </div>
 
       {/* Overlay */}
-      {isSidebarOpen && <div className="fixed inset-0 bg-black opacity-70 z-5 md:hidden" onClick={toggleSidebar}></div>}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-70 z-5 md:hidden"
+          onClick={toggleSidebar}
+          aria-label="Close sidebar"
+        ></div>
+      )}
 
       {/* Main Content */}
       <div className="flex-1">
-        <button onClick={toggleSidebar} className="p-4 md:hidden">
+        <button onClick={toggleSidebar} className="p-4 md:hidden" aria-label="Open sidebar">
           <Bars3CenterLeftIcon className="h-5 w-5 text-primary" />
         </button>
         <Outlet />

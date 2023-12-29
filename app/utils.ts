@@ -56,13 +56,7 @@ export async function ValidateShopifySession(request: Request): Promise<{ validS
 
 export function ParseQueryParams(url: string | URL): { [key: string]: string } {
   const searchParams = new URL(url).searchParams;
-  let paramsObject: { [key: string]: string } = {};
-
-  searchParams.forEach((value, key) => {
-    paramsObject[key] = value;
-  });
-
-  return paramsObject;
+  return Object.fromEntries(searchParams.entries());
 }
 
 export function handleResponseError(error: unknown): Response {
