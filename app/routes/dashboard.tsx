@@ -1,4 +1,5 @@
-import { json, type LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, NavLink } from "@remix-run/react";
 import { useState } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
@@ -25,6 +26,10 @@ export const loader: LoaderFunction = async ({ request }) => {
     return handleResponseError(error);
   }
   return json({});
+};
+
+export const meta: MetaFunction = () => {
+  return [{ title: "BullsAI Dash" }, { name: "description", content: "BullsAI Dashboard" }];
 };
 
 export default function DashboardLayout() {

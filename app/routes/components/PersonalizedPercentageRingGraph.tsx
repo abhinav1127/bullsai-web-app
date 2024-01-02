@@ -1,25 +1,29 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
-interface RingGraphProps {
-  percentage: number;
+interface PersonalizedPercentageRingGraphProps {
+  personalizedVisitors: number;
   totalVisitors: number;
-  currentVisitors: number;
 }
 
-const RingGraph: React.FC<RingGraphProps> = ({ percentage, totalVisitors, currentVisitors }) => {
+const PersonalizedPercentageRingGraph: React.FC<PersonalizedPercentageRingGraphProps> = ({
+  personalizedVisitors,
+  totalVisitors,
+}) => {
+  const percentage = totalVisitors > 0 ? Math.round((personalizedVisitors / totalVisitors) * 100) : 0;
+
   const data = {
     datasets: [
       {
         data: [percentage, 100 - percentage],
-        backgroundColor: ["#4ade80", "#e2e8f0"],
+        backgroundColor: ["#7F1011", "#E0E0E0"],
         borderWidth: 0,
       },
     ],
   };
 
   const options = {
-    cutout: "80%",
+    cutout: "90%",
     maintainAspectRatio: false,
     scales: {
       xAxis: {
@@ -38,30 +42,22 @@ const RingGraph: React.FC<RingGraphProps> = ({ percentage, totalVisitors, curren
 
   const plugins = [
     {
+      id: "centered_text",
       beforeDraw: function (chart) {
         var width = chart.width,
           height = chart.height,
           ctx = chart.ctx;
         ctx.restore();
 
-        // Convert fontSize to a number
-        var fontSize = parseFloat((height / 100).toFixed(2)); // Larger font size
+        // Font size for percentage
+        var fontSize = parseFloat((height / 100).toFixed(2));
         ctx.font = `bold ${fontSize}em sans-serif`;
-        ctx.fillStyle = "#000"; // Black color for percentage
+        ctx.fillStyle = "#000";
         ctx.textBaseline = "middle";
         var text = `${percentage}%`,
           textX = Math.round((width - ctx.measureText(text).width) / 2),
-          textY = height / 2 - fontSize * 10; // Adjust vertical position
+          textY = height / 2; // Centered vertically
         ctx.fillText(text, textX, textY);
-
-        // Style for the additional text
-        var subTextFontSize = (height / 160).toFixed(2); // Smaller font size for additional text
-        ctx.font = `${subTextFontSize}em sans-serif`;
-        ctx.fillStyle = "#718096"; // Gray color for additional text
-        var subText = `${currentVisitors} of ${totalVisitors} visitors`,
-          subTextX = Math.round((width - ctx.measureText(subText).width) / 2),
-          subTextY = textY + fontSize * 20; // Position below the main text
-        ctx.fillText(subText, subTextX, subTextY);
 
         ctx.save();
       },
@@ -75,4 +71,4 @@ const RingGraph: React.FC<RingGraphProps> = ({ percentage, totalVisitors, curren
   );
 };
 
-export default RingGraph;
+export default PersonalizedPercentageRingGraph;
