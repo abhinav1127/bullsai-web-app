@@ -9,9 +9,9 @@ ChartJS.register(ArcElement, Tooltip, CategoryScale, LinearScale, BarElement);
 
 const sections = [
   {
-    title: "Total Additional Checkouts",
+    title: "Total Additional Revenue",
     icon: CheckCircleIcon,
-    content: <p className="text-2xl font-bold">546</p>,
+    content: <p className="text-2xl font-bold">$546</p>,
   },
   {
     title: "% Personalized Visitors",
@@ -43,7 +43,7 @@ export default function DashboardHome() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8">Welcome to BullsAI</h1>
+      <h1 className="text-3xl font-bold mb-8">Home</h1>
 
       <div className="bg-white rounded-lg shadow-md p-4">
         <h2 className="text-lg mb-4">Summary (last 30 days)</h2>

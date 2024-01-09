@@ -4,7 +4,7 @@ import { Link, useFetcher } from "@remix-run/react";
 import { handleAuthRedirect, handleShopifyAccessRequest } from "~/auth.server";
 import { myShopifyDomainExtension } from "~/constants";
 import { ParseQueryParams, handleResponseError, handleSessionForUnprotectedPage } from "~/utils";
-import logo from "../../public/bullsai.png";
+import Logo from "./components/Logo";
 
 // Route to initiate the authentication process
 export let loader: LoaderFunction = async ({ request }) => {
@@ -47,7 +47,7 @@ export default function Index() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       <div className="flex-1 bg-primary flex justify-center items-center">
-        <img src={logo} alt="Company Logo" className="h-48 w-48" />
+        <Logo className="h-48 w-48 fill-white" />
       </div>
       <div className="flex-1 bg-white flex flex-col justify-center items-center p-6">
         <div className="text-center">

@@ -1,0 +1,135 @@
+import type { FC } from "react";
+import React from "react";
+import type { ProductStatistics, Version, VersionStatistics } from "../types/types";
+import { ProductViewMode } from "../types/enums";
+
+interface ProductMetricDisplayProps {
+  statistic: number | undefined;
+  description: string;
+  dollarSymbol?: boolean;
+  percentSymbol?: boolean;
+  black?: boolean;
+}
+
+const ProductMetricDisplay: FC<ProductMetricDisplayProps> = ({
+  statistic,
+  description,
+  dollarSymbol,
+  percentSymbol,
+  black,
+}) => {
+  let statDiv = <p className="text-lg font-semibold text-center text-gray-500">-</p>;
+  let colorClass = black ? "text-black" : "text-gray-500";
+
+  if (statistic !== undefined) {
+    if (!black) {
+      colorClass = statistic >= 0 ? "text-green-500" : "text-red-500";
+    }
+    statDiv = (
+      <p className={`text-lg font-semibold text-center ${colorClass}`}>
+        {dollarSymbol && "$"}
+        {statistic.toLocaleString()}
+        {percentSymbol && "%"}
+      </p>
+    );
+  }
+  return (
+    <div>
+      {statDiv}
+      <p className={`text-sm text-center`}>{description}</p>
+    </div>
+  );
+};
+
+interface ProductMetricsSummaryCardProps {
+  statistics: ProductStatistics;
+}
+
+export const ProductMetricsSummaryCard: FC<ProductMetricsSummaryCardProps> = ({ statistics }) => {
+  return (
+    <div className="flex space-x-6 p-4 bg-white shadow rounded-lg mb-4">
+      <p className="text-black font-medium text-center inline-flex items-center">Overall Metrics:</p>
+
+      <ProductMetricDisplay statistic={statistics.views} description="Views" black />
+
+      <ProductMetricDisplay
+        statistic={statistics.conversionRateLift}
+        description="Conversion Rate Lift"
+        percentSymbol
+      />
+
+      <ProductMetricDisplay statistic={statistics.marginalRevenue} description="Marginal Revenue" dollarSymbol />
+
+      <ProductMetricDisplay
+        statistic={statistics.personalizedPercentage}
+        description="Personalized %"
+        percentSymbol
+        black
+      />
+
+      <ProductMetricDisplay statistic={statistics.addToCartRateLift} description="Add to Cart Lift" percentSymbol />
+    </div>
+  );
+};
+
+const DefaultVersionImageAndTag: FC<{ heroImage: string; productTitle: string }> = ({ heroImage, productTitle }) => (
+  <div className="flex flex-col items-center">
+    <img src={heroImage} alt={productTitle} className="w-32 h-32 object-cover rounded-full" />
+    <span className="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded-full uppercase font-semibold tracking-wide">
+      Default Version
+    </span>
+  </div>
+);
+
+export const DefaultVersionDetailsCard: FC<{ version: Version; productViewMode: ProductViewMode }> = ({
+  version,
+  productViewMode,
+}) => {
+  const renderVersionDetails = () => (
+    <div className="flex-1">
+      <p className="text-xl font-semibold text-black">{version.productTitle}</p>
+      <div className="text-gray-600 mt-2 overflow-hidden text-ellipsis h-24 max-h-24">{version.description}</div>
+    </div>
+  );
+
+  const renderVersionMetrics = () => (
+    <div className="flex space-y-4 md:space-y-0 md:space-x-6 items-center h-full">
+      <div className="flex flex-col">
+        <div className="flex">
+          <ProductMetricDisplay statistic={version.statistics.views} description="Views" black />
+          <ProductMetricDisplay
+            statistic={version.statistics.conversionRate}
+            description="Conversion Rate"
+            percentSymbol
+            black
+          />
+        </div>
+        <div className="flex">
+          <ProductMetricDisplay
+            statistic={version.statistics.displayPercentage}
+            description="Display %"
+            percentSymbol
+            black
+          />
+          <ProductMetricDisplay
+            statistic={version.statistics.addToCartRate}
+            description="Add to Cart Rate"
+            percentSymbol
+            black
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex justify-start max-h-">
+      <div className="p-4 bg-white shadow rounded-lg mb-4 w-full">
+        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+          <DefaultVersionImageAndTag heroImage={version.heroImage} productTitle={version.productTitle} />
+          {productViewMode === ProductViewMode.VersionDetails ? renderVersionDetails() : renderVersionMetrics()}
+        </div>
+      </div>
+    </div>
+  );
+};

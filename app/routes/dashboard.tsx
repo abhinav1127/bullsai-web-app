@@ -4,7 +4,8 @@ import { Outlet, NavLink } from "@remix-run/react";
 import { useState } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
 import { Bars3CenterLeftIcon, HomeIcon, TagIcon, ClockIcon, CogIcon } from "@heroicons/react/24/outline";
-import logo from "../../public/bullsai.png";
+import Logo from "./components/Logo";
+import { DrawerManager } from "./components/Drawer";
 
 interface SidebarItem {
   to: string;
@@ -36,6 +37,27 @@ export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
+  const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
+  const [mainDrawerChildren, setMainDrawerChildren] = useState<React.ReactNode>(null);
+  const [secondaryDrawerChildren, setSecondaryDrawerChildren] = useState<React.ReactNode>(null);
+
+  const toggleMainDrawer = (mainDrawerChildren: React.ReactNode) => {
+    setIsMainDrawerOpen(!isMainDrawerOpen);
+    setMainDrawerChildren(mainDrawerChildren);
+  };
+
+  const toggleSecondaryDrawer = (secondaryDrawerChildren: React.ReactNode) => {
+    setIsSecondaryDrawerOpen(!isSecondaryDrawerOpen);
+    setSecondaryDrawerChildren(secondaryDrawerChildren);
+  };
+
+  const closeMainDrawer = () => {
+    setIsMainDrawerOpen(false);
+  };
+  const closeSecondaryDrawer = () => {
+    setIsSecondaryDrawerOpen(false);
+  };
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -46,7 +68,7 @@ export default function DashboardLayout() {
         } w-64 bg-gradient-to-b from-primary to-primaryLight p-5 space-y-4 transition duration-300 ease-in-out z-10 md:relative md:translate-x-0`}
       >
         <div className="relative flex justify-center items-center">
-          <img src={logo} alt="BullsaAI Logo" className="h-16 w-16" />
+          <Logo className="h-16 w-16 fill-white" />
           <Bars3CenterLeftIcon
             className="h-5 w-5 cursor-pointer text-white md:hidden absolute right-0"
             onClick={toggleSidebar}
@@ -85,8 +107,17 @@ export default function DashboardLayout() {
         <button onClick={toggleSidebar} className="p-4 md:hidden" aria-label="Open sidebar">
           <Bars3CenterLeftIcon className="h-5 w-5 text-primary" />
         </button>
-        <Outlet />
+        <Outlet context={{ toggleMainDrawer, toggleSecondaryDrawer }} />
       </div>
+
+      <DrawerManager
+        isMainOpen={isMainDrawerOpen}
+        isSecondaryOpen={isSecondaryDrawerOpen}
+        onCloseMain={closeMainDrawer}
+        onCloseSecondary={closeSecondaryDrawer}
+        mainChildren={mainDrawerChildren}
+        secondaryChildren={secondaryDrawerChildren}
+      />
     </div>
   );
 }
