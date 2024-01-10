@@ -37,4 +37,6 @@ export interface VersionStatistics {
   marginalRevenue: number;
   displayPercentage: number;
   addToCartRate: number;
+  conversionRateLift: number;
+  addToCartRateLift: number;
 }

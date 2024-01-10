@@ -9,7 +9,7 @@ interface DrawerProps {
 }
 
 const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, children, isPrimary }) => {
-  const widthClass = isPrimary ? "md:w-4/5" : "md:w-3/5";
+  const widthClass = isPrimary ? "md:w-10/12" : "md:w-9/12";
 
   return (
     <>

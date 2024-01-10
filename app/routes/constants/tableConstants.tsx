@@ -1,7 +1,9 @@
 import {
+  ArrayRenderer,
   ClickableIndicatorCellRenderer,
   ImageRenderer,
-  TruncatedTextRenderer,
+  TitleRenderer,
+  TruncatedDescriptionRenderer,
 } from "../components/AdditionalRenderers";
 import { ProductStatusRenderer, VersionStatusRenderer } from "../components/StatusRenderers";
 import { VersionsRenderer } from "../components/VersionsRenderer";
@@ -23,9 +25,15 @@ export const colDefs = [
     showDisabledCheckboxes: true,
   },
   { headerName: "Status", field: "status", cellRenderer: ProductStatusRenderer },
-  { headerName: "Views", field: "statistics.views" },
   { headerName: "Versions", field: "versions", cellRenderer: VersionsRenderer },
+  { headerName: "Views", field: "statistics.views" },
+  {
+    headerName: "Personalized %",
+    field: "statistics.personalizedPercentage",
+    valueFormatter: percentageValueFormatter,
+  },
   { headerName: "Conversion Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "Add to Cart %", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
     headerName: "Additional Revenue",
     field: "statistics.marginalRevenue",
@@ -36,12 +44,7 @@ export const colDefs = [
       return "$" + String(params.value).toLocaleString();
     },
   },
-  {
-    headerName: "Personalized %",
-    field: "statistics.personalizedPercentage",
-    valueFormatter: percentageValueFormatter,
-  },
-  { headerName: "Add to Cart %", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
+
   {
     headerName: "",
     cellRenderer: ClickableIndicatorCellRenderer,
@@ -63,9 +66,9 @@ export const defaultColDef = {
 
 export const productViewDefaultColDef = {
   flex: 1,
-  minWidth: 100,
+  // minWidth: 100,
   filter: true,
-  autoHeight: true,
+  // autoHeight: true,
   cellStyle: { cursor: "pointer" },
 };
 
@@ -76,10 +79,16 @@ export const metricsColDefs = [
     headerCheckboxSelection: true,
     checkboxSelection: true,
     showDisabledCheckboxes: true,
+    cellRenderer: TitleRenderer,
+    wrapText: true,
+    cellStyle: { wordBreak: "normal" },
+    minWidth: 150,
   },
   { headerName: "Status", field: "status", cellRenderer: VersionStatusRenderer },
   { headerName: "Views", field: "statistics.views" },
+  { headerName: "Display %", field: "statistics.displayPercentage", valueFormatter: percentageValueFormatter },
   { headerName: "Conversion Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "Add to Cart Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
     headerName: "Additional Revenue",
     field: "statistics.marginalRevenue",
@@ -90,8 +99,6 @@ export const metricsColDefs = [
       return "$" + String(params.value).toLocaleString();
     },
   },
-  { headerName: "Display %", field: "statistics.displayPercentage", valueFormatter: percentageValueFormatter },
-  { headerName: "Add to Cart Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
     headerName: "",
     cellRenderer: ClickableIndicatorCellRenderer,
@@ -111,18 +118,38 @@ export const versionDetailsColDefs = [
     headerCheckboxSelection: true,
     checkboxSelection: true,
     showDisabledCheckboxes: true,
+    cellRenderer: TitleRenderer,
+    wrapText: true,
+    cellStyle: { wordBreak: "normal" },
+    minWidth: 150,
   },
-  { headerName: "Status", field: "status", cellRenderer: VersionStatusRenderer },
-  { headerName: "Product Name", field: "productTitle" },
-  { headerName: "Hero Image", field: "heroImage", cellRenderer: ImageRenderer },
+  { headerName: "Status", field: "status", cellRenderer: VersionStatusRenderer, minWidth: 90, width: 120 },
+  {
+    headerName: "Attributes",
+    field: "attributes",
+    minWidth: 100,
+    cellRenderer: ArrayRenderer,
+    wrapText: true,
+    cellStyle: { wordBreak: "normal" },
+  },
+  {
+    headerName: "Product Name",
+    field: "productTitle",
+    cellRenderer: TitleRenderer,
+    wrapText: true,
+    cellStyle: { wordBreak: "normal" },
+    minWidth: 130,
+  },
+  { headerName: "Hero Image", field: "heroImage", cellRenderer: ImageRenderer, minWidth: 120 },
   {
     headerName: "Description",
     field: "description",
-    minWidth: 500,
-    cellRenderer: TruncatedTextRenderer,
+    minWidth: 300,
+    width: 450,
+    cellRenderer: TruncatedDescriptionRenderer,
     wrapText: true,
+    cellStyle: { wordBreak: "normal" },
   },
-  { headerName: "Attributes", field: "attributes" },
   {
     headerName: "",
     cellRenderer: ClickableIndicatorCellRenderer,

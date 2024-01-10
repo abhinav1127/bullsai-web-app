@@ -19,7 +19,7 @@ export function links() {
 }
 
 export default function ProductsPage() {
-  const { toggleMainDrawer } = useOutletContext<OutletContextType>();
+  const { toggleMainDrawer, toggleSecondaryDrawer } = useOutletContext<OutletContextType>();
   const gridRef = useRef<AgGridReact>(null);
   const [statusType, setStatusType] = useState("All");
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
@@ -59,7 +59,7 @@ export default function ProductsPage() {
   }, []);
 
   const onProductClick = (product: Product) => {
-    toggleMainDrawer(<ProductView product={product} />);
+    toggleMainDrawer(<ProductView product={product} toggleSecondaryDrawer={toggleSecondaryDrawer} />);
   };
 
   const hasActiveRows = selectedRows.some((row) => row.status === ProductStatus.Active);

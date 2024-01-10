@@ -7,9 +7,10 @@ import type { Product, Version } from "../types/types";
 interface ProductStatusRendererProps {
   value?: ProductStatus;
   data: Product;
+  large?: boolean;
 }
 
-export const ProductStatusRenderer: FC<ProductStatusRendererProps> = ({ value, data }) => {
+export const ProductStatusRenderer: FC<ProductStatusRendererProps> = ({ value, data, large }) => {
   let backgroundColorClass;
   switch (data.status) {
     case ProductStatus.Active:
@@ -29,11 +30,9 @@ export const ProductStatusRenderer: FC<ProductStatusRendererProps> = ({ value, d
 
   return (
     <div className="flex w-full h-full items-center">
-      <div
-        className={`inline-flex items-center justify-center ${backgroundColorClass} rounded-md px-2 py-2 mr-1 text-white h-5`}
-      >
+      <span className={`px-2 py-1 ${backgroundColorClass} text-white text-xs rounded-full font-semibold tracking-wide`}>
         {data.status}
-      </div>
+      </span>
       {data.status === ProductStatus.Active && !activeCount && (
         <React.Fragment>
           <div
@@ -53,9 +52,11 @@ export const ProductStatusRenderer: FC<ProductStatusRendererProps> = ({ value, d
 interface VersionStatusRendererProps {
   value?: VersionStatus;
   data: Version;
+  noMargin?: boolean;
+  large?: boolean;
 }
 
-export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, data }) => {
+export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, data, noMargin, large }) => {
   let backgroundColorClass;
   switch (data.status) {
     case VersionStatus.Running:
@@ -70,15 +71,22 @@ export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, d
     case VersionStatus.Regenerating:
       backgroundColorClass = "bg-gray-600";
       break;
+    case VersionStatus.Default:
+      backgroundColorClass = "bg-blue-500";
+      break;
     default:
       backgroundColorClass = "bg-gray-500";
   }
 
   return (
-    <div className="flex w-full h-full mt-3">
-      <div className={`inline-flex items-center ${backgroundColorClass} rounded-md px-2 py-2 mr-1 text-white h-5`}>
+    <div className="flex w-full h-full items-start">
+      <span
+        className={`${
+          !noMargin && "mt-2"
+        } px-2 py-1 ${backgroundColorClass} text-white text-xs rounded-full font-semibold tracking-wide`}
+      >
         {data.status}
-      </div>
+      </span>
     </div>
   );
 };

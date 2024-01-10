@@ -1,18 +1,17 @@
 import type { FC } from "react";
 import React, { useCallback, useMemo, useState } from "react";
-import { DefaultVersionDetailsCard, ProductMetricsSummaryCard } from "./MetricsSummaryCards";
+import { ProductMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ProductViewMode, VersionStatus } from "../types/enums";
 import ProductViewTable from "./ProductViewTable";
 import type { Product, Version } from "../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
 import { Tooltip } from "react-tooltip";
+import VersionView from "./VersionView";
 
-interface ProductViewProps {
+const ProductView: FC<{
   product: Product;
-}
-
-const ProductView: FC<ProductViewProps> = ({ product }) => {
-  console.log("ProductView", product);
+  toggleSecondaryDrawer: (component: React.ReactNode) => void;
+}> = ({ product, toggleSecondaryDrawer }) => {
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
 
@@ -35,12 +34,24 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
     };
   }, [selectedRows]);
 
+  const onVersionClick = useCallback(
+    (version: Version) => {
+      // TODO: Redirect to default page
+      if (version.id === defaultVersion.id) {
+        return;
+      }
+
+      toggleSecondaryDrawer(<VersionView version={version} defaultVersion={defaultVersion} />);
+    },
+    [defaultVersion, toggleSecondaryDrawer]
+  );
+
   return (
-    <div className="flex flex-col mx-auto p-4 h-5/6">
-      <div className="flex justify-between">
+    <div className="flex flex-col mx-auto p-4 h-5/6 md:h-[calc(100vh-50px)]">
+      <div className="flex flex-col md:flex-row justify-between">
         <div className="flex items-center">
-          <div className="text-3xl font-bold mr-3	text-center">{product.title}</div>
-          <ProductStatusRenderer value={product.status} data={product} />
+          <div className="text-3xl font-bold mr-5	text-center whitespace-nowrap">{product.title}</div>
+          <ProductStatusRenderer value={product.status} data={product} large />
         </div>
 
         <ProductMetricsSummaryCard statistics={product.statistics} />
@@ -95,13 +106,13 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
       </div>
 
       <div className="flex flex-col flex-grow">
-        <DefaultVersionDetailsCard version={defaultVersion} productViewMode={productViewMode} />
         <ProductViewTable
           viewMode={productViewMode}
           product={product}
           defaultVersion={defaultVersion}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
+          onVersionClick={onVersionClick}
         />
       </div>
 

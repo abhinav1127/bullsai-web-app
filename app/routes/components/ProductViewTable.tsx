@@ -9,6 +9,7 @@ import {
   versionDetailsColDefs,
 } from "../constants/tableConstants";
 import { percentChange } from "../constants/utils";
+import { defaultVersionDisplayString } from "~/constants";
 
 interface ProductMetricsTableProps {
   product: Product;
@@ -16,6 +17,7 @@ interface ProductMetricsTableProps {
   defaultVersion: Version;
   selectedRows: Version[];
   setSelectedRows: (selectedRows: Version[]) => void;
+  onVersionClick: (version: Version) => void;
 }
 
 const ProductViewTable: FC<ProductMetricsTableProps> = ({
@@ -24,30 +26,21 @@ const ProductViewTable: FC<ProductMetricsTableProps> = ({
   defaultVersion,
   selectedRows,
   setSelectedRows,
+  onVersionClick,
 }) => {
   const gridRef = useRef<AgGridReact>(null);
 
   const rowData = useMemo(() => {
-    return product.versions
-      .filter((version) => version.id !== product.defaultVersionId && version.status !== VersionStatus.Rejected)
-      .map((version) => ({
-        ...version,
-        statistics: {
-          conversionRateLift: percentChange(
-            defaultVersion.statistics.conversionRate,
-            version.statistics.conversionRate
-          ),
-          addToCartRateLift: percentChange(defaultVersion.statistics.addToCartRate, version.statistics.addToCartRate),
-          ...version.statistics,
-        },
-      }));
-  }, [product, defaultVersion]);
+    return product.versions.filter(
+      (version) => version.id !== defaultVersion.id && version.status !== VersionStatus.Rejected
+    );
+  }, [defaultVersion, product]);
 
   const onSelectionChanged = useCallback(() => {
     const selectedNodes = gridRef.current?.api.getSelectedNodes();
     const selectedData: Version[] = selectedNodes?.map((node) => node.data) || [];
     setSelectedRows(selectedData);
-  }, []);
+  }, [setSelectedRows]);
 
   return (
     <div className="ag-theme-quartz container flex-grow">
@@ -60,7 +53,9 @@ const ProductViewTable: FC<ProductMetricsTableProps> = ({
         rowSelection={"multiple"}
         // onRowClicked={(e) => onProductClick(e.data)}
         suppressRowClickSelection={true}
-        // rowHeight={100}
+        rowHeight={90}
+        onRowClicked={(e) => onVersionClick(e.data)}
+        pinnedTopRowData={[{ ...defaultVersion, versionTitle: defaultVersionDisplayString }]}
       />
     </div>
   );
