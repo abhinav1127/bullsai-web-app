@@ -76,7 +76,7 @@ const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaul
         </div>
       </div>
 
-      <div className="flex mt-4 md:h-[calc(100vh-200px)] w-full overflow-scroll gap-2">
+      <div className="flex mt-4 md:max-h-[calc(100vh-200px)] w-full overflow-scroll gap-2">
         <VersionComparisonSection version={defaultVersion} badgeLabel="Default" />
         <VersionComparisonSection version={version} badgeLabel="Personalized" />
       </div>
