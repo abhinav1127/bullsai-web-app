@@ -8,13 +8,15 @@ import React from "react";
 
 const VersionComparisonSection: FC<{ version: Version; badgeLabel: string }> = ({ version, badgeLabel }) => {
   return (
-    <div className="flex flex-col flex-1 p-4 border rounded-lg">
-      {/* <span className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start">
+    <div className="flex flex-col flex-1">
+      <span className="flex-initial ml-2 px-3 py-1 bg-blue-500 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mb-3 z-10">
         {badgeLabel}
-      </span> */}
-      <div className="overflow-auto h-full">
+      </span>
+      <div className="overflow-scroll h-full border rounded-lg p-4 flex-initial">
         <p className="text-lg font-bold mt-2 text-center">{version.productTitle}</p>
-        <img src={version.heroImage} alt={version.productTitle} className="w-32 h-32 object-cover rounded-full mt-2" />
+        <div className="flex justify-center">
+          <img src={version.heroImage} alt={version.productTitle} className="h-32 object-cover mt-2" />
+        </div>
         <p className="text-gray-600 mt-2">{version.description}</p>
       </div>
     </div>
@@ -49,7 +51,7 @@ const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaul
             ))}
           </div>
         </div>
-        <div className="flex justify-end flex-shrink-0">
+        <div className="flex justify-end flex-shrink-0 -z-50 relative">
           {version.status === VersionStatus.Running && <ActionButton text="Pause Version" onClick={() => {}} />}
           {version.status === VersionStatus.Pending && (
             <React.Fragment>
@@ -62,20 +64,7 @@ const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaul
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row -mb-7 z-10">
-        <div className="flex-1">
-          <span className="px-3 py-1 ml-3 bg-blue-500 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start">
-            Default
-          </span>
-        </div>
-        <div className="flex-1">
-          <span className="px-3 py-1 ml-3 bg-blue-500 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start">
-            Personalized
-          </span>
-        </div>
-      </div>
-
-      <div className="flex flex-col md:flex-row mt-4 md:h-[calc(100vh-200px)] overflow-scroll">
+      <div className="flex mt-4 md:h-[calc(100vh-200px)] w-full overflow-scroll">
         <VersionComparisonSection version={defaultVersion} badgeLabel="Default" />
         <VersionComparisonSection version={version} badgeLabel="Personalized" />
       </div>
