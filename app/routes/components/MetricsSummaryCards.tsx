@@ -56,25 +56,23 @@ export const ProductMetricsSummaryCard: FC<{ statistics: ProductStatistics }> = 
 
 export const VersionMetricsSummaryCard: FC<{ statistics: VersionStatistics }> = ({ statistics }) => {
   return (
-    <div className=" bg-white shadow rounded-lg mb-4">
-      <div className="flex flex-col">
-        {/* <span className="flex-initial ml-1 px-2 bg-gray-400 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mt-2 z-10">
+    <div className="flex flex-col my-2">
+      {/* <span className="flex-initial ml-1 px-2 bg-gray-400 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mt-2 z-10">
           Version Metrics
         </span> */}
-        <div className="flex justify-center">
-          <span className="flex-initial px-3 py-1 bg-gray-400 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mt-3 z-10">
-            Version Metrics
-          </span>
-        </div>
-        {/* <p className="text-black font-medium text-center inline-flex items-center">Version Metrics:</p> */}
+      <div className="flex justify-center">
+        <span className="flex-initial px-3 py-1 bg-gray-400 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mb-3 z-10">
+          Version Metrics
+        </span>
+      </div>
+      {/* <p className="text-black font-medium text-center inline-flex items-center">Version Metrics:</p> */}
 
-        <div className="flex space-x-6 p-4">
-          <MetricDisplay statistic={statistics.views} description="Views" black />
-          <MetricDisplay statistic={statistics.displayPercentage} description="Display %" percentSymbol black />
-          <MetricDisplay statistic={statistics.conversionRateLift} description="CVR Lift" percentSymbol />
-          <MetricDisplay statistic={statistics.addToCartRateLift} description="ATC Lift" percentSymbol />
-          <MetricDisplay statistic={statistics.marginalRevenue} description="Rev Added" dollarSymbol />
-        </div>
+      <div className="flex space-x-6 p-4 bg-white border rounded-lg">
+        <MetricDisplay statistic={statistics.views} description="Views" black />
+        <MetricDisplay statistic={statistics.displayPercentage} description="Display %" percentSymbol black />
+        <MetricDisplay statistic={statistics.conversionRateLift} description="CVR Lift" percentSymbol />
+        <MetricDisplay statistic={statistics.addToCartRateLift} description="ATC Lift" percentSymbol />
+        <MetricDisplay statistic={statistics.marginalRevenue} description="Rev Added" dollarSymbol />
       </div>
     </div>
   );

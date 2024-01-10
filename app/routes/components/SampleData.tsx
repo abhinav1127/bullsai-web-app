@@ -26,7 +26,7 @@ export const SampleData: Product[] = [
         heroImage:
           "https://cdn.thewirecutter.com/wp-content/media/2022/12/imacbuyingdesktop-2048px-0074-3x2-1.jpg?auto=webp&quality=75&width=1024",
         description: "Description for Product 1 Version ADescription for Product 1 Version ADescription for Product 1 ",
-        attributes: ["attr1attr1attr1attr1", "attr2", "attr2", "attr2"],
+        attributes: ["attr1attr1attr1attr1", "attr2", "attr2", "attr2", "attr2", "attr2", "attr2", "attr2", "attr2"],
         statistics: {
           views: 50,
           conversionRate: 1.5,
