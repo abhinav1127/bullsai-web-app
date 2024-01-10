@@ -53,10 +53,17 @@ interface VersionStatusRendererProps {
   value?: VersionStatus;
   data: Version;
   noMargin?: boolean;
-  large?: boolean;
 }
 
-export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, data, noMargin, large }) => {
+export const VersionStatusRendererForTable: FC<VersionStatusRendererProps> = ({ value, data }) => {
+  return (
+    <div className="flex w-full h-full items-start">
+      <VersionStatusRenderer value={value} data={data} />
+    </div>
+  );
+};
+
+export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, data, noMargin }) => {
   let backgroundColorClass;
   switch (data.status) {
     case VersionStatus.Running:
@@ -79,15 +86,13 @@ export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, d
   }
 
   return (
-    <div className="flex w-full h-full items-start">
-      <span
-        className={`${
-          !noMargin && "mt-2"
-        } px-2 py-1 ${backgroundColorClass} text-white text-xs rounded-full font-semibold tracking-wide`}
-      >
-        {data.status}
-      </span>
-    </div>
+    <span
+      className={`${
+        !noMargin && "mt-2"
+      } px-2 py-1 ${backgroundColorClass} text-white text-xs rounded-full font-semibold tracking-wide`}
+    >
+      {data.status}
+    </span>
   );
 };
 

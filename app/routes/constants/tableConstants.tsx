@@ -5,7 +5,11 @@ import {
   TitleRenderer,
   TruncatedDescriptionRenderer,
 } from "../components/AdditionalRenderers";
-import { ProductStatusRenderer, VersionStatusRenderer } from "../components/StatusRenderers";
+import {
+  ProductStatusRenderer,
+  VersionStatusRenderer,
+  VersionStatusRendererForTable,
+} from "../components/StatusRenderers";
 import { VersionsRenderer } from "../components/VersionsRenderer";
 import { toFixedIfNecessary } from "./utils";
 
@@ -84,7 +88,7 @@ export const metricsColDefs = [
     cellStyle: { wordBreak: "normal" },
     minWidth: 150,
   },
-  { headerName: "Status", field: "status", cellRenderer: VersionStatusRenderer },
+  { headerName: "Status", field: "status", cellRenderer: VersionStatusRendererForTable },
   { headerName: "Views", field: "statistics.views" },
   { headerName: "Display %", field: "statistics.displayPercentage", valueFormatter: percentageValueFormatter },
   { headerName: "Conversion Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },

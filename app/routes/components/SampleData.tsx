@@ -25,7 +25,7 @@ export const SampleData: Product[] = [
         productTitle: "Product 1",
         heroImage:
           "https://cdn.thewirecutter.com/wp-content/media/2022/12/imacbuyingdesktop-2048px-0074-3x2-1.jpg?auto=webp&quality=75&width=1024",
-        description: "Description for Product 1 Version A",
+        description: "Description for Product 1 Version ADescription for Product 1 Version ADescription for Product 1 ",
         attributes: ["attr1attr1attr1attr1", "attr2", "attr2", "attr2"],
         statistics: {
           views: 50,
@@ -40,14 +40,14 @@ export const SampleData: Product[] = [
       {
         id: 102,
         productId: 1,
-        versionTitle: "Version B",
+        versionTitle: "College Students",
         status: VersionStatus.Pending,
         productTitle: "Product 1",
         heroImage:
           "https://media.wired.com/photos/5fb2cc575c9914713ead03de/master/pass/Gear-Apple-MacBook-Air-top-down-SOURCE-Apple.jpg",
         description:
           "Description for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version B",
-        attributes: ["attr3", "attr4"],
+        attributes: ["College Stidemts", "attr4"],
         statistics: {
           views: 60,
           conversionRate: 1.7,

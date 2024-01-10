@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import React from "react";
-import type { ProductStatistics, Version, VersionStatistics } from "../types/types";
-import { ProductViewMode } from "../types/enums";
+import type { ProductStatistics, VersionStatistics } from "../types/types";
 
 interface ProductMetricDisplayProps {
   statistic: number | undefined;
@@ -11,7 +10,7 @@ interface ProductMetricDisplayProps {
   black?: boolean;
 }
 
-const ProductMetricDisplay: FC<ProductMetricDisplayProps> = ({
+const MetricDisplay: FC<ProductMetricDisplayProps> = ({
   statistic,
   description,
   dollarSymbol,
@@ -41,33 +40,30 @@ const ProductMetricDisplay: FC<ProductMetricDisplayProps> = ({
   );
 };
 
-interface ProductMetricsSummaryCardProps {
-  statistics: ProductStatistics;
-}
-
-export const ProductMetricsSummaryCard: FC<ProductMetricsSummaryCardProps> = ({ statistics }) => {
+export const ProductMetricsSummaryCard: FC<{ statistics: ProductStatistics }> = ({ statistics }) => {
   return (
     <div className="flex space-x-6 p-4 bg-white shadow rounded-lg mb-4">
-      <p className="text-black font-medium text-center inline-flex items-center">Performance Metrics:</p>
+      <p className="text-black font-medium text-center inline-flex items-center">Product Metrics:</p>
 
-      <ProductMetricDisplay statistic={statistics.views} description="Views" black />
+      <MetricDisplay statistic={statistics.views} description="Views" black />
+      <MetricDisplay statistic={statistics.personalizedPercentage} description="Personalized %" percentSymbol black />
+      <MetricDisplay statistic={statistics.conversionRateLift} description="Conversion Rate Lift" percentSymbol />
+      <MetricDisplay statistic={statistics.addToCartRateLift} description="Add to Cart Lift" percentSymbol />
+      <MetricDisplay statistic={statistics.marginalRevenue} description="Added Revenue" dollarSymbol />
+    </div>
+  );
+};
 
-      <ProductMetricDisplay
-        statistic={statistics.conversionRateLift}
-        description="Conversion Rate Lift"
-        percentSymbol
-      />
+export const VersionMetricsSummaryCard: FC<{ statistics: VersionStatistics }> = ({ statistics }) => {
+  return (
+    <div className="flex space-x-6 p-4 bg-white shadow rounded-lg mb-4">
+      <p className="text-black font-medium text-center inline-flex items-center">Version Metrics:</p>
 
-      <ProductMetricDisplay statistic={statistics.marginalRevenue} description="Marginal Revenue" dollarSymbol />
-
-      <ProductMetricDisplay
-        statistic={statistics.personalizedPercentage}
-        description="Personalized %"
-        percentSymbol
-        black
-      />
-
-      <ProductMetricDisplay statistic={statistics.addToCartRateLift} description="Add to Cart Lift" percentSymbol />
+      <MetricDisplay statistic={statistics.views} description="Views" black />
+      <MetricDisplay statistic={statistics.displayPercentage} description="Display %" percentSymbol black />
+      <MetricDisplay statistic={statistics.conversionRateLift} description="Conversion Rate Lift" percentSymbol />
+      <MetricDisplay statistic={statistics.addToCartRateLift} description="Add to Cart Lift" percentSymbol />
+      <MetricDisplay statistic={statistics.marginalRevenue} description="Added Revenue" dollarSymbol />
     </div>
   );
 };

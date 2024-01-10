@@ -10,6 +10,7 @@ import type { OutletContextType } from "./types/outletContextTypes";
 import { colDefs, defaultColDef } from "./constants/tableConstants";
 import ProductView from "./components/ProductView";
 import type { Product } from "./types/types";
+import { ActionButton } from "./components/Buttons";
 
 export function links() {
   return [
@@ -98,26 +99,8 @@ export default function ProductsPage() {
 
         <div className="flex flex-col">
           <div className="flex">
-            {hasInactiveRows && (
-              <button
-                className="px-4 py-2 mr-2 mb-1 text-sm font-semibold bg-white text-black border border-gray-300 rounded hover:bg-gray-200"
-                onClick={() => {
-                  /* logic to activate products */
-                }}
-              >
-                Activate Selected Products
-              </button>
-            )}
-            {hasActiveRows && (
-              <button
-                className="px-4 py-2 mb-1 text-sm font-semibold bg-white text-black border border-gray-300 rounded hover:bg-gray-200"
-                onClick={() => {
-                  /* logic to deactivate products */
-                }}
-              >
-                Deactivate Selected Products
-              </button>
-            )}
+            {hasInactiveRows && <ActionButton text="Activate Selected Products" onClick={() => {}} />}
+            {hasActiveRows && <ActionButton text="Deactivate Selected Products" onClick={() => {}} noMarginRight />}
           </div>
           {/* <div className="mt-1"></div> */}
         </div>

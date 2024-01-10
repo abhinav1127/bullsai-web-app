@@ -7,6 +7,7 @@ import type { Product, Version } from "../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
 import { Tooltip } from "react-tooltip";
 import VersionView from "./VersionView";
+import { ActionButton } from "./Buttons";
 
 const ProductView: FC<{
   product: Product;
@@ -77,29 +78,12 @@ const ProductView: FC<{
           <div className="flex">
             {hasPendingVersionsSelected && (
               <div>
-                <button
-                  className="px-4 py-2 mr-2 mb-1 text-sm font-semibold bg-white text-black border border-gray-300 rounded hover:bg-gray-200"
-                  onClick={() => {}}
-                >
-                  Approve Selected Versions
-                </button>
-                <button
-                  className="px-4 py-2 mr-2 mb-1 text-sm font-semibold bg-white text-black border border-gray-300 rounded hover:bg-gray-200"
-                  onClick={() => {}}
-                >
-                  Reject Selected Versions
-                </button>
+                <ActionButton text="Approve Selected Versions" onClick={() => {}} />
+                <ActionButton text="Reject Selected Versions" onClick={() => {}} />
               </div>
             )}
             {hasRunningVersionsSelected && (
-              <button
-                className="px-4 py-2 mb-1 text-sm font-semibold bg-white text-black border border-gray-300 rounded hover:bg-gray-200"
-                onClick={() => {
-                  /* logic to deactivate products */
-                }}
-              >
-                Pause Selected Versions
-              </button>
+              <ActionButton text="Pause Selected Versions" onClick={() => {}} noMarginRight />
             )}
           </div>
         </div>
