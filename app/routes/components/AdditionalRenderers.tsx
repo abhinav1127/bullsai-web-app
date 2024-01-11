@@ -27,18 +27,8 @@ export const ImageRenderer = ({ value }: { value: string }) => {
   ) : null;
 };
 
-export const TruncatedDescriptionRenderer = ({ value }: { value: string }) => {
-  const truncatedText = value && value.length > 200 ? `${value.substring(0, 200)}...` : value;
-  return <div className="leading-normal">{truncatedText}</div>;
-};
-
-export const TitleRenderer = ({ value, bold }: { value: string; bold?: boolean }) => {
-  const truncatedText = value && value.length > 50 ? `${value.substring(0, 50)}...` : value;
-  return (
-    <div className={`leading-normal break-words ${value === defaultVersionDisplayString && "font-semibold"}`}>
-      {truncatedText}
-    </div>
-  );
+export const TruncatedRenderer = ({ value }: { value: string }) => {
+  return <div className="leading-normal line-clamp-4 break-words">{value}</div>;
 };
 
 export const ArrayRenderer = ({ value }: { value: string[] }) => {

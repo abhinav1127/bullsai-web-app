@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import React from "react";
 import type { ProductStatistics, VersionStatistics } from "../types/types";
+import { InformationCardBadge } from "./Badges";
 
 interface ProductMetricDisplayProps {
   statistic: number | undefined;
@@ -35,7 +36,7 @@ const MetricDisplay: FC<ProductMetricDisplayProps> = ({
   return (
     <div>
       {statDiv}
-      <p className={`text-sm text-center`}>{description}</p>
+      <p className={`text-xs text-center`}>{description}</p>
     </div>
   );
 };
@@ -57,15 +58,7 @@ export const ProductMetricsSummaryCard: FC<{ statistics: ProductStatistics }> = 
 export const VersionMetricsSummaryCard: FC<{ statistics: VersionStatistics }> = ({ statistics }) => {
   return (
     <div className="flex flex-col my-2">
-      {/* <span className="flex-initial ml-1 px-2 bg-gray-400 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mt-2 z-10">
-          Version Metrics
-        </span> */}
-      <div className="flex justify-center">
-        <span className="flex-initial px-3 py-1 bg-gray-400 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mb-3 z-10">
-          Version Metrics
-        </span>
-      </div>
-      {/* <p className="text-black font-medium text-center inline-flex items-center">Version Metrics:</p> */}
+      <InformationCardBadge header="Version Metrics" />
 
       <div className="flex space-x-6 p-4 bg-white border rounded-lg">
         <MetricDisplay statistic={statistics.views} description="Views" black />

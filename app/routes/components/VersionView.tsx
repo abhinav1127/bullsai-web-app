@@ -5,19 +5,30 @@ import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ActionButton } from "./Buttons";
 import { VersionStatus } from "../types/enums";
 import React from "react";
+import { InformationCardBadge } from "./Badges";
 
-const VersionComparisonSection: FC<{ version: Version; badgeLabel: string }> = ({ version, badgeLabel }) => {
+const VersionComparisonSection: FC<{ version: Version; badgeLabel: string; backgroundColor: string }> = ({
+  version,
+  badgeLabel,
+  backgroundColor,
+}) => {
   return (
     <div className="flex flex-col flex-1">
-      <span className="flex-initial ml-2 px-3 py-1 bg-blue-500 text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mb-3 z-10">
+      <span
+        className={`flex-initial ml-2 px-3 py-1 ${backgroundColor} text-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mb-3 z-10`}
+      >
         {badgeLabel}
       </span>
       <div className="overflow-scroll h-full border rounded-lg p-4 flex-initial">
-        <p className="text-lg font-bold mt-2 text-center">{version.productTitle}</p>
-        <div className="flex justify-center">
-          <img src={version.heroImage} alt={version.productTitle} className="h-32 object-cover mt-2" />
+        <p className="text-lg font-medium mt-2 pb-1 text-center border-b">{version.productTitle}</p>
+        <div className="flex justify-center my-6">
+          <img
+            src={version.heroImage}
+            alt={version.productTitle}
+            className="min-h-40 h-48 max-w-full object-cover rounded-xl"
+          />
         </div>
-        <p className="text-gray-600 mt-2">{version.description}</p>
+        <p className="text-gray-600 text-sm">{version.description}</p>
       </div>
     </div>
   );
@@ -26,11 +37,7 @@ const VersionComparisonSection: FC<{ version: Version; badgeLabel: string }> = (
 const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes }) => {
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center">
-        <span className="flex-initial px-3 py-0.5 text-gray-400 bg-white text-xs rounded-full uppercase font-semibold tracking-wide self-start -mb-3 z-10">
-          Target Customer Attributes
-        </span>
-      </div>
+      <InformationCardBadge header="Target Customer Attributes" />
       <div className="flex flex-wrap justify-center border rounded-lg px-4 pb-1 pt-2 flex-grow-1">
         {attributes.map((attribute, index) => (
           <span
@@ -48,12 +55,12 @@ const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes
 const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaultVersion, version }) => {
   return (
     <div className="flex flex-col mx-auto p-4 h-5/6 md:h-[calc(100vh-50px)]">
-      <div className="flex justify-between flex-wrap my-1 gap-4">
+      <div className="flex justify-between my-1 gap-4">
         <div className="flex flex-col gap-5">
           <div className="flex justify-start">
             <VersionStatusRenderer value={version.status} data={version} noMargin />
           </div>
-          <div className="text-3xl font-bold mr-5 ">{version.versionTitle}</div>
+          <div className="text-2xl font-bold mr-5 text-wrap">{version.versionTitle}</div>
         </div>
 
         <div className="flex self-center">
@@ -63,7 +70,7 @@ const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaul
 
       <div className="flex justify-between -my-1 gap-3 items-end	">
         <TargetCustomerAttributesCard attributes={version.attributes} />
-        <div className="flex justify-end flex-shrink-0 -z-50 relative">
+        <div className="flex justify-end flex-shrink-0 relative">
           {version.status === VersionStatus.Running && <ActionButton text="Pause Version" onClick={() => {}} />}
           {version.status === VersionStatus.Pending && (
             <React.Fragment>
@@ -77,8 +84,8 @@ const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaul
       </div>
 
       <div className="flex mt-4 md:max-h-[calc(100vh-200px)] w-full overflow-scroll gap-2">
-        <VersionComparisonSection version={defaultVersion} badgeLabel="Default" />
-        <VersionComparisonSection version={version} badgeLabel="Personalized" />
+        <VersionComparisonSection version={defaultVersion} badgeLabel="Default Version" backgroundColor="bg-blue-500" />
+        <VersionComparisonSection version={version} badgeLabel="Personalized Version" backgroundColor="bg-green-700" />
       </div>
     </div>
   );
