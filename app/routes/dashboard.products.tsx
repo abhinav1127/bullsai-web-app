@@ -22,7 +22,7 @@ export function links() {
 export default function ProductsPage() {
   const { toggleMainDrawer, toggleSecondaryDrawer } = useOutletContext<OutletContextType>();
   const gridRef = useRef<AgGridReact>(null);
-  const [statusType, setStatusType] = useState("All");
+  const [statusType, setStatusType] = useState("All Products");
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
   const rowData: Product[] = useMemo(() => {
     return SampleData;
@@ -40,7 +40,7 @@ export default function ProductsPage() {
   }, []);
 
   const isExternalFilterPresent = useCallback(() => {
-    return statusType !== "All";
+    return statusType !== "All Products";
   }, [statusType]);
 
   const doesExternalFilterPass = useCallback(
@@ -82,13 +82,13 @@ export default function ProductsPage() {
       </div>
 
       {/* Tabbed Filter Interface and Conditional Buttons */}
-      <div className="flex justify-between items-center mb-4 border-b">
+      <div className="flex justify-between items-end mb-4 border-b flex-wrap">
         <div className="flex">
-          {["All", "Active", "Inactive"].map((status) => (
+          {["All Products", "Active", "Inactive"].map((status) => (
             <button
               key={status}
               onClick={() => externalFilterChanged(status)}
-              className={`px-4 py-2 mt-1 text-sm font-semibold hover:bg-gray-100 ${
+              className={`px-4 py-2 h-11 text-sm font-semibold hover:bg-gray-100 ${
                 statusType === status ? "border-b-2 border-primary text-primary" : "text-gray-600"
               }`}
             >
@@ -97,13 +97,11 @@ export default function ProductsPage() {
           ))}
         </div>
 
-        <div className="flex flex-col">
-          <div className="flex">
-            {hasInactiveRows && <ActionButton text="Activate Selected Products" onClick={() => {}} />}
-            {hasActiveRows && <ActionButton text="Deactivate Selected Products" onClick={() => {}} noMarginRight />}
-          </div>
-          {/* <div className="mt-1"></div> */}
+        <div className="flex flex-shrink-0">
+          {hasInactiveRows && <ActionButton text="Activate Selected Products" onClick={() => {}} />}
+          {hasActiveRows && <ActionButton text="Deactivate Selected Products" onClick={() => {}} noMarginRight />}
         </div>
+        {/* <div className="mt-1"></div> */}
       </div>
 
       <div className="flex-grow">

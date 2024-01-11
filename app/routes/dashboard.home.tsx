@@ -68,7 +68,7 @@ export default function DashboardHome() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
         <Link to="/dashboard/active-products">
-          <div className="bg-white rounded-lg shadow-md p-4">
+          <div className="bg-white rounded-lg shadow p-4">
             <p className="text-2xl font-bold mb-2">38</p>
             <p className="text-gray-500">Active Products</p>
           </div>

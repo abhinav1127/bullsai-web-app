@@ -7,6 +7,23 @@ import { VersionStatus } from "../types/enums";
 import React from "react";
 import { InformationCardBadge } from "./Badges";
 
+export const DrawerTitleSection: FC<{
+  title: string;
+  statusRenderer: JSX.Element;
+  rightSideComponent: JSX.Element;
+}> = ({ title, statusRenderer, rightSideComponent }) => {
+  return (
+    <div className="flex justify-between my-1 gap-4">
+      <div className="flex flex-col gap-5">
+        <div className="flex justify-start">{statusRenderer}</div>
+        <div className="text-2xl font-bold mr-5 text-wrap">{title}</div>
+      </div>
+
+      {rightSideComponent}
+    </div>
+  );
+};
+
 const VersionComparisonSection: FC<{ version: Version; badgeLabel: string; backgroundColor: string }> = ({
   version,
   badgeLabel,
@@ -55,20 +72,13 @@ const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes
 const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaultVersion, version }) => {
   return (
     <div className="flex flex-col mx-auto p-4 h-5/6 md:h-[calc(100vh-50px)]">
-      <div className="flex justify-between my-1 gap-4">
-        <div className="flex flex-col gap-5">
-          <div className="flex justify-start">
-            <VersionStatusRenderer value={version.status} data={version} noMargin />
-          </div>
-          <div className="text-2xl font-bold mr-5 text-wrap">{version.versionTitle}</div>
-        </div>
+      <DrawerTitleSection
+        title={version.productTitle}
+        statusRenderer={<VersionStatusRenderer value={version.status} data={version} noMargin />}
+        rightSideComponent={<VersionMetricsSummaryCard statistics={version.statistics} />}
+      />
 
-        <div className="flex self-center">
-          <VersionMetricsSummaryCard statistics={version.statistics} />
-        </div>
-      </div>
-
-      <div className="flex justify-between -my-1 gap-3 items-end	">
+      <div className="flex justify-between my-1 gap-3 items-end	">
         <TargetCustomerAttributesCard attributes={version.attributes} />
         <div className="flex justify-end flex-shrink-0 relative">
           {version.status === VersionStatus.Running && <ActionButton text="Pause Version" onClick={() => {}} />}

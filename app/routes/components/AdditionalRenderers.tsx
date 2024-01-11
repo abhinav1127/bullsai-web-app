@@ -16,15 +16,14 @@ export const ClickableIndicatorCellRenderer: React.FC<{ data: Version }> = ({ da
 
 export const ImageRenderer = ({ value }: { value: string }) => {
   return value ? (
-    <div
-    // data-tooltip-id="product-view-tooltip"
-    // data-tooltip-content="<img src={value} alt='Hero' className='w-10 h-10 object-cover'/>"
-    // data-tooltip-place="top"
-    // className="relative flex items-center"
-    >
+    <div>
       <img src={value} alt="Hero" className="h-20 object-cover" />
     </div>
   ) : null;
+};
+
+export const TruncatedRenderer2Line = ({ value }: { value: string }) => {
+  return <div className="leading-normal line-clamp-2 break-words">{value}</div>;
 };
 
 export const TruncatedRenderer = ({ value }: { value: string }) => {

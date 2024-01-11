@@ -3,6 +3,7 @@ import {
   ClickableIndicatorCellRenderer,
   ImageRenderer,
   TruncatedRenderer,
+  TruncatedRenderer2Line,
 } from "../components/AdditionalRenderers";
 import {
   ProductStatusRenderer,
@@ -26,8 +27,12 @@ export const colDefs = [
     headerCheckboxSelection: true,
     checkboxSelection: true,
     showDisabledCheckboxes: true,
+    minWidth: 250,
+    cellRenderer: TruncatedRenderer2Line,
+    wrapText: true,
+    cellStyle: { wordBreak: "normal" },
   },
-  { headerName: "Status", field: "status", cellRenderer: ProductStatusRenderer },
+  { headerName: "Status", field: "status", cellRenderer: ProductStatusRenderer, minWidth: 100, width: 110 },
   { headerName: "Versions", field: "versions", cellRenderer: VersionsRenderer },
   { headerName: "Views", field: "statistics.views" },
   {
@@ -35,10 +40,10 @@ export const colDefs = [
     field: "statistics.personalizedPercentage",
     valueFormatter: percentageValueFormatter,
   },
-  { headerName: "Conversion Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
-  { headerName: "Add to Cart %", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "CVR Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "ATC Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
-    headerName: "Additional Revenue",
+    headerName: "Revenue Added",
     field: "statistics.marginalRevenue",
     valueFormatter: (params) => {
       if (!params.value) {
@@ -62,9 +67,10 @@ export const colDefs = [
 
 export const defaultColDef = {
   flex: 1,
-  minWidth: 120,
+  minWidth: 80,
   filter: true,
   cellStyle: { cursor: "pointer" },
+  wrapHeaderText: true,
 };
 
 export const productViewDefaultColDef = {
@@ -73,6 +79,7 @@ export const productViewDefaultColDef = {
   filter: true,
   // autoHeight: true,
   cellStyle: { cursor: "pointer" },
+  wrapHeaderText: true,
 };
 
 export const metricsColDefs = [
@@ -87,13 +94,13 @@ export const metricsColDefs = [
     cellStyle: { wordBreak: "normal" },
     minWidth: 150,
   },
-  { headerName: "Status", field: "status", cellRenderer: VersionStatusRendererForTable },
+  { headerName: "Status", field: "status", cellRenderer: VersionStatusRendererForTable, minWidth: 90, width: 120 },
   { headerName: "Views", field: "statistics.views" },
   { headerName: "Display %", field: "statistics.displayPercentage", valueFormatter: percentageValueFormatter },
-  { headerName: "Conversion Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
-  { headerName: "Add to Cart Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "CVR Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "ATC Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
-    headerName: "Additional Revenue",
+    headerName: "Revenue Added",
     field: "statistics.marginalRevenue",
     valueFormatter: (params) => {
       if (!params.value) {
