@@ -48,15 +48,13 @@ export const DrawerManager: React.FC<DrawerManagerProps> = ({
   // Overlay should be shown if the secondary drawer is open
   const showOverlay = isSecondaryOpen;
 
+  const className = showOverlay ? "fixed inset-0 bg-white bg-opacity-50 z-40" : "";
+
   return (
     <>
-      {showOverlay ? (
-        <div className="fixed inset-0 bg-white bg-opacity-50 z-40" onClick={onCloseSecondary}>
-          <Drawer isOpen={isMainOpen} onClose={onCloseMain} children={mainChildren} isPrimary />
-        </div>
-      ) : (
+      <div className={`${className}`} onClick={onCloseSecondary}>
         <Drawer isOpen={isMainOpen} onClose={onCloseMain} children={mainChildren} isPrimary />
-      )}
+      </div>
       <Drawer isOpen={isSecondaryOpen} onClose={onCloseSecondary} children={secondaryChildren} />
     </>
   );
