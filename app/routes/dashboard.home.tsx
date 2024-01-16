@@ -45,7 +45,7 @@ export default function DashboardHome() {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-8">Home</h1>
 
-      <div className="bg-white rounded-lg shadow-md p-4">
+      <div className="bg-white rounded-lg border p-4">
         <h2 className="text-lg mb-4">Summary (last 30 days)</h2>
         <div className="grid sm:grid-cols-3 grid-cols-1 gap-4">
           {sections.map((section, index) => (
@@ -68,19 +68,19 @@ export default function DashboardHome() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
         <Link to="/dashboard/active-products">
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-white rounded-lg border p-4">
             <p className="text-2xl font-bold mb-2">38</p>
             <p className="text-gray-500">Active Products</p>
           </div>
         </Link>
         <Link to="/dashboard/pending-products">
-          <div className="bg-white rounded-lg shadow-md p-4">
+          <div className="bg-white rounded-lg border p-4">
             <p className="text-2xl font-bold mb-2">10</p>
             <p className="text-gray-500">Pending Versions for Review</p>
           </div>
         </Link>
         <Link to="/dashboard/suggested-products">
-          <div className="bg-white rounded-lg shadow-md p-4">
+          <div className="bg-white rounded-lg border p-4">
             <p className="text-2xl font-bold mb-2">4</p>
             <p className="text-gray-500">Suggested Products to Activate</p>
           </div>

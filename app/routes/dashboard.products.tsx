@@ -76,7 +76,7 @@ export default function ProductsPage() {
           type="text"
           id="filter-text-box"
           placeholder="Search products..."
-          className="w-1/2 px-4 py-2 border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-1/2 px-4 py-2 border border-gray-300 rounded border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           onInput={onFilterTextBoxChanged}
         />
       </div>

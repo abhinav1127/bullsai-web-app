@@ -125,7 +125,7 @@ export const VersionMetricsSummaryCard: FC<{ statistics: VersionStatistics }> = 
 
 //   return (
 //     <div className="flex justify-start max-h-">
-//       <div className="p-4 bg-white shadow rounded-lg mb-4 w-full">
+//       <div className="p-4 bg-white border rounded-lg mb-4 w-full">
 //         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
 //           <DefaultVersionImageAndTag heroImage={version.heroImage} productTitle={version.productTitle} />
 //           {productViewMode === ProductViewMode.VersionDetails ? renderVersionDetails() : renderVersionMetrics()}
