@@ -1,5 +1,6 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
+import "chart.js/auto";
 
 interface RingGraphProps {
   value: number;
@@ -35,27 +36,32 @@ const RingGraph: React.FC<RingGraphProps> = ({ value, maxValue }) => {
         borderWidth: 0,
       },
     },
+    plugins: {
+      legend: {
+        display: false, // Hide legend
+      },
+      tooltip: {
+        enabled: false, // Disable tooltips
+      },
+    },
   };
 
   const plugins = [
     {
       id: "centered_text",
       beforeDraw: function (chart) {
-        var width = chart.width,
-          height = chart.height,
-          ctx = chart.ctx;
+        const ctx = chart.ctx;
+        const { width, height } = chart;
         ctx.restore();
-
-        // Font size for percentage
-        var fontSize = parseFloat((height / 100).toFixed(2));
+        const fontSize = (height / 90).toFixed(2); // Adjust for better sizing
         ctx.font = `bold ${fontSize}em sans-serif`;
-        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        var text = `${percentage}%`,
-          textX = Math.round((width - ctx.measureText(text).width) / 2),
-          textY = height / 2; // Centered vertically
+        ctx.fillStyle = "#000";
+        const text = `${percentage}%`;
+        const textX = width / 2;
+        const textY = height / 2;
         ctx.fillText(text, textX, textY);
-
         ctx.save();
       },
     },

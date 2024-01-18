@@ -84,11 +84,11 @@ const DashboardMetrics: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 space-y-4">
+    <div className="container mx-auto p-4 space-y-4 h-screen overflow-y-auto">
       <h1 className="text-3xl font-bold mb-8">Store Metrics</h1>
 
-      <div className="bg-white rounded-lg border p-4">
-        <div className="grid sm:grid-cols-3 grid-cols-1 gap-4">
+      <div className="bg-white rounded-lg border p-4 h-3/12">
+        <div className="grid sm:grid-cols-3 grid-cols-1 gap-4 h-full">
           <div className="p-4 sm:border-r border-gray-200 border-b sm:border-b-0">
             <HomepageMetricSection
               title="Products Activated"
@@ -119,7 +119,7 @@ const DashboardMetrics: React.FC = () => {
       </div>
 
       {/* Time Series Graph */}
-      <div className="card bg-white p-4 border rounded-lg h-50">
+      <div className="card bg-white p-4 border rounded-lg">
         {/* Metric Selection Interface */}
         <div className="flex mb-4 border-b">
           {Object.keys(metricData).map((metric) => (
