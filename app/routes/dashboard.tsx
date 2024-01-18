@@ -3,7 +3,7 @@ import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, NavLink } from "@remix-run/react";
 import { useState } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
-import { Bars3CenterLeftIcon, HomeIcon, TagIcon, ClockIcon, CogIcon } from "@heroicons/react/24/outline";
+import { Bars3CenterLeftIcon, HomeIcon, TagIcon, ClockIcon, CogIcon, ChartBarIcon } from "@heroicons/react/24/outline";
 import Logo from "./components/Logo";
 import { DrawerManager } from "./components/Drawer";
 
@@ -17,6 +17,7 @@ const sidebarItems: SidebarItem[] = [
   { to: "/dashboard/home", icon: <HomeIcon className="h-4 w-4" />, label: "Home" },
   { to: "/dashboard/products", icon: <TagIcon className="h-4 w-4" />, label: "Products" },
   { to: "/dashboard/pending-versions", icon: <ClockIcon className="h-4 w-4" />, label: "Pending Versions" },
+  { to: "/dashboard/metrics", icon: <ChartBarIcon className="h-4 w-4" />, label: "Store Metrics" },
   { to: "/dashboard/settings", icon: <CogIcon className="h-4 w-4" />, label: "Settings" },
 ];
 

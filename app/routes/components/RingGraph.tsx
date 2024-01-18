@@ -1,16 +1,13 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
-interface PersonalizedPercentageRingGraphProps {
-  personalizedVisitors: number;
-  totalVisitors: number;
+interface RingGraphProps {
+  value: number;
+  maxValue: number;
 }
 
-const PersonalizedPercentageRingGraph: React.FC<PersonalizedPercentageRingGraphProps> = ({
-  personalizedVisitors,
-  totalVisitors,
-}) => {
-  const percentage = totalVisitors > 0 ? Math.round((personalizedVisitors / totalVisitors) * 100) : 0;
+const RingGraph: React.FC<RingGraphProps> = ({ value, maxValue }) => {
+  const percentage = maxValue > 0 ? Math.round((value / maxValue) * 100) : 0;
 
   const data = {
     datasets: [
@@ -71,4 +68,4 @@ const PersonalizedPercentageRingGraph: React.FC<PersonalizedPercentageRingGraphP
   );
 };
 
-export default PersonalizedPercentageRingGraph;
+export default RingGraph;

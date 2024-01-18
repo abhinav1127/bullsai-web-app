@@ -1,38 +1,9 @@
 import { Link, useNavigate } from "@remix-run/react";
-import { CheckCircleIcon, ChartBarIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import { Chart as ChartJS, ArcElement, Tooltip, CategoryScale, LinearScale, BarElement } from "chart.js";
-import RingChart from "./components/PersonalizedPercentageRingGraph";
-import ConversionLiftBarGraph from "./components/ConversionLiftBarGraph";
-import React from "react";
+import { HomepageMetricSection } from "./components/MetricsSummaryCards";
+import sections from "./components/dashboardSectionData"; // Import sections and utility functions
 
 ChartJS.register(ArcElement, Tooltip, CategoryScale, LinearScale, BarElement);
-
-const sections = [
-  {
-    title: "Total Additional Revenue",
-    icon: CheckCircleIcon,
-    content: <p className="text-2xl font-bold">$546</p>,
-  },
-  {
-    title: "% Personalized Visitors",
-    icon: UserGroupIcon,
-    content: (
-      <div className="relative">
-        <RingChart totalVisitors={9000} personalizedVisitors={3000} />
-      </div>
-    ),
-  },
-  {
-    title: "Conversion Lift",
-    icon: ChartBarIcon,
-    content: (
-      <React.Fragment>
-        <p className="text-2xl font-bold mb-1">{parseFloat((((2.5 - 2.1) / 2.1) * 100).toFixed(2))}%</p>
-        <ConversionLiftBarGraph nonPersonalizedConversionRate={2.1} personalizedConversionRate={2.5} />
-      </React.Fragment>
-    ),
-  },
-];
 
 export default function DashboardHome() {
   const navigate = useNavigate();
@@ -56,11 +27,7 @@ export default function DashboardHome() {
               }`}
               onClick={handleSectionClick}
             >
-              <div className="flex flex-col mb-4 items-center">
-                <section.icon className="w-6 h-6 mb-1 text-primary" aria-hidden="true" />
-                <h3 className="text-lg font-medium text-center">{section.title}</h3>
-              </div>
-              <div className="flex flex-col justify-center items-center relative">{section.content}</div>
+              <HomepageMetricSection {...section} />
             </div>
           ))}
         </div>

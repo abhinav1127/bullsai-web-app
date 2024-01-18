@@ -73,6 +73,28 @@ export const VersionMetricsSummaryCard: FC<{ statistics: VersionStatistics }> = 
   );
 };
 
+export interface HomepageMetricSectionProps {
+  title: string;
+  sectionIcon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  content: React.ReactNode;
+}
+
+export const HomepageMetricSection: React.FC<HomepageMetricSectionProps> = ({
+  title,
+  sectionIcon: SectionIcon,
+  content,
+}) => (
+  <>
+    <div className="flex flex-col mb-4 items-center">
+      {SectionIcon && (
+        <SectionIcon className="w-6 h-6 mb-1 text-primary" aria-hidden="true" aria-label={`${title} icon`} />
+      )}
+      {title && <h3 className="text-lg font-medium text-center">{title}</h3>}
+    </div>
+    {content && <div className="flex flex-col justify-center items-center relative">{content}</div>}
+  </>
+);
+
 // const DefaultVersionImageAndTag: FC<{ heroImage: string; productTitle: string }> = ({ heroImage, productTitle }) => (
 //   <div className="flex flex-col items-center">
 //     <img src={heroImage} alt={productTitle} className="w-32 h-32 object-cover rounded-full" />
