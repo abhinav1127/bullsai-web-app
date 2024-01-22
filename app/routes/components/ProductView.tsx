@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { ProductMetricsSummaryCard } from "./MetricsSummaryCards";
-import { ProductViewMode, VersionStatus } from "../types/enums";
+import { ProductViewMode, VersionStatus } from "../../types/enums";
 import ProductViewTable from "./ProductViewTable";
-import type { Product, Version } from "../types/types";
+import type { Product, Version } from "../../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
 import { Tooltip } from "react-tooltip";
 import VersionView, { DrawerTitleSection } from "./VersionView";
@@ -38,7 +38,7 @@ const ProductView: FC<{
   const onVersionClick = useCallback(
     (version: Version) => {
       // TODO: Redirect to default page
-      if (version.id === defaultVersion.id) {
+      if (version.id === defaultVersion.id || version.status === VersionStatus.Generating) {
         return;
       }
 

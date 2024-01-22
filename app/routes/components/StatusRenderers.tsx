@@ -1,8 +1,8 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { ProductStatus, VersionStatus } from "../types/enums";
+import { ProductStatus, VersionStatus } from "../../types/enums";
 import type { FC } from "react";
 import React from "react";
-import type { Product, Version } from "../types/types";
+import type { Product, Version } from "../../types/types";
 
 interface ProductStatusRendererProps {
   value?: ProductStatus;
@@ -18,9 +18,6 @@ export const ProductStatusRenderer: FC<ProductStatusRendererProps> = ({ value, d
       break;
     case ProductStatus.Inactive:
       backgroundColorClass = "bg-red-700";
-      break;
-    case ProductStatus.Generating:
-      backgroundColorClass = "bg-gray-600";
       break;
     default:
       backgroundColorClass = "bg-gray-500";
@@ -75,7 +72,7 @@ export const VersionStatusRenderer: FC<VersionStatusRendererProps> = ({ value, d
     case VersionStatus.Pending:
       backgroundColorClass = "bg-yellow-600";
       break;
-    case VersionStatus.Regenerating:
+    case VersionStatus.Generating:
       backgroundColorClass = "bg-gray-600";
       break;
     case VersionStatus.Default:

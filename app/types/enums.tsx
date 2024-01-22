@@ -1,14 +1,18 @@
 export enum ProductStatus {
   Active = "Active",
   Inactive = "Inactive",
-  Generating = "Generating",
+}
+
+export enum ProductAction {
+  Activate = "Activate",
+  Deactivate = "Deactivate",
 }
 
 export enum VersionStatus {
   Default = "Default",
   Running = "Running",
   Pending = "Pending",
-  Regenerating = "Regenerating",
+  Generating = "Generating",
   Rejected = "Rejected",
 }
 

@@ -1,9 +1,9 @@
 import type { FC } from "react";
-import type { Product, Version } from "../types/types";
+import type { Product, Version } from "../../types/types";
 import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ActionButton } from "./Buttons";
-import { VersionStatus } from "../types/enums";
+import { VersionStatus } from "../../types/enums";
 import React from "react";
 import { InformationCardBadge } from "./Badges";
 

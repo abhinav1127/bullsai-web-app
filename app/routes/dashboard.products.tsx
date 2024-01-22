@@ -1,16 +1,20 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
-import SampleData from "./components/SampleData";
-import { ProductStatus } from "./types/enums";
+import SampleData from "../SampleData";
+import { ProductAction, ProductStatus } from "../types/enums";
 import { Tooltip } from "react-tooltip";
-import { useOutletContext } from "@remix-run/react";
-import type { OutletContextType } from "./types/outletContextTypes";
-import { colDefs, defaultColDef } from "./constants/tableConstants";
+import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
+import type { OutletContextType } from "../types/outletContextTypes";
+import { colDefs, defaultColDef, getRowStyle } from "./constants/tableConstants";
 import ProductView from "./components/ProductView";
-import type { Product } from "./types/types";
+import type { Product } from "../types/types";
 import { ActionButton } from "./components/Buttons";
+import type { ActionFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { performProductAction } from "~/productActions.server";
+import toast from "react-hot-toast";
 
 export function links() {
   return [
@@ -19,16 +23,41 @@ export function links() {
   ];
 }
 
+export async function loader() {
+  return json({ products: SampleData });
+}
+
+export const action: ActionFunction = async (props) => {
+  const request = props.request;
+  const formData = new URLSearchParams(await request.text());
+  const actionType = formData.get("actionType");
+  console.log("formData: ", formData);
+
+  switch (actionType) {
+    case "performProductAction":
+      try {
+        const updatedProducts = await performProductAction(
+          JSON.parse(formData.get("products")!),
+          formData.get("productStatusAction") as ProductAction
+        );
+        console.log("updatedProducts: ", updatedProducts);
+        return json({ updatedProducts: updatedProducts }, { status: 200 });
+      } catch (error) {
+        console.log("error: ", error);
+        return json({ error: error }, { status: 400 });
+      }
+    default:
+      return json({});
+  }
+};
+
 export default function ProductsPage() {
+  const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
   const { toggleMainDrawer, toggleSecondaryDrawer } = useOutletContext<OutletContextType>();
   const gridRef = useRef<AgGridReact>(null);
   const [statusType, setStatusType] = useState("All Products");
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
-  const rowData: Product[] = useMemo(() => {
-    return SampleData;
-  }, [SampleData]);
-
-  console.log(rowData);
+  const fetcher = useFetcher<typeof action>();
 
   const onFilterTextBoxChanged = useCallback(() => {
     const filterValue = (document.getElementById("filter-text-box") as HTMLInputElement).value;
@@ -53,6 +82,36 @@ export default function ProductsPage() {
     [statusType]
   );
 
+  const updateProducts = useCallback(
+    (idsToUpdatedProducts: Map<number, Product>) => {
+      try {
+        setProducts(
+          products.map((product: Product) =>
+            idsToUpdatedProducts.has(product.id) ? idsToUpdatedProducts.get(product.id)! : product
+          )
+        );
+      } catch (error) {
+        console.log("error on updateProducts callback: ", error);
+      }
+    },
+    [products]
+  );
+
+  const updateProductsRef = useRef(updateProducts);
+  useEffect(() => {
+    updateProductsRef.current = updateProducts;
+  }, [updateProducts]);
+
+  useEffect(() => {
+    if (!fetcher.data || !fetcher.data.updatedProducts) return;
+    const idToUpdatedProduct = new Map<number, Product>();
+    fetcher.data.updatedProducts.forEach((product: Product) => {
+      idToUpdatedProduct.set(product.id, product);
+    });
+
+    updateProductsRef.current(idToUpdatedProduct);
+  }, [fetcher.data]);
+
   const onSelectionChanged = useCallback(() => {
     const selectedNodes = gridRef.current?.api.getSelectedNodes();
     const selectedData: Product[] = selectedNodes?.map((node) => node.data) || [];
@@ -63,11 +122,27 @@ export default function ProductsPage() {
     toggleMainDrawer(<ProductView product={product} toggleSecondaryDrawer={toggleSecondaryDrawer} />);
   };
 
+  const onActionButtonClicked = useCallback(
+    async (productStatusAction: ProductAction) => {
+      console.log("selectedRows: ", selectedRows);
+      await fetcher.submit(
+        { actionType: "performProductAction", products: JSON.stringify(selectedRows), productStatusAction },
+        { method: "POST" }
+      );
+      if (productStatusAction === ProductAction.Activate) {
+        toast.success("Activated Products!");
+      } else if (productStatusAction === ProductAction.Deactivate) {
+        toast.success("Deactivated Products!");
+      }
+    },
+    [selectedRows, fetcher]
+  );
+
   const hasActiveRows = selectedRows.some((row) => row.status === ProductStatus.Active);
   const hasInactiveRows = selectedRows.some((row) => row.status === ProductStatus.Inactive);
 
   return (
-    <div className="flex flex-col ag-theme-quartz container mx-auto p-4" style={{ height: "100vh" }}>
+    <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
 
       {/* Centralized Product Search Bar */}
@@ -76,7 +151,7 @@ export default function ProductsPage() {
           type="text"
           id="filter-text-box"
           placeholder="Search products..."
-          className="w-1/2 px-4 py-2 border border-gray-300 rounded border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-1/2 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           onInput={onFilterTextBoxChanged}
         />
       </div>
@@ -98,8 +173,19 @@ export default function ProductsPage() {
         </div>
 
         <div className="flex flex-shrink-0">
-          {hasInactiveRows && <ActionButton text="Activate Selected Products" onClick={() => {}} />}
-          {hasActiveRows && <ActionButton text="Deactivate Selected Products" onClick={() => {}} noMarginRight />}
+          {hasInactiveRows && (
+            <ActionButton
+              text="Activate Selected Products"
+              onClick={() => onActionButtonClicked(ProductAction.Activate)}
+            />
+          )}
+          {hasActiveRows && (
+            <ActionButton
+              text="Deactivate Selected Products"
+              onClick={() => onActionButtonClicked(ProductAction.Deactivate)}
+              noMarginRight
+            />
+          )}
         </div>
         {/* <div className="mt-1"></div> */}
       </div>
@@ -109,7 +195,7 @@ export default function ProductsPage() {
           defaultColDef={defaultColDef}
           ref={gridRef}
           columnDefs={colDefs}
-          rowData={rowData}
+          rowData={products}
           pagination={true}
           isExternalFilterPresent={isExternalFilterPresent}
           doesExternalFilterPass={doesExternalFilterPass}

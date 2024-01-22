@@ -1,16 +1,18 @@
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { defaultVersionDisplayString } from "~/constants";
-import type { Version } from "../types/types";
+import type { Version } from "../../types/types";
+import { LoadingSpinner } from "./Svgs";
 
 export const ClickableIndicatorCellRenderer: React.FC<{ data: Version }> = ({ data }) => {
+  let iconIndicator = <ChevronRightIcon className="w-6 h-6" />;
+  if (data.versionTitle === defaultVersionDisplayString) {
+    iconIndicator = <ArrowTopRightOnSquareIcon className="w-6 h-6" />;
+  } else if (data.status === "Generating") {
+    iconIndicator = <LoadingSpinner additionalClasses="h-8 w-8 -mx-0.5 -my-0.5" />;
+  }
+
   return (
-    <div className="flex items-center justify-center h-full cursor-pointer hover:text-primary">
-      {data.versionTitle === defaultVersionDisplayString ? (
-        <ArrowTopRightOnSquareIcon className="w-6 h-6" />
-      ) : (
-        <ChevronRightIcon className="w-6 h-6" />
-      )}
-    </div>
+    <div className="flex items-center justify-center h-full cursor-pointer hover:text-primary">{iconIndicator}</div>
   );
 };
 

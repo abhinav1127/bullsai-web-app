@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import React from "react";
-import type { ProductStatistics, VersionStatistics } from "../types/types";
+import type { ProductStatistics, VersionStatistics } from "../../types/types";
 import { InformationCardBadge } from "./Badges";
 
 interface MetricDisplayProps {

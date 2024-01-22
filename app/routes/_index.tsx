@@ -4,7 +4,7 @@ import { Link, useFetcher } from "@remix-run/react";
 import { handleAuthRedirect, handleShopifyAccessRequest } from "~/auth.server";
 import { myShopifyDomainExtension } from "~/constants";
 import { ParseQueryParams, handleResponseError, handleSessionForUnprotectedPage } from "~/utils";
-import Logo from "./components/Logo";
+import { Logo } from "./components/Svgs";
 
 // Route to initiate the authentication process
 export let loader: LoaderFunction = async ({ request }) => {

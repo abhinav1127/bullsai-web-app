@@ -1,3 +1,4 @@
+import { ProductStatus, VersionStatus } from "~/types/enums";
 import {
   ArrayRenderer,
   ClickableIndicatorCellRenderer,
@@ -71,6 +72,12 @@ export const defaultColDef = {
   filter: true,
   cellStyle: { cursor: "pointer" },
   wrapHeaderText: true,
+};
+
+export const getRowStyle = (params) => {
+  if (params.node.data.status === VersionStatus.Generating) {
+    return { background: "#f3f4f6" };
+  }
 };
 
 export const productViewDefaultColDef = {

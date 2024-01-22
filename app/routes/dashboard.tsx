@@ -1,11 +1,20 @@
 import { json } from "@remix-run/node";
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, NavLink } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
-import { Bars3CenterLeftIcon, HomeIcon, TagIcon, ClockIcon, CogIcon, ChartBarIcon } from "@heroicons/react/24/outline";
-import Logo from "./components/Logo";
+import {
+  Bars3CenterLeftIcon,
+  XMarkIcon,
+  HomeIcon,
+  TagIcon,
+  ClockIcon,
+  CogIcon,
+  ChartBarIcon,
+} from "@heroicons/react/24/outline";
+import { Logo } from "./components/Svgs";
 import { DrawerManager } from "./components/Drawer";
+import { Toaster } from "react-hot-toast";
 
 interface SidebarItem {
   to: string;
@@ -36,8 +45,20 @@ export const meta: MetaFunction = () => {
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  // Close sidebar when the window size is larger than md breakpoint
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
   const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
   const [mainDrawerChildren, setMainDrawerChildren] = useState<React.ReactNode>(null);
@@ -56,6 +77,7 @@ export default function DashboardLayout() {
   const closeMainDrawer = () => {
     setIsMainDrawerOpen(false);
   };
+
   const closeSecondaryDrawer = () => {
     setIsSecondaryDrawerOpen(false);
   };
@@ -68,13 +90,15 @@ export default function DashboardLayout() {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } w-64 bg-gradient-to-b from-primary to-primaryLight p-5 space-y-4 transition duration-300 ease-in-out z-10 md:relative md:translate-x-0`}
       >
-        <div className="relative flex justify-center items-center">
+        <div className="relative flex justify-between items-center">
           <Logo className="h-16 w-16 fill-white" />
-          <Bars3CenterLeftIcon
-            className="h-5 w-5 cursor-pointer text-white md:hidden absolute right-0"
+          <button
             onClick={toggleSidebar}
-            aria-label="Toggle sidebar"
-          />
+            className="h-5 w-5 cursor-pointer text-white md:hidden"
+            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+          >
+            {isSidebarOpen ? <XMarkIcon /> : <Bars3CenterLeftIcon />}
+          </button>
         </div>
         <ul className="mt-10">
           {sidebarItems.map(({ to, icon, label }) => (
@@ -119,6 +143,8 @@ export default function DashboardLayout() {
         mainChildren={mainDrawerChildren}
         secondaryChildren={secondaryDrawerChildren}
       />
+
+      <Toaster position="bottom-center" />
     </div>
   );
 }

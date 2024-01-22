@@ -1,5 +1,5 @@
-import { ProductStatus, VersionStatus } from "../types/enums";
-import type { Product } from "../types/types";
+import { ProductStatus, VersionStatus } from "./types/enums";
+import type { Product } from "./types/types";
 
 export const SampleData: Product[] = [
   {
@@ -83,7 +83,7 @@ export const SampleData: Product[] = [
         id: 184,
         productId: 4,
         versionTitle: "Version D",
-        status: VersionStatus.Regenerating,
+        status: VersionStatus.Generating,
         productTitle: "Product 4",
         heroImage: "image-url-4",
         description: "Description for Product 4 Version D",
@@ -251,9 +251,9 @@ export const SampleData: Product[] = [
     id: 5,
     externalId: "ext-5",
     storeId: 105,
-    status: ProductStatus.Generating,
+    status: ProductStatus.Inactive,
     title: "Product 5",
-    defaultVersionId: 15,
+    defaultVersionId: 135,
     statistics: {
       views: 300,
       conversionRateLift: 4.0,
@@ -369,6 +369,66 @@ export const SampleData: Product[] = [
         },
       },
     ],
+  },
+];
+
+export const DemoGeneratingVersionsArr = [
+  {
+    id: 1001,
+    productId: 3,
+    versionTitle: "",
+    status: VersionStatus.Generating,
+    productTitle: "",
+    heroImage: "",
+    description: "",
+    attributes: [],
+    statistics: {
+      views: 0,
+      conversionRate: 0,
+      marginalRevenue: 0,
+      displayPercentage: 0,
+      addToCartRate: 0,
+      conversionRateLift: 0,
+      addToCartRateLift: 0,
+    },
+  },
+  {
+    id: 1002,
+    productId: 3,
+    versionTitle: "",
+    status: VersionStatus.Generating,
+    productTitle: "",
+    heroImage: "",
+    description: "",
+    attributes: [],
+    statistics: {
+      views: 0,
+      conversionRate: 0,
+      marginalRevenue: 0,
+      displayPercentage: 0,
+      addToCartRate: 0,
+      conversionRateLift: 0,
+      addToCartRateLift: 0,
+    },
+  },
+  {
+    id: 1003,
+    productId: 3,
+    versionTitle: "",
+    status: VersionStatus.Generating,
+    productTitle: "",
+    heroImage: "",
+    description: "",
+    attributes: [],
+    statistics: {
+      views: 0,
+      conversionRate: 0,
+      marginalRevenue: 0,
+      displayPercentage: 0,
+      addToCartRate: 0,
+      conversionRateLift: 0,
+      addToCartRateLift: 0,
+    },
   },
 ];
 

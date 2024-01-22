@@ -1,14 +1,13 @@
-import { useState, type FC, useCallback, useMemo, useRef } from "react";
-import type { Product, Version } from "../types/types";
-import { ProductViewMode, VersionStatus } from "../types/enums";
+import { type FC, useCallback, useMemo, useRef } from "react";
+import type { Product, Version } from "../../types/types";
+import { ProductViewMode, VersionStatus } from "../../types/enums";
 import { AgGridReact } from "ag-grid-react";
 import {
-  defaultColDef,
+  getRowStyle,
   metricsColDefs,
   productViewDefaultColDef,
   versionDetailsColDefs,
 } from "../constants/tableConstants";
-import { percentChange } from "../constants/utils";
 import { defaultVersionDisplayString } from "~/constants";
 
 interface ProductMetricsTableProps {
@@ -51,11 +50,17 @@ const ProductViewTable: FC<ProductMetricsTableProps> = ({
         rowData={rowData}
         onSelectionChanged={onSelectionChanged}
         rowSelection={"multiple"}
-        // onRowClicked={(e) => onProductClick(e.data)}
         suppressRowClickSelection={true}
         rowHeight={90}
         onRowClicked={(e) => onVersionClick(e.data)}
         pinnedTopRowData={[{ ...defaultVersion, versionTitle: defaultVersionDisplayString }]}
+        getRowStyle={getRowStyle}
+        rowClassRules={{
+          "gray-500": (params) => params.data.status === "Generating",
+        }}
+        isRowSelectable={(params) => params.data.status !== VersionStatus.Generating}
+        // below is an attempt to show default pointer for Generating rows. Didn't work because children of row use cursor: pointer
+        // getRowClass={(params) => (params.data.status === VersionStatus.Generating ? "!cursor-default" : "")}
       />
     </div>
   );
