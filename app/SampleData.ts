@@ -211,7 +211,7 @@ export const SampleData: Product[] = [
         id: 104,
         productId: 4,
         versionTitle: "Version D",
-        status: VersionStatus.Regenerating,
+        status: VersionStatus.Generating,
         productTitle: "Product 4",
         heroImage: "image-url-4",
         description: "Description for Product 4 Version D",

@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Logo } from "./components/Svgs";
 import { DrawerManager } from "./components/Drawer";
-import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 
 interface SidebarItem {
   to: string;
@@ -144,7 +144,26 @@ export default function DashboardLayout() {
         secondaryChildren={secondaryDrawerChildren}
       />
 
-      <Toaster position="bottom-center" />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={
+          {
+            // display: "flex", // Use inline-block for shrink-to-fit behavior
+            // justifyContent: "center",
+            // alignItems: "center",
+          }
+        }
+        // transition={"Bounce"}
+      />
     </div>
   );
 }

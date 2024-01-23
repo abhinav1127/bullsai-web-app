@@ -3,18 +3,19 @@ import { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
-import { ProductAction, ProductStatus } from "../types/enums";
+import { ProductAction, ProductStatus, VersionStatus } from "../types/enums";
 import { Tooltip } from "react-tooltip";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
-import { colDefs, defaultColDef, getRowStyle } from "./constants/tableConstants";
+import { colDefs, defaultColDef } from "./constants/tableConstants";
 import ProductView from "./components/ProductView";
-import type { Product } from "../types/types";
+import type { Product, Version } from "../types/types";
 import { ActionButton } from "./components/Buttons";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { performProductAction } from "~/productActions.server";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
+import { pollForVersionUpdates } from "~/versionActions";
 
 export function links() {
   return [
@@ -33,31 +34,36 @@ export const action: ActionFunction = async (props) => {
   const actionType = formData.get("actionType");
   console.log("formData: ", formData);
 
-  switch (actionType) {
-    case "performProductAction":
-      try {
+  try {
+    switch (actionType) {
+      case "performProductAction":
         const updatedProducts = await performProductAction(
           JSON.parse(formData.get("products")!),
           formData.get("productStatusAction") as ProductAction
         );
         console.log("updatedProducts: ", updatedProducts);
         return json({ updatedProducts: updatedProducts }, { status: 200 });
-      } catch (error) {
-        console.log("error: ", error);
-        return json({ error: error }, { status: 400 });
-      }
-    default:
-      return json({});
+      case "pollForVersionUpdates":
+        const updatedVersions = await pollForVersionUpdates(JSON.parse(formData.get("versionIDs")!));
+        return json({ updatedVersions: updatedVersions }, { status: 200 });
+      default:
+        return json({});
+    }
+  } catch (error) {
+    console.log("error on action: ", actionType, error);
+    return json({ error: error }, { status: 400 });
   }
 };
 
 export default function ProductsPage() {
   const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
+  const productsRef = useRef(products);
   const { toggleMainDrawer, toggleSecondaryDrawer } = useOutletContext<OutletContextType>();
   const gridRef = useRef<AgGridReact>(null);
   const [statusType, setStatusType] = useState("All Products");
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
   const fetcher = useFetcher<typeof action>();
+  const pollingForVersionIds = useRef(new Set<number>());
 
   const onFilterTextBoxChanged = useCallback(() => {
     const filterValue = (document.getElementById("filter-text-box") as HTMLInputElement).value;
@@ -96,21 +102,59 @@ export default function ProductsPage() {
     },
     [products]
   );
-
   const updateProductsRef = useRef(updateProducts);
   useEffect(() => {
     updateProductsRef.current = updateProducts;
   }, [updateProducts]);
 
+  const pollForUpdates = useCallback(() => {
+    if (pollingForVersionIds.current.size === 0) return;
+    console.log("Polling...", pollingForVersionIds.current);
+    fetcher.submit(
+      {
+        actionType: "pollForVersionUpdates",
+        versionIDs: JSON.stringify(Array.from(pollingForVersionIds.current)),
+      },
+      { method: "POST" }
+    );
+  }, [fetcher, pollingForVersionIds]);
+
   useEffect(() => {
-    if (!fetcher.data || !fetcher.data.updatedProducts) return;
+    if (!fetcher.data?.updatedProducts) return;
+
     const idToUpdatedProduct = new Map<number, Product>();
+    const generatedVersionIds = new Set<number>();
     fetcher.data.updatedProducts.forEach((product: Product) => {
       idToUpdatedProduct.set(product.id, product);
+      product.versions.forEach((version) => {
+        if (version.status === VersionStatus.Generating) {
+          generatedVersionIds.add(version.id);
+        }
+      });
     });
 
     updateProductsRef.current(idToUpdatedProduct);
-  }, [fetcher.data]);
+    pollingForVersionIds.current = new Set([...pollingForVersionIds.current, ...generatedVersionIds]);
+  }, [fetcher.data?.updatedProducts]);
+
+  useEffect(() => {
+    if (!fetcher.data?.updatedVersions) return;
+
+    const updatedProducts = productsRef.current.map((product) => ({
+      ...product,
+      versions: product.versions.map(
+        (version) =>
+          fetcher.data.updatedVersions.find((updatedVersion: Version) => updatedVersion.id === version.id) || version
+      ),
+    }));
+
+    setProducts(updatedProducts);
+  }, [fetcher.data?.updatedVersions, setProducts]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => pollForUpdates(), 3000);
+    return () => clearInterval(intervalId); // Clear interval on component unmount
+  }, [pollForUpdates]); // Empty dependency array ensures this effect runs only once
 
   const onSelectionChanged = useCallback(() => {
     const selectedNodes = gridRef.current?.api.getSelectedNodes();
@@ -130,9 +174,17 @@ export default function ProductsPage() {
         { method: "POST" }
       );
       if (productStatusAction === ProductAction.Activate) {
-        toast.success("Activated Products!");
+        toast.success("Activated Products!", {
+          // style: {
+          //   display: "inline-block", // Use inline-block for shrink-to-fit behavior
+          //   minWidth: "auto",
+          //   margin: "0 auto", // Center the toast
+          // },
+        });
       } else if (productStatusAction === ProductAction.Deactivate) {
-        toast.success("Deactivated Products!");
+        toast.success("Deactivated Products!", {
+          // style: { minWidth: "auto", maxWidth: "none" },
+        });
       }
     },
     [selectedRows, fetcher]

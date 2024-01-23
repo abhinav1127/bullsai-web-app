@@ -1,4 +1,4 @@
-import { PlayCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { PlayCircleIcon, ExclamationTriangleIcon, CogIcon } from "@heroicons/react/24/outline";
 import type { Version } from "../../types/types";
 import type { FC } from "react";
 import { VersionStatus } from "../../types/enums";
@@ -26,10 +26,10 @@ export const VersionsRenderer: FC<VersionsRendererProps> = ({ value }) => {
     },
     generatingCount > 0 && {
       count: generatingCount,
-      icon: <LoadingSpinner additionalClasses="h-3.5 w-3.5 ml-0.5" />,
+      // icon: <LoadingSpinner additionalClasses="h-3.5 w-3.5 ml-0.5" />,
+      icon: <CogIcon className="text-gray-500 h-4 w-4 ml-0.5 animate-spin-slow" />,
     }, // Replace with appropriate icon for generatingCount
   ].filter(Boolean);
-  console.log(countsWithIcons);
 
   return (
     <div className="flex items-center">

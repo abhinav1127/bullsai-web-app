@@ -1,10 +1,12 @@
 import type { LinksFunction } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
+  { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/react-toastify/dist/ReactToastify.min.css" },
   {
     rel: "icon",
     href: "/bullsai.png",
