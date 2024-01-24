@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AgGridReact } from "ag-grid-react";
+import type { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
@@ -7,8 +7,6 @@ import { ProductAction, ProductStatus, ProductStatusFilter, VersionStatus } from
 import { Tooltip } from "react-tooltip";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
-import { colDefs, defaultColDef } from "./constants/tableConstants";
-import ProductView from "./components/ProductView";
 import type { Product, Version } from "../types/types";
 import { ActionButton } from "./components/Buttons";
 import type { ActionFunction } from "@remix-run/node";
@@ -18,6 +16,7 @@ import { toast } from "react-toastify";
 import { pollForVersionUpdates } from "~/versionActions";
 import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
+import ProductsTable from "./components/ProductsTable";
 
 export function links() {
   return [
@@ -66,20 +65,6 @@ export default function ProductsPage() {
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
   const fetcher = useFetcher<typeof action>();
   const pollingForVersionIds = useRef(new Set<number>());
-
-  const isExternalFilterPresent = useCallback(() => {
-    return statusType !== "All Products";
-  }, [statusType]);
-
-  const doesExternalFilterPass = useCallback(
-    (node) => {
-      if (node.data) {
-        return node.data.status === statusType;
-      }
-      return true;
-    },
-    [statusType]
-  );
 
   const updateProducts = useCallback(
     (idsToUpdatedProducts: Map<number, Product>) => {
@@ -149,16 +134,6 @@ export default function ProductsPage() {
     return () => clearInterval(intervalId); // Clear interval on component unmount
   }, [pollForUpdates]); // Empty dependency array ensures this effect runs only once
 
-  const onSelectionChanged = useCallback(() => {
-    const selectedNodes = gridRef.current?.api.getSelectedNodes();
-    const selectedData: Product[] = selectedNodes?.map((node) => node.data) || [];
-    setSelectedRows(selectedData);
-  }, []);
-
-  const onProductClick = (product: Product) => {
-    toggleMainDrawer(<ProductView product={product} toggleSecondaryDrawer={toggleSecondaryDrawer} />);
-  };
-
   const onActionButtonClicked = useCallback(
     async (productStatusAction: ProductAction) => {
       console.log("selectedRows: ", selectedRows);
@@ -214,22 +189,17 @@ export default function ProductsPage() {
       </div>
 
       <div className="flex-grow">
-        <AgGridReact
-          defaultColDef={defaultColDef}
-          ref={gridRef}
-          columnDefs={colDefs}
-          rowData={products}
-          pagination={true}
-          isExternalFilterPresent={isExternalFilterPresent}
-          doesExternalFilterPass={doesExternalFilterPass}
-          onSelectionChanged={onSelectionChanged}
-          rowSelection={"multiple"}
-          onRowClicked={(e) => onProductClick(e.data)}
-          suppressRowClickSelection={true}
+        <ProductsTable
+          statusType={statusType}
+          gridRef={gridRef}
+          setSelectedRows={setSelectedRows}
+          toggleMainDrawer={toggleMainDrawer}
+          toggleSecondaryDrawer={toggleSecondaryDrawer}
+          products={products}
         />
-
-        <Tooltip id="my-tooltip" />
       </div>
+
+      <Tooltip id="my-tooltip" />
     </div>
   );
 }

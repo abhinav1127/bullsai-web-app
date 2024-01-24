@@ -1,10 +1,10 @@
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 import { useCallback } from "react";
 import { ProductStatusFilter } from "~/types/enums";
 
 const ProductStatusRadioFilter: FC<{
   statusType: ProductStatusFilter;
-  setStatusType: Dispatch<SetStateAction<ProductStatusFilter>>;
+  setStatusType: (statusType: ProductStatusFilter) => void;
 }> = ({ statusType, setStatusType }) => {
   const externalFilterChanged = useCallback(
     (newValue: ProductStatusFilter) => {
