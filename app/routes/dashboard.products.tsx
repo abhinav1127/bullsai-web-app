@@ -17,7 +17,7 @@ import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 import ProductsTable from "./components/ProductsTable";
 import ProductActionButtons from "./components/ProductActionButtons";
-import { usePollForGeneratingVersions } from "./customHooks/useProductFetcher";
+import { usePollForGeneratingVersions } from "./customHooks/usePollForGeneratingVersions";
 
 export function links() {
   return [
