@@ -432,4 +432,64 @@ export const DemoGeneratingVersionsArr = [
   },
 ];
 
+export const DemoGeneratedVersions = [
+  {
+    id: 1001,
+    productId: 3,
+    versionTitle: "Version 1",
+    status: VersionStatus.Pending,
+    productTitle: "Title 1",
+    heroImage: "image-url-1",
+    description: "description 1",
+    attributes: ["attr1", "attr2"],
+    statistics: {
+      views: 0,
+      conversionRate: 0,
+      marginalRevenue: 0,
+      displayPercentage: 0,
+      addToCartRate: 0,
+      conversionRateLift: 0,
+      addToCartRateLift: 0,
+    },
+  },
+  {
+    id: 1002,
+    productId: 3,
+    versionTitle: "Version 2",
+    status: VersionStatus.Pending,
+    productTitle: "Title 2",
+    heroImage: "image-url-2",
+    description: "description 2",
+    attributes: ["attr1", "attr2"],
+    statistics: {
+      views: 0,
+      conversionRate: 0,
+      marginalRevenue: 0,
+      displayPercentage: 0,
+      addToCartRate: 0,
+      conversionRateLift: 0,
+      addToCartRateLift: 0,
+    },
+  },
+  {
+    id: 1003,
+    productId: 3,
+    versionTitle: "Version 3",
+    status: VersionStatus.Pending,
+    productTitle: "Title 3",
+    heroImage: "image-url-3",
+    description: "description 3",
+    attributes: ["attr1", "attr2"],
+    statistics: {
+      views: 0,
+      conversionRate: 0,
+      marginalRevenue: 0,
+      displayPercentage: 0,
+      addToCartRate: 0,
+      conversionRateLift: 0,
+      addToCartRateLift: 0,
+    },
+  },
+];
+
 export default SampleData;

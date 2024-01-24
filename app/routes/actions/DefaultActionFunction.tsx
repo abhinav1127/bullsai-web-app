@@ -17,10 +17,10 @@ const DefaultActionFunction: ActionFunction = async (props) => {
           JSON.parse(formData.get("products")!),
           formData.get("productStatusAction") as ProductAction
         );
-        console.log("updatedProducts: ", updatedProducts);
         return json({ updatedProducts: updatedProducts }, { status: 200 });
       case "pollForVersionUpdates":
         const updatedVersions = await pollForVersionUpdates(JSON.parse(formData.get("versionIDs")!));
+        console.log("updatedVersions: ", updatedVersions);
         return json({ updatedVersions: updatedVersions }, { status: 200 });
       default:
         return json({});

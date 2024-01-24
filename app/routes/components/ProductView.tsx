@@ -6,7 +6,6 @@ import ProductViewTable from "./ProductViewTable";
 import type { Product, Version } from "../../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
 import VersionView, { DrawerTitleSection } from "./VersionView";
-import { ActionButton } from "./Buttons";
 import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
 import ProductViewActionButtons from "./ProductViewActionButtons";
 import { useFetcher } from "@remix-run/react";
@@ -30,13 +29,6 @@ const ProductView: FC<{
     return defaultVersion;
   }, [product]);
 
-  const { hasPendingVersionsSelected, hasRunningVersionsSelected } = useMemo(() => {
-    return {
-      hasPendingVersionsSelected: selectedRows.some((version) => version.status === VersionStatus.Pending),
-      hasRunningVersionsSelected: selectedRows.some((version) => version.status === VersionStatus.Running),
-    };
-  }, [selectedRows]);
-
   const onVersionClick = useCallback(
     (version: Version) => {
       // TODO: Redirect to default page
@@ -57,7 +49,6 @@ const ProductView: FC<{
         rightSideComponent={<ProductMetricsSummaryCard statistics={product.statistics} />}
       />
 
-      {/* Tabbed Filter Interface and Conditional Buttons */}
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
         <ProductViewModeFilterTabs productViewMode={productViewMode} setProductViewMode={setProductViewMode} />
         <ProductViewActionButtons selectedRows={selectedRows} fetcher={fetcher} />

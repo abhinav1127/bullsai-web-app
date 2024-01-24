@@ -20,7 +20,6 @@ const activateProducts = (products: Product[]): Product[] => {
       return product.status === ProductStatus.Inactive;
     })
     .map((product) => {
-      console.log("aaaaa", product);
       // If the product is active and has a non-default version, just change the product status
       if (product.status === ProductStatus.Inactive && product.versions.length > 1) {
         return {
