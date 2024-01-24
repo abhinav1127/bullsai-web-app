@@ -5,9 +5,9 @@ import { ProductViewMode, VersionStatus } from "../../types/enums";
 import ProductViewTable from "./ProductViewTable";
 import type { Product, Version } from "../../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
-import { Tooltip } from "react-tooltip";
 import VersionView, { DrawerTitleSection } from "./VersionView";
 import { ActionButton } from "./Buttons";
+import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
 
 const ProductView: FC<{
   product: Product;
@@ -15,10 +15,6 @@ const ProductView: FC<{
 }> = ({ product, toggleSecondaryDrawer }) => {
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
-
-  const viewModeChanged = useCallback((newValue: ProductViewMode) => {
-    setProductViewMode(newValue);
-  }, []);
 
   const defaultVersion = useMemo(() => {
     const defaultVersion = product.versions.find((version) => version.id === product.defaultVersionId);
@@ -57,7 +53,7 @@ const ProductView: FC<{
 
       {/* Tabbed Filter Interface and Conditional Buttons */}
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
-        <div className="flex">
+        {/* <div className="flex">
           {Object.values(ProductViewMode).map((viewMode) => (
             <button
               key={viewMode}
@@ -69,7 +65,8 @@ const ProductView: FC<{
               {viewMode}
             </button>
           ))}
-        </div>
+        </div> */}
+        <ProductViewModeFilterTabs productViewMode={productViewMode} setProductViewMode={setProductViewMode} />
 
         <div className="flex flex-shrink-0">
           {hasPendingVersionsSelected && (
@@ -94,8 +91,6 @@ const ProductView: FC<{
           onVersionClick={onVersionClick}
         />
       </div>
-
-      <Tooltip id="product-view-tooltip" />
     </div>
   );
 };

@@ -16,7 +16,7 @@ import { pollForVersionUpdates } from "~/versionActions";
 import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 import ProductsTable from "./components/ProductsTable";
-import ProductActionButtons from "./components/ProductActionButtons";
+import ProductActionButtons from "./components/ProductsActionButtons";
 import { usePollForGeneratingVersions } from "./customHooks/usePollForGeneratingVersions";
 
 export function links() {
