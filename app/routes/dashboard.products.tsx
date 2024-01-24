@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
 import type { ProductAction } from "../types/enums";
-import { ProductStatusFilter, VersionStatus } from "../types/enums";
+import { ProductStatusFilter } from "../types/enums";
 import { Tooltip } from "react-tooltip";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
-import type { Product, Version } from "../types/types";
+import type { Product } from "../types/types";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { performProductAction } from "~/productActions.server";
@@ -17,6 +17,7 @@ import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 import ProductsTable from "./components/ProductsTable";
 import ProductActionButtons from "./components/ProductActionButtons";
+import { usePollForGeneratingVersions } from "./customHooks/useProductFetcher";
 
 export function links() {
   return [
@@ -66,73 +67,7 @@ export default function ProductsPage() {
   const fetcher = useFetcher<typeof action>();
   const pollingForVersionIds = useRef(new Set<number>());
 
-  const updateProducts = useCallback(
-    (idsToUpdatedProducts: Map<number, Product>) => {
-      try {
-        setProducts(
-          products.map((product: Product) =>
-            idsToUpdatedProducts.has(product.id) ? idsToUpdatedProducts.get(product.id)! : product
-          )
-        );
-      } catch (error) {
-        console.log("error on updateProducts callback: ", error);
-      }
-    },
-    [products]
-  );
-  const updateProductsRef = useRef(updateProducts);
-  useEffect(() => {
-    updateProductsRef.current = updateProducts;
-  }, [updateProducts]);
-
-  const pollForUpdates = useCallback(() => {
-    if (pollingForVersionIds.current.size === 0) return;
-    console.log("Polling...", pollingForVersionIds.current);
-    fetcher.submit(
-      {
-        actionType: "pollForVersionUpdates",
-        versionIDs: JSON.stringify(Array.from(pollingForVersionIds.current)),
-      },
-      { method: "POST" }
-    );
-  }, [fetcher, pollingForVersionIds]);
-
-  useEffect(() => {
-    if (!fetcher.data?.updatedProducts) return;
-
-    const idToUpdatedProduct = new Map<number, Product>();
-    const generatedVersionIds = new Set<number>();
-    fetcher.data.updatedProducts.forEach((product: Product) => {
-      idToUpdatedProduct.set(product.id, product);
-      product.versions.forEach((version) => {
-        if (version.status === VersionStatus.Generating) {
-          generatedVersionIds.add(version.id);
-        }
-      });
-    });
-
-    updateProductsRef.current(idToUpdatedProduct);
-    pollingForVersionIds.current = new Set([...pollingForVersionIds.current, ...generatedVersionIds]);
-  }, [fetcher.data?.updatedProducts]);
-
-  useEffect(() => {
-    if (!fetcher.data?.updatedVersions) return;
-
-    const updatedProducts = productsRef.current.map((product) => ({
-      ...product,
-      versions: product.versions.map(
-        (version) =>
-          fetcher.data.updatedVersions.find((updatedVersion: Version) => updatedVersion.id === version.id) || version
-      ),
-    }));
-
-    setProducts(updatedProducts);
-  }, [fetcher.data?.updatedVersions, setProducts]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => pollForUpdates(), 3000);
-    return () => clearInterval(intervalId); // Clear interval on component unmount
-  }, [pollForUpdates]); // Empty dependency array ensures this effect runs only once
+  usePollForGeneratingVersions(fetcher, productsRef, pollingForVersionIds, products, setProducts);
 
   return (
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
@@ -140,7 +75,6 @@ export default function ProductsPage() {
 
       <ProductSearchBar gridRef={gridRef} />
 
-      {/* Tabbed Filter Interface and Conditional Buttons */}
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
         <ProductStatusRadioFilter statusType={statusType} setStatusType={setStatusType} />
         <ProductActionButtons selectedRows={selectedRows} fetcher={fetcher} />
