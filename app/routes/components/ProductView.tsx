@@ -8,6 +8,11 @@ import { ProductStatusRenderer } from "./StatusRenderers";
 import VersionView, { DrawerTitleSection } from "./VersionView";
 import { ActionButton } from "./Buttons";
 import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
+import ProductViewActionButtons from "./ProductViewActionButtons";
+import { useFetcher } from "@remix-run/react";
+import DefaultActionFunction from "../actions/DefaultActionFunction";
+
+export const action = DefaultActionFunction;
 
 const ProductView: FC<{
   product: Product;
@@ -15,6 +20,7 @@ const ProductView: FC<{
 }> = ({ product, toggleSecondaryDrawer }) => {
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
+  const fetcher = useFetcher<typeof action>();
 
   const defaultVersion = useMemo(() => {
     const defaultVersion = product.versions.find((version) => version.id === product.defaultVersionId);
@@ -53,32 +59,8 @@ const ProductView: FC<{
 
       {/* Tabbed Filter Interface and Conditional Buttons */}
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
-        {/* <div className="flex">
-          {Object.values(ProductViewMode).map((viewMode) => (
-            <button
-              key={viewMode}
-              onClick={() => viewModeChanged(viewMode)}
-              className={`px-4 py-2 h-11 text-sm font-semibold hover:bg-gray-100 ${
-                productViewMode === viewMode ? "border-b-2 border-primary text-primary" : "text-gray-600"
-              }`}
-            >
-              {viewMode}
-            </button>
-          ))}
-        </div> */}
         <ProductViewModeFilterTabs productViewMode={productViewMode} setProductViewMode={setProductViewMode} />
-
-        <div className="flex flex-shrink-0">
-          {hasPendingVersionsSelected && (
-            <div>
-              <ActionButton text="Approve Selected Versions" onClick={() => {}} />
-              <ActionButton text="Reject Selected Versions" onClick={() => {}} />
-            </div>
-          )}
-          {hasRunningVersionsSelected && (
-            <ActionButton text="Pause Selected Versions" onClick={() => {}} noMarginRight />
-          )}
-        </div>
+        <ProductViewActionButtons selectedRows={selectedRows} fetcher={fetcher} />
       </div>
 
       <div className="flex flex-col flex-grow">

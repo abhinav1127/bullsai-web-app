@@ -3,20 +3,17 @@ import type { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
-import type { ProductAction } from "../types/enums";
 import { ProductStatusFilter } from "../types/enums";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
 import type { Product } from "../types/types";
-import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { performProductAction } from "~/productActions.server";
-import { pollForVersionUpdates } from "~/versionActions";
 import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 import ProductsTable from "./components/ProductsTable";
 import ProductActionButtons from "./components/ProductsActionButtons";
 import { usePollForGeneratingVersions } from "./customHooks/usePollForGeneratingVersions";
+import DefaultActionFunction from "./actions/DefaultActionFunction";
 
 export function links() {
   return [
@@ -29,32 +26,7 @@ export async function loader() {
   return json({ products: SampleData });
 }
 
-export const action: ActionFunction = async (props) => {
-  const request = props.request;
-  const formData = new URLSearchParams(await request.text());
-  const actionType = formData.get("actionType");
-  console.log("formData: ", formData);
-
-  try {
-    switch (actionType) {
-      case "performProductAction":
-        const updatedProducts = await performProductAction(
-          JSON.parse(formData.get("products")!),
-          formData.get("productStatusAction") as ProductAction
-        );
-        console.log("updatedProducts: ", updatedProducts);
-        return json({ updatedProducts: updatedProducts }, { status: 200 });
-      case "pollForVersionUpdates":
-        const updatedVersions = await pollForVersionUpdates(JSON.parse(formData.get("versionIDs")!));
-        return json({ updatedVersions: updatedVersions }, { status: 200 });
-      default:
-        return json({});
-    }
-  } catch (error) {
-    console.log("error on action: ", actionType, error);
-    return json({ error: error }, { status: 400 });
-  }
-};
+export const action = DefaultActionFunction;
 
 export default function ProductsPage() {
   const [products, setProducts] = useState(useLoaderData<typeof loader>().products);

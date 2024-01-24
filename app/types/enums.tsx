@@ -8,6 +8,12 @@ export enum ProductAction {
   Deactivate = "Deactivate",
 }
 
+export enum VersionAction {
+  Approve = "Approve",
+  Reject = "Reject",
+  Pause = "Pause",
+}
+
 export enum VersionStatus {
   Default = "Default",
   Running = "Running",
