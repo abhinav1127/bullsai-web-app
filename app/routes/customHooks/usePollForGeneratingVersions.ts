@@ -1,41 +1,50 @@
 import type { FetcherWithComponents } from "@remix-run/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { VersionStatus } from "~/types/enums";
 import type { Product, Version } from "~/types/types";
 
 export function usePollForGeneratingVersions(
   fetcher: FetcherWithComponents<any>,
-  productsRef: React.MutableRefObject<Product[]>,
-  pollingForVersionIds: React.MutableRefObject<Set<number>>,
-  products: Product[],
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>
+  pollingForVersionIds: Set<number>,
+  setPollingForVersionIds: (value: React.SetStateAction<Set<number>>) => void,
+  setProducts: (value: React.SetStateAction<Product[]>) => void
 ) {
   const updateProducts = useCallback(
-    (idsToUpdatedProducts: Map<number, Product>) => {
+    (updatedProducts: Product[]) => {
       try {
-        setProducts(
-          products.map((product: Product) =>
-            idsToUpdatedProducts.has(product.id) ? idsToUpdatedProducts.get(product.id)! : product
+        const idToUpdatedProduct = new Map<number, Product>();
+        const generatedVersionIds = new Set<number>();
+        updatedProducts.forEach((product: Product) => {
+          idToUpdatedProduct.set(product.id, product);
+          product.versions.forEach((version) => {
+            if (version.status === VersionStatus.Generating) {
+              generatedVersionIds.add(version.id);
+            }
+          });
+        });
+
+        setProducts((currentProducts) =>
+          currentProducts.map((product: Product) =>
+            idToUpdatedProduct.has(product.id) ? idToUpdatedProduct.get(product.id)! : product
           )
+        );
+        setPollingForVersionIds(
+          (currentPollingForVersionIds) => new Set([...currentPollingForVersionIds, ...generatedVersionIds])
         );
       } catch (error) {
         console.log("error on updateProducts callback: ", error);
       }
     },
-    [products, setProducts]
+    [setProducts, setPollingForVersionIds]
   );
-  const updateProductsRef = useRef(updateProducts);
-  useEffect(() => {
-    updateProductsRef.current = updateProducts;
-  }, [updateProducts]);
 
   const pollForUpdates = useCallback(() => {
-    if (pollingForVersionIds.current.size === 0) return;
-    console.log("Polling...", pollingForVersionIds.current);
+    if (pollingForVersionIds.size === 0) return;
+    console.log("Polling...", pollingForVersionIds);
     fetcher.submit(
       {
         actionType: "pollForVersionUpdates",
-        versionIDs: JSON.stringify(Array.from(pollingForVersionIds.current)),
+        versionIDs: JSON.stringify(Array.from(pollingForVersionIds)),
       },
       { method: "POST" }
     );
@@ -43,38 +52,43 @@ export function usePollForGeneratingVersions(
 
   useEffect(() => {
     if (!fetcher.data?.updatedProducts) return;
+    console.log("updatedProducts", fetcher.data.updatedProducts);
+    updateProducts(fetcher.data.updatedProducts);
+  }, [fetcher.data?.updatedProducts, updateProducts]);
 
-    const idToUpdatedProduct = new Map<number, Product>();
-    const generatedVersionIds = new Set<number>();
-    fetcher.data.updatedProducts.forEach((product: Product) => {
-      idToUpdatedProduct.set(product.id, product);
-      product.versions.forEach((version) => {
-        if (version.status === VersionStatus.Generating) {
-          generatedVersionIds.add(version.id);
-        }
-      });
-    });
-
-    updateProductsRef.current(idToUpdatedProduct);
-    pollingForVersionIds.current = new Set([...pollingForVersionIds.current, ...generatedVersionIds]);
-  }, [fetcher.data?.updatedProducts, updateProductsRef, pollingForVersionIds]);
+  const handleGeneratedVersions = useCallback(
+    (updatedVersions: Version[]) => {
+      setProducts((currentProducts) =>
+        currentProducts.map((product) => ({
+          ...product,
+          versions: product.versions.map(
+            (version) => updatedVersions.find((updatedVersion: Version) => updatedVersion.id === version.id) || version
+          ),
+        }))
+      );
+      setPollingForVersionIds(
+        (currentPollingForVersionIds) =>
+          new Set(
+            Array.from(currentPollingForVersionIds).filter(
+              (versionId) => !updatedVersions.find((version) => version.id === versionId)
+            )
+          )
+      );
+    },
+    [setProducts, setPollingForVersionIds]
+  );
 
   useEffect(() => {
     if (!fetcher.data?.updatedVersions) return;
-
-    const updatedProducts = productsRef.current.map((product) => ({
-      ...product,
-      versions: product.versions.map(
-        (version) =>
-          fetcher.data.updatedVersions.find((updatedVersion: Version) => updatedVersion.id === version.id) || version
-      ),
-    }));
-
-    setProducts(updatedProducts);
-  }, [fetcher.data?.updatedVersions, setProducts, productsRef]);
+    handleGeneratedVersions(fetcher.data.updatedVersions);
+  }, [fetcher.data?.updatedVersions, handleGeneratedVersions]);
 
   useEffect(() => {
     const intervalId = setInterval(() => pollForUpdates(), 3000);
-    return () => clearInterval(intervalId); // Clear interval on component unmount
-  }, [pollForUpdates]); // Empty dependency array ensures this effect runs only once
+    console.log("intervalId", intervalId);
+    return () => {
+      console.log("clearing interval", intervalId);
+      clearInterval(intervalId);
+    }; // Clear interval on component unmount
+  }, [pollForUpdates]);
 }

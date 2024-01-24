@@ -38,7 +38,7 @@ export const ProductStatusRenderer: FC<ProductStatusRendererProps> = ({ value, d
             data-tooltip-place="top"
             className="relative flex items-center"
           >
-            <ExclamationTriangleIcon className="text-orange-500 h-5 w-5 ml-0.5" />
+            <ExclamationTriangleIcon className="text-orange-500 h-5 w-5 ml-1.5" />
           </div>
         </React.Fragment>
       )}

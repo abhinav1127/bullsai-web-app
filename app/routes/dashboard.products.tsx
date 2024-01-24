@@ -30,15 +30,17 @@ export const action = DefaultActionFunction;
 
 export default function ProductsPage() {
   const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
-  const productsRef = useRef(products);
   const { toggleMainDrawer, toggleSecondaryDrawer } = useOutletContext<OutletContextType>();
   const gridRef = useRef<AgGridReact>(null);
   const [statusType, setStatusType] = useState<ProductStatusFilter>(ProductStatusFilter.AllProducts);
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
   const fetcher = useFetcher<typeof action>();
-  const pollingForVersionIds = useRef(new Set<number>());
+  const [pollingForVersionIds, setPollingForVersionIds] = useState(new Set<number>());
 
-  usePollForGeneratingVersions(fetcher, productsRef, pollingForVersionIds, products, setProducts);
+  console.log("products", products);
+  console.log("pollingForVersionIds", pollingForVersionIds);
+
+  usePollForGeneratingVersions(fetcher, pollingForVersionIds, setPollingForVersionIds, setProducts);
 
   return (
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
