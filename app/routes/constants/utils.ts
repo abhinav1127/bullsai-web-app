@@ -5,3 +5,9 @@ export function percentChange(originalNumber: number, newNumber: number) {
 export function toFixedIfNecessary(value: number) {
   return +value.toFixed(2);
 }
+export const percentageValueFormatter = (params) => {
+  if (!params.value) {
+    return "-";
+  }
+  return toFixedIfNecessary(params.value) + "%";
+};

@@ -12,14 +12,7 @@ import {
   VersionStatusRendererForTable,
 } from "../components/StatusRenderers";
 import { VersionsRenderer } from "../components/VersionsRenderer";
-import { toFixedIfNecessary } from "./utils";
-
-export const percentageValueFormatter = (params) => {
-  if (!params.value) {
-    return "-";
-  }
-  return toFixedIfNecessary(params.value) + "%";
-};
+import { percentageValueFormatter } from "./utils";
 
 export const colDefs = [
   {

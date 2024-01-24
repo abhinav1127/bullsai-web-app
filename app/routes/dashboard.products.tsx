@@ -3,7 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
-import { ProductAction, ProductStatus, VersionStatus } from "../types/enums";
+import { ProductAction, ProductStatus, ProductStatusFilter, VersionStatus } from "../types/enums";
 import { Tooltip } from "react-tooltip";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
@@ -16,6 +16,8 @@ import { json } from "@remix-run/node";
 import { performProductAction } from "~/productActions.server";
 import { toast } from "react-toastify";
 import { pollForVersionUpdates } from "~/versionActions";
+import ProductSearchBar from "./components/ProductSearchBar";
+import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 
 export function links() {
   return [
@@ -60,19 +62,10 @@ export default function ProductsPage() {
   const productsRef = useRef(products);
   const { toggleMainDrawer, toggleSecondaryDrawer } = useOutletContext<OutletContextType>();
   const gridRef = useRef<AgGridReact>(null);
-  const [statusType, setStatusType] = useState("All Products");
+  const [statusType, setStatusType] = useState<ProductStatusFilter>(ProductStatusFilter.AllProducts);
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
   const fetcher = useFetcher<typeof action>();
   const pollingForVersionIds = useRef(new Set<number>());
-
-  const onFilterTextBoxChanged = useCallback(() => {
-    const filterValue = (document.getElementById("filter-text-box") as HTMLInputElement).value;
-    gridRef.current?.api.setGridOption("quickFilterText", filterValue);
-  }, []);
-
-  const externalFilterChanged = useCallback((newValue: string) => {
-    setStatusType(newValue);
-  }, []);
 
   const isExternalFilterPresent = useCallback(() => {
     return statusType !== "All Products";
@@ -197,32 +190,11 @@ export default function ProductsPage() {
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
 
-      {/* Centralized Product Search Bar */}
-      <div className="flex justify-center mb-8">
-        <input
-          type="text"
-          id="filter-text-box"
-          placeholder="Search products..."
-          className="w-1/2 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          onInput={onFilterTextBoxChanged}
-        />
-      </div>
+      <ProductSearchBar gridRef={gridRef} />
 
       {/* Tabbed Filter Interface and Conditional Buttons */}
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
-        <div className="flex">
-          {["All Products", "Active", "Inactive"].map((status) => (
-            <button
-              key={status}
-              onClick={() => externalFilterChanged(status)}
-              className={`px-4 py-2 h-11 text-sm font-semibold hover:bg-gray-100 ${
-                statusType === status ? "border-b-2 border-primary text-primary" : "text-gray-600"
-              }`}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
+        <ProductStatusRadioFilter statusType={statusType} setStatusType={setStatusType} />
 
         <div className="flex flex-shrink-0">
           {hasInactiveRows && (
@@ -239,7 +211,6 @@ export default function ProductsPage() {
             />
           )}
         </div>
-        {/* <div className="mt-1"></div> */}
       </div>
 
       <div className="flex-grow">

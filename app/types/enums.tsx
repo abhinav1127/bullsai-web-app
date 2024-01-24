@@ -20,3 +20,9 @@ export enum ProductViewMode {
   Metrics = "Metrics",
   VersionDetails = "Version Details",
 }
+
+export enum ProductStatusFilter {
+  AllProducts = "All Products",
+  Active = "Active",
+  Inactive = "Inactive",
+}
