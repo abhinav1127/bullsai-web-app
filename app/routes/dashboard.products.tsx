@@ -5,7 +5,6 @@ import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
 import type { ProductAction } from "../types/enums";
 import { ProductStatusFilter } from "../types/enums";
-import { Tooltip } from "react-tooltip";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
 import type { Product } from "../types/types";
@@ -90,8 +89,6 @@ export default function ProductsPage() {
           products={products}
         />
       </div>
-
-      <Tooltip id="my-tooltip" />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import type { LinksFunction } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import stylesheet from "~/tailwind.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import { Tooltip } from "react-tooltip";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -27,6 +28,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Tooltip id="my-tooltip" className="z-[100]" />
       </body>
     </html>
   );
