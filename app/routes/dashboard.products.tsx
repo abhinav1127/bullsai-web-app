@@ -3,20 +3,20 @@ import type { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
 import SampleData from "../SampleData";
-import { ProductAction, ProductStatus, ProductStatusFilter, VersionStatus } from "../types/enums";
+import type { ProductAction } from "../types/enums";
+import { ProductStatusFilter, VersionStatus } from "../types/enums";
 import { Tooltip } from "react-tooltip";
 import { useFetcher, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { OutletContextType } from "../types/outletContextTypes";
 import type { Product, Version } from "../types/types";
-import { ActionButton } from "./components/Buttons";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { performProductAction } from "~/productActions.server";
-import { toast } from "react-toastify";
 import { pollForVersionUpdates } from "~/versionActions";
 import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 import ProductsTable from "./components/ProductsTable";
+import ProductActionButtons from "./components/ProductActionButtons";
 
 export function links() {
   return [
@@ -134,33 +134,6 @@ export default function ProductsPage() {
     return () => clearInterval(intervalId); // Clear interval on component unmount
   }, [pollForUpdates]); // Empty dependency array ensures this effect runs only once
 
-  const onActionButtonClicked = useCallback(
-    async (productStatusAction: ProductAction) => {
-      console.log("selectedRows: ", selectedRows);
-      await fetcher.submit(
-        { actionType: "performProductAction", products: JSON.stringify(selectedRows), productStatusAction },
-        { method: "POST" }
-      );
-      if (productStatusAction === ProductAction.Activate) {
-        toast.success("Activated Products!", {
-          // style: {
-          //   display: "inline-block", // Use inline-block for shrink-to-fit behavior
-          //   minWidth: "auto",
-          //   margin: "0 auto", // Center the toast
-          // },
-        });
-      } else if (productStatusAction === ProductAction.Deactivate) {
-        toast.success("Deactivated Products!", {
-          // style: { minWidth: "auto", maxWidth: "none" },
-        });
-      }
-    },
-    [selectedRows, fetcher]
-  );
-
-  const hasActiveRows = selectedRows.some((row) => row.status === ProductStatus.Active);
-  const hasInactiveRows = selectedRows.some((row) => row.status === ProductStatus.Inactive);
-
   return (
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
@@ -170,22 +143,7 @@ export default function ProductsPage() {
       {/* Tabbed Filter Interface and Conditional Buttons */}
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
         <ProductStatusRadioFilter statusType={statusType} setStatusType={setStatusType} />
-
-        <div className="flex flex-shrink-0">
-          {hasInactiveRows && (
-            <ActionButton
-              text="Activate Selected Products"
-              onClick={() => onActionButtonClicked(ProductAction.Activate)}
-            />
-          )}
-          {hasActiveRows && (
-            <ActionButton
-              text="Deactivate Selected Products"
-              onClick={() => onActionButtonClicked(ProductAction.Deactivate)}
-              noMarginRight
-            />
-          )}
-        </div>
+        <ProductActionButtons selectedRows={selectedRows} fetcher={fetcher} />
       </div>
 
       <div className="flex-grow">

@@ -9,7 +9,7 @@ import type { Product } from "~/types/types";
 import ProductView from "./ProductView";
 import type { ProductStatusFilter } from "~/types/enums";
 
-export const defaultColDef = {
+const defaultColDef = {
   flex: 1,
   minWidth: 80,
   filter: true,
@@ -17,7 +17,7 @@ export const defaultColDef = {
   wrapHeaderText: true,
 };
 
-export const colDefs = [
+const colDefs = [
   {
     headerName: "Title",
     field: "title",
@@ -71,7 +71,7 @@ interface ProductsTableProps {
   products: Product[];
 }
 
-export const ProductsTable: FC<ProductsTableProps> = ({
+const ProductsTable: FC<ProductsTableProps> = ({
   statusType,
   gridRef,
   setSelectedRows,
