@@ -37,9 +37,6 @@ export default function ProductsPage() {
   const fetcher = useFetcher<typeof action>();
   const [pollingForVersionIds, setPollingForVersionIds] = useState(new Set<number>());
 
-  console.log("products", products);
-  console.log("pollingForVersionIds", pollingForVersionIds);
-
   usePollForGeneratingVersions(fetcher, pollingForVersionIds, setPollingForVersionIds, setProducts);
 
   return (

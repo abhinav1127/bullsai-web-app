@@ -1,5 +1,6 @@
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useCallback, useEffect } from "react";
+import { toast } from "react-toastify";
 import { VersionStatus } from "~/types/enums";
 import type { Product, Version } from "~/types/types";
 
@@ -74,6 +75,7 @@ export function usePollForGeneratingVersions(
             )
           )
       );
+      toast.success("Successfully Generated Versions!");
     },
     [setProducts, setPollingForVersionIds]
   );
