@@ -4,10 +4,11 @@ import { ProductStatusRenderer } from "./StatusRenderers";
 import { VersionsRenderer } from "./VersionsRenderer";
 import { percentageValueFormatter } from "../constants/utils";
 import type { FC } from "react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import type { Product } from "~/types/types";
 import ProductView from "./ProductView";
 import type { ProductStatusFilter } from "~/types/enums";
+import type { FetcherWithComponents } from "@remix-run/react";
 
 const defaultColDef = {
   flex: 1,
@@ -69,6 +70,7 @@ interface ProductsTableProps {
   toggleMainDrawer: (content: React.ReactNode) => void;
   toggleSecondaryDrawer: (content: React.ReactNode) => void;
   products: Product[];
+  fetcher: FetcherWithComponents<any>;
 }
 
 const ProductsTable: FC<ProductsTableProps> = ({
@@ -78,6 +80,7 @@ const ProductsTable: FC<ProductsTableProps> = ({
   toggleMainDrawer,
   toggleSecondaryDrawer,
   products,
+  fetcher,
 }) => {
   const isExternalFilterPresent = useCallback(() => {
     return statusType !== "All Products";
@@ -100,7 +103,7 @@ const ProductsTable: FC<ProductsTableProps> = ({
   }, [gridRef, setSelectedRows]);
 
   const onProductClick = (product: Product) => {
-    toggleMainDrawer(<ProductView product={product} toggleSecondaryDrawer={toggleSecondaryDrawer} />);
+    toggleMainDrawer(<ProductView product={product} toggleSecondaryDrawer={toggleSecondaryDrawer} fetcher={fetcher} />);
   };
 
   return (

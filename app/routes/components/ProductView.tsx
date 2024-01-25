@@ -8,7 +8,7 @@ import { ProductStatusRenderer } from "./StatusRenderers";
 import VersionView, { DrawerTitleSection } from "./VersionView";
 import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
 import ProductViewActionButtons from "./ProductViewActionButtons";
-import { useFetcher } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import DefaultActionFunction from "../actions/DefaultActionFunction";
 
 export const action = DefaultActionFunction;
@@ -16,10 +16,12 @@ export const action = DefaultActionFunction;
 const ProductView: FC<{
   product: Product;
   toggleSecondaryDrawer: (component: React.ReactNode) => void;
-}> = ({ product, toggleSecondaryDrawer }) => {
+  fetcher: FetcherWithComponents<any>;
+}> = ({ product, toggleSecondaryDrawer, fetcher }) => {
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
-  const fetcher = useFetcher<typeof action>();
+
+  console.log("product: ", product);
 
   const defaultVersion = useMemo(() => {
     const defaultVersion = product.versions.find((version) => version.id === product.defaultVersionId);

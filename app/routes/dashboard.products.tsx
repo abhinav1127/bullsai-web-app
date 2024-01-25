@@ -58,6 +58,7 @@ export default function ProductsPage() {
           toggleMainDrawer={toggleMainDrawer}
           toggleSecondaryDrawer={toggleSecondaryDrawer}
           products={products}
+          fetcher={fetcher}
         />
       </div>
     </div>

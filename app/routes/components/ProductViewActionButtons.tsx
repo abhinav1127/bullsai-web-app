@@ -13,17 +13,18 @@ const ProductViewActionButtons: FC<{ selectedRows: Version[]; fetcher: FetcherWi
   const onActionButtonClicked = useCallback(
     async (versionAction: VersionAction) => {
       await fetcher.submit(
-        { actionType: "performVersionAction", products: JSON.stringify(selectedRows), versionAction },
+        { actionType: "performVersionAction", versions: JSON.stringify(selectedRows), versionAction },
         { method: "POST" }
       );
-      if (version === VersionAction.Approve) {
+      if (versionAction === VersionAction.Approve) {
         toast.success("Approved Versions");
       } else if (versionAction === VersionAction.Pause) {
         toast.success("Paused Versions");
       } else if (versionAction === VersionAction.Reject) {
         toast.success("Rejected Versions");
+      } else {
+        console.error("Version Action not implemented", versionAction);
       }
-      console.error("Version Action not implemented", versionAction);
     },
     [selectedRows, fetcher]
   );
@@ -31,12 +32,16 @@ const ProductViewActionButtons: FC<{ selectedRows: Version[]; fetcher: FetcherWi
     <div className="flex flex-shrink-0">
       {selectedRows.some((version) => version.status === VersionStatus.Pending) && (
         <div>
-          <ActionButton text="Approve Selected Versions" onClick={() => {}} />
-          <ActionButton text="Reject Selected Versions" onClick={() => {}} />
+          <ActionButton text="Approve Selected Versions" onClick={() => onActionButtonClicked(VersionAction.Approve)} />
+          <ActionButton text="Reject Selected Versions" onClick={() => onActionButtonClicked(VersionAction.Reject)} />
         </div>
       )}
       {selectedRows.some((version) => version.status === VersionStatus.Running) && (
-        <ActionButton text="Pause Selected Versions" onClick={() => {}} noMarginRight />
+        <ActionButton
+          text="Pause Selected Versions"
+          onClick={() => onActionButtonClicked(VersionAction.Pause)}
+          noMarginRight
+        />
       )}
     </div>
   );
