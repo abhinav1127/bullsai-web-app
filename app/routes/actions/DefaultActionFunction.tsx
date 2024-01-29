@@ -23,14 +23,13 @@ const DefaultActionFunction: ActionFunction = async (props) => {
         console.log("updatedVersions: ", updatedVersions);
         return json({ updatedVersions: updatedVersions }, { status: 200 });
       case "performVersionAction":
-        const updatedVersions2 = await performVersionAction(
-          JSON.parse(formData.get("versions")!),
-          formData.get("versionAction") as VersionAction
-        );
+        const versionAction = formData.get("versionAction") as VersionAction;
+        const updatedVersions2 = await performVersionAction(JSON.parse(formData.get("versions")!), versionAction);
         console.log("updatedVersions2: ", updatedVersions2);
         return json(
           {
             updatedVersions: updatedVersions2,
+            versionAction: versionAction,
           },
           { status: 200 }
         );

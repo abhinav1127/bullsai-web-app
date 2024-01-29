@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
-import { Outlet, NavLink } from "@remix-run/react";
+import { Outlet, NavLink, useFetcher, useLoaderData } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
 import {
@@ -15,6 +15,10 @@ import {
 import { Logo } from "./components/Svgs";
 import { DrawerManager } from "./components/Drawer";
 import { ToastContainer } from "react-toastify";
+import DefaultActionFunction from "./actions/DefaultActionFunction";
+import type { Product } from "~/types/types";
+import SampleData from "~/SampleData";
+import useWatchForUpdatedProducts from "./customHooks/useWatchForUpdatedProducts";
 
 interface SidebarItem {
   to: string;
@@ -33,19 +37,28 @@ const sidebarItems: SidebarItem[] = [
 export const loader: LoaderFunction = async ({ request }) => {
   try {
     await ValidateProtectedPageRequest(request);
+    return json({ products: SampleData });
   } catch (error) {
     return handleResponseError(error);
   }
-  return json({});
 };
 
 export const meta: MetaFunction = () => {
   return [{ title: "BullsAI Dash" }, { name: "description", content: "BullsAI Dashboard" }];
 };
 
+export const action = DefaultActionFunction;
+
 export default function DashboardLayout() {
+  const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const fetcher = useFetcher<typeof action>();
+  const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
+  const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
+  const [secondaryDrawerChildren, setSecondaryDrawerChildren] = useState<React.ReactNode>(null);
+  const [drawerProduct, setDrawerProduct] = useState<Product | null>(null);
+  const [pollingForVersionIds, setPollingForVersionIds] = useState(new Set<number>());
 
   // Close sidebar when the window size is larger than md breakpoint
   useEffect(() => {
@@ -59,14 +72,18 @@ export default function DashboardLayout() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
-  const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
-  const [mainDrawerChildren, setMainDrawerChildren] = useState<React.ReactNode>(null);
-  const [secondaryDrawerChildren, setSecondaryDrawerChildren] = useState<React.ReactNode>(null);
+  useWatchForUpdatedProducts(
+    fetcher,
+    drawerProduct,
+    setDrawerProduct,
+    pollingForVersionIds,
+    setPollingForVersionIds,
+    products,
+    setProducts
+  );
 
-  const toggleMainDrawer = (mainDrawerChildren: React.ReactNode) => {
-    setIsMainDrawerOpen(!isMainDrawerOpen);
-    setMainDrawerChildren(mainDrawerChildren);
+  const openMainDrawer = () => {
+    setIsMainDrawerOpen(true);
   };
 
   const toggleSecondaryDrawer = (secondaryDrawerChildren: React.ReactNode) => {
@@ -132,7 +149,15 @@ export default function DashboardLayout() {
         <button onClick={toggleSidebar} className="p-4 md:hidden" aria-label="Open sidebar">
           <Bars3CenterLeftIcon className="h-5 w-5 text-primary" />
         </button>
-        <Outlet context={{ toggleMainDrawer, toggleSecondaryDrawer }} />
+        <Outlet
+          context={{
+            openMainDrawer,
+            toggleSecondaryDrawer,
+            fetcher,
+            setDrawerProduct,
+            products,
+          }}
+        />
       </div>
 
       <DrawerManager
@@ -140,8 +165,10 @@ export default function DashboardLayout() {
         isSecondaryOpen={isSecondaryDrawerOpen}
         onCloseMain={closeMainDrawer}
         onCloseSecondary={closeSecondaryDrawer}
-        mainChildren={mainDrawerChildren}
+        drawerProduct={drawerProduct}
         secondaryChildren={secondaryDrawerChildren}
+        toggleSecondaryDrawer={toggleSecondaryDrawer}
+        fetcher={fetcher}
       />
 
       <ToastContainer

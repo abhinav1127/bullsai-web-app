@@ -2,7 +2,7 @@ import { VersionAction, VersionStatus } from "~/types/enums";
 import { ActionButton } from "./Buttons";
 import type { Version } from "~/types/types";
 import type { FC } from "react";
-import { useCallback, version } from "react";
+import { useCallback } from "react";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { toast } from "react-toastify";
 

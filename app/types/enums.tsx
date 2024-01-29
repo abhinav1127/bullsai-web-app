@@ -14,6 +14,22 @@ export enum VersionAction {
   Pause = "Pause",
 }
 
+export function getPastTense(versionAction: VersionAction | undefined): string {
+  switch (versionAction) {
+    case VersionAction.Approve:
+      return "Approved";
+    case VersionAction.Reject:
+      return "Rejected";
+    case VersionAction.Pause:
+      return "Paused";
+    case undefined:
+      // if undefined, assume that it has just been generated
+      return "Generated";
+    default:
+      return "";
+  }
+}
+
 export enum VersionStatus {
   Default = "Default",
   Running = "Running",

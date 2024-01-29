@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 import React from "react";
+import type { Product } from "~/types/types";
+import ProductView from "./ProductView";
+import type { FetcherWithComponents } from "@remix-run/react";
 
 interface DrawerProps {
   isOpen: boolean;
@@ -33,8 +36,10 @@ interface DrawerManagerProps {
   isSecondaryOpen: boolean;
   onCloseMain: () => void;
   onCloseSecondary: () => void;
-  mainChildren: ReactNode;
   secondaryChildren: ReactNode;
+  drawerProduct: Product | null;
+  toggleSecondaryDrawer: (component: React.ReactNode) => void;
+  fetcher: FetcherWithComponents<any>;
 }
 
 export const DrawerManager: React.FC<DrawerManagerProps> = ({
@@ -42,8 +47,10 @@ export const DrawerManager: React.FC<DrawerManagerProps> = ({
   isSecondaryOpen,
   onCloseMain,
   onCloseSecondary,
-  mainChildren,
   secondaryChildren,
+  drawerProduct,
+  toggleSecondaryDrawer,
+  fetcher,
 }) => {
   // Overlay should be shown if the secondary drawer is open
   const showOverlay = isSecondaryOpen;
@@ -53,7 +60,14 @@ export const DrawerManager: React.FC<DrawerManagerProps> = ({
   return (
     <>
       <div className={`${className}`} onClick={onCloseSecondary}>
-        <Drawer isOpen={isMainOpen} onClose={onCloseMain} children={mainChildren} isPrimary />
+        <Drawer
+          isOpen={isMainOpen}
+          onClose={onCloseMain}
+          children={
+            <ProductView product={drawerProduct} toggleSecondaryDrawer={toggleSecondaryDrawer} fetcher={fetcher} />
+          }
+          isPrimary
+        />
       </div>
       <Drawer isOpen={isSecondaryOpen} onClose={onCloseSecondary} children={secondaryChildren} />
     </>

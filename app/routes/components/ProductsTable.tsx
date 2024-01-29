@@ -4,11 +4,12 @@ import { ProductStatusRenderer } from "./StatusRenderers";
 import { VersionsRenderer } from "./VersionsRenderer";
 import { percentageValueFormatter } from "../constants/utils";
 import type { FC } from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Product } from "~/types/types";
 import ProductView from "./ProductView";
 import type { ProductStatusFilter } from "~/types/enums";
 import type { FetcherWithComponents } from "@remix-run/react";
+import type { OutletContextType } from "~/types/outletContextTypes";
 
 const defaultColDef = {
   flex: 1,
@@ -67,21 +68,13 @@ interface ProductsTableProps {
   statusType: ProductStatusFilter;
   gridRef: React.MutableRefObject<AgGridReact | null>;
   setSelectedRows: (selectedRows: Product[]) => void;
-  toggleMainDrawer: (content: React.ReactNode) => void;
-  toggleSecondaryDrawer: (content: React.ReactNode) => void;
   products: Product[];
-  fetcher: FetcherWithComponents<any>;
+  outletContext: OutletContextType;
 }
 
-const ProductsTable: FC<ProductsTableProps> = ({
-  statusType,
-  gridRef,
-  setSelectedRows,
-  toggleMainDrawer,
-  toggleSecondaryDrawer,
-  products,
-  fetcher,
-}) => {
+const ProductsTable: FC<ProductsTableProps> = ({ statusType, gridRef, setSelectedRows, products, outletContext }) => {
+  const { openMainDrawer, setDrawerProduct } = outletContext;
+
   const isExternalFilterPresent = useCallback(() => {
     return statusType !== "All Products";
   }, [statusType]);
@@ -103,7 +96,8 @@ const ProductsTable: FC<ProductsTableProps> = ({
   }, [gridRef, setSelectedRows]);
 
   const onProductClick = (product: Product) => {
-    toggleMainDrawer(<ProductView product={product} toggleSecondaryDrawer={toggleSecondaryDrawer} fetcher={fetcher} />);
+    setDrawerProduct(product);
+    openMainDrawer();
   };
 
   return (

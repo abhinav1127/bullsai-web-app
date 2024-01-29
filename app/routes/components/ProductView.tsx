@@ -14,7 +14,7 @@ import DefaultActionFunction from "../actions/DefaultActionFunction";
 export const action = DefaultActionFunction;
 
 const ProductView: FC<{
-  product: Product;
+  product: Product | null;
   toggleSecondaryDrawer: (component: React.ReactNode) => void;
   fetcher: FetcherWithComponents<any>;
 }> = ({ product, toggleSecondaryDrawer, fetcher }) => {
@@ -24,7 +24,12 @@ const ProductView: FC<{
   console.log("product: ", product);
 
   const defaultVersion = useMemo(() => {
-    const defaultVersion = product.versions.find((version) => version.id === product.defaultVersionId);
+    if (!product) {
+      console.log("no product");
+      return null;
+    }
+
+    const defaultVersion = product?.versions.find((version) => version.id === product.defaultVersionId);
     if (!defaultVersion) {
       throw new Error("Default version not found");
     }
@@ -33,6 +38,10 @@ const ProductView: FC<{
 
   const onVersionClick = useCallback(
     (version: Version) => {
+      if (!defaultVersion) {
+        return;
+      }
+
       // TODO: Redirect to default page
       if (version.id === defaultVersion.id || version.status === VersionStatus.Generating) {
         return;
@@ -42,6 +51,10 @@ const ProductView: FC<{
     },
     [defaultVersion, toggleSecondaryDrawer]
   );
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col mx-auto p-4 h-5/6 md:h-[calc(100vh-50px)]">
@@ -60,7 +73,7 @@ const ProductView: FC<{
         <ProductViewTable
           viewMode={productViewMode}
           product={product}
-          defaultVersion={defaultVersion}
+          defaultVersion={defaultVersion!}
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
           onVersionClick={onVersionClick}

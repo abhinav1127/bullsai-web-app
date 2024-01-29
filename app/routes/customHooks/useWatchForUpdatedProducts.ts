@@ -1,13 +1,18 @@
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
-import { VersionStatus } from "~/types/enums";
+import type { VersionAction } from "~/types/enums";
+import { VersionStatus, getPastTense } from "~/types/enums";
 import type { Product, Version } from "~/types/types";
+import _ from "lodash";
 
-export function usePollForGeneratingVersions(
+function useWatchForUpdatedProducts(
   fetcher: FetcherWithComponents<any>,
+  drawerProduct: Product | null,
+  setDrawerProduct: (value: React.SetStateAction<Product | null>) => void,
   pollingForVersionIds: Set<number>,
   setPollingForVersionIds: (value: React.SetStateAction<Set<number>>) => void,
+  products: Product[],
   setProducts: (value: React.SetStateAction<Product[]>) => void
 ) {
   const updateProducts = useCallback(
@@ -39,6 +44,19 @@ export function usePollForGeneratingVersions(
     [setProducts, setPollingForVersionIds]
   );
 
+  useEffect(() => {
+    if (!drawerProduct) {
+      return;
+    }
+    console.log("Drawer product", drawerProduct);
+    let currentProduct = products.find((product: Product) => product.id === drawerProduct.id);
+    console.log("Current product", currentProduct);
+    if (currentProduct && !_.isEqual(currentProduct, drawerProduct)) {
+      console.log("Drawer product is updating");
+      setDrawerProduct(currentProduct);
+    }
+  }, [products, drawerProduct, setDrawerProduct]);
+
   const pollForUpdates = useCallback(() => {
     if (pollingForVersionIds.size === 0) return;
     console.log("Polling...", pollingForVersionIds);
@@ -57,8 +75,8 @@ export function usePollForGeneratingVersions(
     updateProducts(fetcher.data.updatedProducts);
   }, [fetcher.data?.updatedProducts, updateProducts]);
 
-  const handleGeneratedVersions = useCallback(
-    (updatedVersions: Version[]) => {
+  const handleUpdatedVersions = useCallback(
+    (updatedVersions: Version[], versionAction: VersionAction | undefined) => {
       setProducts((currentProducts) =>
         currentProducts.map((product) => ({
           ...product,
@@ -67,23 +85,27 @@ export function usePollForGeneratingVersions(
           ),
         }))
       );
-      setPollingForVersionIds(
-        (currentPollingForVersionIds) =>
-          new Set(
-            Array.from(currentPollingForVersionIds).filter(
-              (versionId) => !updatedVersions.find((version) => version.id === versionId)
+      // if versionAction is undefined, then we are polling for generated versions
+      if (versionAction === undefined) {
+        setPollingForVersionIds(
+          (currentPollingForVersionIds) =>
+            new Set(
+              Array.from(currentPollingForVersionIds).filter(
+                (versionId) => !updatedVersions.find((version) => version.id === versionId)
+              )
             )
-          )
-      );
-      toast.success("Successfully Generated Versions!");
+        );
+      }
+      toast.success(`Successfully ${getPastTense(versionAction)} Versions!`);
     },
     [setProducts, setPollingForVersionIds]
   );
 
   useEffect(() => {
     if (!fetcher.data?.updatedVersions) return;
-    handleGeneratedVersions(fetcher.data.updatedVersions);
-  }, [fetcher.data?.updatedVersions, handleGeneratedVersions]);
+    console.log("updating versions", fetcher.data.updatedVersions);
+    handleUpdatedVersions(fetcher.data.updatedVersions, fetcher.data.versionAction);
+  }, [fetcher.data?.updatedVersions, handleUpdatedVersions, fetcher.data?.versionAction]);
 
   useEffect(() => {
     const intervalId = setInterval(() => pollForUpdates(), 3000);
@@ -94,3 +116,5 @@ export function usePollForGeneratingVersions(
     }; // Clear interval on component unmount
   }, [pollForUpdates]);
 }
+
+export default useWatchForUpdatedProducts;
