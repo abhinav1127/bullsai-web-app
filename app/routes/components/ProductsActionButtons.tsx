@@ -3,16 +3,16 @@ import { ActionButton } from "./Buttons";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
-import type { FetcherWithComponents } from "@remix-run/react";
 import type { Product } from "~/types/types";
+import type { fetcherSubmitType } from "~/types/outletContextTypes";
 
-const ProductActionButtons: FC<{ selectedRows: Product[]; fetcher: FetcherWithComponents<any> }> = ({
+const ProductActionButtons: FC<{ selectedRows: Product[]; fetcherSubmit: fetcherSubmitType }> = ({
   selectedRows,
-  fetcher,
+  fetcherSubmit,
 }) => {
   const onActionButtonClicked = useCallback(
     async (productStatusAction: ProductAction) => {
-      await fetcher.submit(
+      await fetcherSubmit(
         { actionType: "performProductAction", products: JSON.stringify(selectedRows), productStatusAction },
         { method: "POST" }
       );
@@ -30,7 +30,7 @@ const ProductActionButtons: FC<{ selectedRows: Product[]; fetcher: FetcherWithCo
         });
       }
     },
-    [selectedRows, fetcher]
+    [selectedRows, fetcherSubmit]
   );
   return (
     <div className="flex flex-shrink-0">

@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, NavLink, useFetcher, useLoaderData } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
 import {
   Bars3CenterLeftIcon,
@@ -82,22 +82,42 @@ export default function DashboardLayout() {
     setProducts
   );
 
-  const openMainDrawer = () => {
+  const openMainDrawer = useCallback(() => {
     setIsMainDrawerOpen(true);
-  };
+  }, []);
 
-  const toggleSecondaryDrawer = (secondaryDrawerChildren: React.ReactNode) => {
-    setIsSecondaryDrawerOpen(!isSecondaryDrawerOpen);
+  const toggleSecondaryDrawer = useCallback((secondaryDrawerChildren: React.ReactNode) => {
+    setIsSecondaryDrawerOpen((prevState) => !prevState);
     setSecondaryDrawerChildren(secondaryDrawerChildren);
-  };
+  }, []);
 
-  const closeMainDrawer = () => {
+  const closeMainDrawer = useCallback(() => {
     setIsMainDrawerOpen(false);
-  };
+  }, []);
 
-  const closeSecondaryDrawer = () => {
+  const closeSecondaryDrawer = useCallback(() => {
     setIsSecondaryDrawerOpen(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    console.log("isMainDrawerOpen changed: ", isMainDrawerOpen);
+  }, [isMainDrawerOpen]);
+
+  useEffect(() => {
+    console.log("isSecondaryDrawerOpen changed: ", isSecondaryDrawerOpen);
+  }, [isSecondaryDrawerOpen]);
+
+  useEffect(() => {
+    console.log("drawerProduct changed: ", drawerProduct);
+  }, [drawerProduct]);
+
+  useEffect(() => {
+    console.log("secondaryDrawerChildren changed: ", secondaryDrawerChildren);
+  }, [secondaryDrawerChildren]);
+
+  useEffect(() => {
+    console.log("fetcher changed: ", fetcher);
+  }, [fetcher]);
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -153,7 +173,7 @@ export default function DashboardLayout() {
           context={{
             openMainDrawer,
             toggleSecondaryDrawer,
-            fetcher,
+            fetcherSubmit: fetcher.submit,
             setDrawerProduct,
             products,
           }}
@@ -168,7 +188,7 @@ export default function DashboardLayout() {
         drawerProduct={drawerProduct}
         secondaryChildren={secondaryDrawerChildren}
         toggleSecondaryDrawer={toggleSecondaryDrawer}
-        fetcher={fetcher}
+        fetcherSubmit={fetcher.submit}
       />
 
       <ToastContainer

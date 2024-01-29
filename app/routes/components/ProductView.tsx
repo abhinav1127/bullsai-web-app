@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { ProductMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ProductViewMode, VersionStatus } from "../../types/enums";
 import ProductViewTable from "./ProductViewTable";
@@ -10,14 +10,15 @@ import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
 import ProductViewActionButtons from "./ProductViewActionButtons";
 import type { FetcherWithComponents } from "@remix-run/react";
 import DefaultActionFunction from "../actions/DefaultActionFunction";
+import type { fetcherSubmitType } from "~/types/outletContextTypes";
 
 export const action = DefaultActionFunction;
 
 const ProductView: FC<{
   product: Product | null;
   toggleSecondaryDrawer: (component: React.ReactNode) => void;
-  fetcher: FetcherWithComponents<any>;
-}> = ({ product, toggleSecondaryDrawer, fetcher }) => {
+  fetcherSubmit: fetcherSubmitType;
+}> = memo(({ product, toggleSecondaryDrawer, fetcherSubmit }) => {
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
 
@@ -52,6 +53,15 @@ const ProductView: FC<{
     [defaultVersion, toggleSecondaryDrawer]
   );
 
+  const rowData = useMemo(() => {
+    if (!product || !defaultVersion) {
+      return [];
+    }
+    return product.versions.filter(
+      (version) => version.id !== defaultVersion.id && version.status !== VersionStatus.Rejected
+    );
+  }, [defaultVersion, product]);
+
   if (!product) {
     return null;
   }
@@ -66,21 +76,20 @@ const ProductView: FC<{
 
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
         <ProductViewModeFilterTabs productViewMode={productViewMode} setProductViewMode={setProductViewMode} />
-        <ProductViewActionButtons selectedRows={selectedRows} fetcher={fetcher} />
+        <ProductViewActionButtons selectedRows={selectedRows} fetcherSubmit={fetcherSubmit} />
       </div>
 
       <div className="flex flex-col flex-grow">
         <ProductViewTable
           viewMode={productViewMode}
-          product={product}
           defaultVersion={defaultVersion!}
-          selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
           onVersionClick={onVersionClick}
+          rowData={rowData}
         />
       </div>
     </div>
   );
-};
+});
 
 export default ProductView;

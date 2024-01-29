@@ -44,19 +44,6 @@ function useWatchForUpdatedProducts(
     [setProducts, setPollingForVersionIds]
   );
 
-  useEffect(() => {
-    if (!drawerProduct) {
-      return;
-    }
-    console.log("Drawer product", drawerProduct);
-    let currentProduct = products.find((product: Product) => product.id === drawerProduct.id);
-    console.log("Current product", currentProduct);
-    if (currentProduct && !_.isEqual(currentProduct, drawerProduct)) {
-      console.log("Drawer product is updating");
-      setDrawerProduct(currentProduct);
-    }
-  }, [products, drawerProduct, setDrawerProduct]);
-
   const pollForUpdates = useCallback(() => {
     if (pollingForVersionIds.size === 0) return;
     console.log("Polling...", pollingForVersionIds);
@@ -77,14 +64,26 @@ function useWatchForUpdatedProducts(
 
   const handleUpdatedVersions = useCallback(
     (updatedVersions: Version[], versionAction: VersionAction | undefined) => {
-      setProducts((currentProducts) =>
-        currentProducts.map((product) => ({
+      console.log("updatedVersions", updatedVersions);
+      setProducts((currentProducts) => {
+        const newProducts = currentProducts.map((product) => ({
           ...product,
           versions: product.versions.map(
             (version) => updatedVersions.find((updatedVersion: Version) => updatedVersion.id === version.id) || version
           ),
-        }))
-      );
+        }));
+
+        console.log("newProducts", newProducts);
+        setDrawerProduct((currentDrawerProduct) => {
+          if (!currentDrawerProduct) return currentDrawerProduct;
+          const updatedProduct = newProducts.find((product: Product) => product.id === currentDrawerProduct.id);
+          console.log("updatedProduct", updatedProduct);
+          if (!updatedProduct) return currentDrawerProduct;
+          return updatedProduct;
+        });
+
+        return newProducts;
+      });
       // if versionAction is undefined, then we are polling for generated versions
       if (versionAction === undefined) {
         setPollingForVersionIds(
@@ -96,9 +95,9 @@ function useWatchForUpdatedProducts(
             )
         );
       }
-      toast.success(`Successfully ${getPastTense(versionAction)} Versions!`);
+      toast.success(`${getPastTense(versionAction)} Versions!`);
     },
-    [setProducts, setPollingForVersionIds]
+    [setProducts, setPollingForVersionIds, setDrawerProduct]
   );
 
   useEffect(() => {
@@ -109,9 +108,7 @@ function useWatchForUpdatedProducts(
 
   useEffect(() => {
     const intervalId = setInterval(() => pollForUpdates(), 3000);
-    console.log("intervalId", intervalId);
     return () => {
-      console.log("clearing interval", intervalId);
       clearInterval(intervalId);
     }; // Clear interval on component unmount
   }, [pollForUpdates]);

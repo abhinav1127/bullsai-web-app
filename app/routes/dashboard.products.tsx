@@ -22,7 +22,7 @@ export function links() {
 
 export default function ProductsPage() {
   const outletContext = useOutletContext<OutletContextType>();
-  const { fetcher, products } = outletContext;
+  const { fetcherSubmit, products } = outletContext;
   const gridRef = useRef<AgGridReact>(null);
   const [statusType, setStatusType] = useState<ProductStatusFilter>(ProductStatusFilter.AllProducts);
   const [selectedRows, setSelectedRows] = useState<Product[]>([]);
@@ -35,7 +35,7 @@ export default function ProductsPage() {
 
       <div className="flex justify-between items-end mb-4 border-b flex-wrap">
         <ProductStatusRadioFilter statusType={statusType} setStatusType={setStatusType} />
-        <ProductActionButtons selectedRows={selectedRows} fetcher={fetcher} />
+        <ProductActionButtons selectedRows={selectedRows} fetcherSubmit={fetcherSubmit} />
       </div>
 
       <div className="flex-grow">

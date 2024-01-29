@@ -4,11 +4,9 @@ import { ProductStatusRenderer } from "./StatusRenderers";
 import { VersionsRenderer } from "./VersionsRenderer";
 import { percentageValueFormatter } from "../constants/utils";
 import type { FC } from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import type { Product } from "~/types/types";
-import ProductView from "./ProductView";
 import type { ProductStatusFilter } from "~/types/enums";
-import type { FetcherWithComponents } from "@remix-run/react";
 import type { OutletContextType } from "~/types/outletContextTypes";
 
 const defaultColDef = {
@@ -73,7 +71,7 @@ interface ProductsTableProps {
 }
 
 const ProductsTable: FC<ProductsTableProps> = ({ statusType, gridRef, setSelectedRows, products, outletContext }) => {
-  const { openMainDrawer, setDrawerProduct } = outletContext;
+  const { openMainDrawer, setDrawerProductId } = outletContext;
 
   const isExternalFilterPresent = useCallback(() => {
     return statusType !== "All Products";
@@ -96,7 +94,7 @@ const ProductsTable: FC<ProductsTableProps> = ({ statusType, gridRef, setSelecte
   }, [gridRef, setSelectedRows]);
 
   const onProductClick = (product: Product) => {
-    setDrawerProduct(product);
+    setDrawerProductId(product);
     openMainDrawer();
   };
 

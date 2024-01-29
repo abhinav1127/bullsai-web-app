@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
-import React from "react";
+import React, { memo } from "react";
 import type { Product } from "~/types/types";
 import ProductView from "./ProductView";
 import type { FetcherWithComponents } from "@remix-run/react";
+import type { fetcherSubmitType } from "~/types/outletContextTypes";
 
 interface DrawerProps {
   isOpen: boolean;
@@ -11,7 +12,7 @@ interface DrawerProps {
   isPrimary?: boolean;
 }
 
-const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, children, isPrimary }) => {
+const Drawer: React.FC<DrawerProps> = memo(({ isOpen, onClose, children, isPrimary }) => {
   const widthClass = isPrimary ? "md:w-10/12" : "md:w-9/12";
 
   return (
@@ -29,7 +30,7 @@ const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, children, isPrimary })
       </div>
     </>
   );
-};
+});
 
 interface DrawerManagerProps {
   isMainOpen: boolean;
@@ -39,37 +40,45 @@ interface DrawerManagerProps {
   secondaryChildren: ReactNode;
   drawerProduct: Product | null;
   toggleSecondaryDrawer: (component: React.ReactNode) => void;
-  fetcher: FetcherWithComponents<any>;
+  fetcherSubmit: fetcherSubmitType;
 }
 
-export const DrawerManager: React.FC<DrawerManagerProps> = ({
-  isMainOpen,
-  isSecondaryOpen,
-  onCloseMain,
-  onCloseSecondary,
-  secondaryChildren,
-  drawerProduct,
-  toggleSecondaryDrawer,
-  fetcher,
-}) => {
-  // Overlay should be shown if the secondary drawer is open
-  const showOverlay = isSecondaryOpen;
+export const DrawerManager: React.FC<DrawerManagerProps> = memo(
+  ({
+    isMainOpen,
+    isSecondaryOpen,
+    onCloseMain,
+    onCloseSecondary,
+    secondaryChildren,
+    drawerProduct,
+    toggleSecondaryDrawer,
+    fetcherSubmit,
+  }) => {
+    // Overlay should be shown if the secondary drawer is open
+    const showOverlay = isSecondaryOpen;
 
-  const className = showOverlay ? "fixed inset-0 bg-white bg-opacity-50 z-40" : "";
+    const className = showOverlay ? "fixed inset-0 bg-white bg-opacity-50 z-40" : "";
 
-  return (
-    <>
-      <div className={`${className}`} onClick={onCloseSecondary}>
-        <Drawer
-          isOpen={isMainOpen}
-          onClose={onCloseMain}
-          children={
-            <ProductView product={drawerProduct} toggleSecondaryDrawer={toggleSecondaryDrawer} fetcher={fetcher} />
-          }
-          isPrimary
-        />
-      </div>
-      <Drawer isOpen={isSecondaryOpen} onClose={onCloseSecondary} children={secondaryChildren} />
-    </>
-  );
-};
+    console.log("I, DrawerManager, am rendering");
+
+    return (
+      <>
+        <div className={`${className}`} onClick={onCloseSecondary}>
+          <Drawer
+            isOpen={isMainOpen}
+            onClose={onCloseMain}
+            children={
+              <ProductView
+                product={drawerProduct}
+                toggleSecondaryDrawer={toggleSecondaryDrawer}
+                fetcherSubmit={fetcherSubmit}
+              />
+            }
+            isPrimary
+          />
+        </div>
+        <Drawer isOpen={isSecondaryOpen} onClose={onCloseSecondary} children={secondaryChildren} />
+      </>
+    );
+  }
+);

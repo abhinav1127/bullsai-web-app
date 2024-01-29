@@ -11,29 +11,21 @@ import {
 import { defaultVersionDisplayString } from "~/constants";
 
 interface ProductMetricsTableProps {
-  product: Product;
   viewMode: ProductViewMode;
   defaultVersion: Version;
-  selectedRows: Version[];
   setSelectedRows: (selectedRows: Version[]) => void;
   onVersionClick: (version: Version) => void;
+  rowData: Version[];
 }
 
 const ProductViewTable: FC<ProductMetricsTableProps> = ({
-  product,
   viewMode,
   defaultVersion,
-  selectedRows,
   setSelectedRows,
   onVersionClick,
+  rowData,
 }) => {
   const gridRef = useRef<AgGridReact>(null);
-
-  const rowData = useMemo(() => {
-    return product.versions.filter(
-      (version) => version.id !== defaultVersion.id && version.status !== VersionStatus.Rejected
-    );
-  }, [defaultVersion, product]);
 
   const onSelectionChanged = useCallback(() => {
     const selectedNodes = gridRef.current?.api.getSelectedNodes();
