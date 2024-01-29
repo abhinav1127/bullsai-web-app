@@ -8,7 +8,6 @@ import { ProductStatusRenderer } from "./StatusRenderers";
 import VersionView, { DrawerTitleSection } from "./VersionView";
 import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
 import ProductViewActionButtons from "./ProductViewActionButtons";
-import type { FetcherWithComponents } from "@remix-run/react";
 import DefaultActionFunction from "../actions/DefaultActionFunction";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 
@@ -22,11 +21,8 @@ const ProductView: FC<{
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
 
-  console.log("product: ", product);
-
   const defaultVersion = useMemo(() => {
     if (!product) {
-      console.log("no product");
       return null;
     }
 

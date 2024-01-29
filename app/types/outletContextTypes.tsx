@@ -4,7 +4,7 @@ export interface OutletContextType {
   openMainDrawer: () => void;
   toggleSecondaryDrawer: (component: React.ReactNode) => void;
   fetcherSubmit: fetcherSubmitType;
-  setDrawerProduct: (product: Product) => void;
+  setDrawerProductId: (productId: number) => void;
   products: Product[];
 }
 

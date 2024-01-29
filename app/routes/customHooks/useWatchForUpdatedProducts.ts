@@ -4,15 +4,11 @@ import { toast } from "react-toastify";
 import type { VersionAction } from "~/types/enums";
 import { VersionStatus, getPastTense } from "~/types/enums";
 import type { Product, Version } from "~/types/types";
-import _ from "lodash";
 
 function useWatchForUpdatedProducts(
   fetcher: FetcherWithComponents<any>,
-  drawerProduct: Product | null,
-  setDrawerProduct: (value: React.SetStateAction<Product | null>) => void,
   pollingForVersionIds: Set<number>,
   setPollingForVersionIds: (value: React.SetStateAction<Set<number>>) => void,
-  products: Product[],
   setProducts: (value: React.SetStateAction<Product[]>) => void
 ) {
   const updateProducts = useCallback(
@@ -38,7 +34,7 @@ function useWatchForUpdatedProducts(
           (currentPollingForVersionIds) => new Set([...currentPollingForVersionIds, ...generatedVersionIds])
         );
       } catch (error) {
-        console.log("error on updateProducts callback: ", error);
+        console.error("error on updateProducts callback: ", error);
       }
     },
     [setProducts, setPollingForVersionIds]
@@ -46,7 +42,6 @@ function useWatchForUpdatedProducts(
 
   const pollForUpdates = useCallback(() => {
     if (pollingForVersionIds.size === 0) return;
-    console.log("Polling...", pollingForVersionIds);
     fetcher.submit(
       {
         actionType: "pollForVersionUpdates",
@@ -58,13 +53,11 @@ function useWatchForUpdatedProducts(
 
   useEffect(() => {
     if (!fetcher.data?.updatedProducts) return;
-    console.log("updatedProducts", fetcher.data.updatedProducts);
     updateProducts(fetcher.data.updatedProducts);
   }, [fetcher.data?.updatedProducts, updateProducts]);
 
   const handleUpdatedVersions = useCallback(
     (updatedVersions: Version[], versionAction: VersionAction | undefined) => {
-      console.log("updatedVersions", updatedVersions);
       setProducts((currentProducts) => {
         const newProducts = currentProducts.map((product) => ({
           ...product,
@@ -72,15 +65,6 @@ function useWatchForUpdatedProducts(
             (version) => updatedVersions.find((updatedVersion: Version) => updatedVersion.id === version.id) || version
           ),
         }));
-
-        console.log("newProducts", newProducts);
-        setDrawerProduct((currentDrawerProduct) => {
-          if (!currentDrawerProduct) return currentDrawerProduct;
-          const updatedProduct = newProducts.find((product: Product) => product.id === currentDrawerProduct.id);
-          console.log("updatedProduct", updatedProduct);
-          if (!updatedProduct) return currentDrawerProduct;
-          return updatedProduct;
-        });
 
         return newProducts;
       });
@@ -97,7 +81,7 @@ function useWatchForUpdatedProducts(
       }
       toast.success(`${getPastTense(versionAction)} Versions!`);
     },
-    [setProducts, setPollingForVersionIds, setDrawerProduct]
+    [setProducts, setPollingForVersionIds]
   );
 
   useEffect(() => {

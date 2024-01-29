@@ -94,7 +94,7 @@ const ProductsTable: FC<ProductsTableProps> = ({ statusType, gridRef, setSelecte
   }, [gridRef, setSelectedRows]);
 
   const onProductClick = (product: Product) => {
-    setDrawerProductId(product);
+    setDrawerProductId(product.id);
     openMainDrawer();
   };
 

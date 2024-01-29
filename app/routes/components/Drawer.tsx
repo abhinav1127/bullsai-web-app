@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import React, { memo } from "react";
 import type { Product } from "~/types/types";
 import ProductView from "./ProductView";
-import type { FetcherWithComponents } from "@remix-run/react";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 
 interface DrawerProps {
@@ -58,8 +57,6 @@ export const DrawerManager: React.FC<DrawerManagerProps> = memo(
     const showOverlay = isSecondaryOpen;
 
     const className = showOverlay ? "fixed inset-0 bg-white bg-opacity-50 z-40" : "";
-
-    console.log("I, DrawerManager, am rendering");
 
     return (
       <>

@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, NavLink, useFetcher, useLoaderData } from "@remix-run/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
 import {
   Bars3CenterLeftIcon,
@@ -57,8 +57,14 @@ export default function DashboardLayout() {
   const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
   const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
   const [secondaryDrawerChildren, setSecondaryDrawerChildren] = useState<React.ReactNode>(null);
-  const [drawerProduct, setDrawerProduct] = useState<Product | null>(null);
+  const [drawerProductId, setDrawerProductId] = useState<number | null>(null);
   const [pollingForVersionIds, setPollingForVersionIds] = useState(new Set<number>());
+  const drawerProduct = useMemo(() => {
+    if (!drawerProductId) {
+      return null;
+    }
+    return products.find((product: Product) => product.id === drawerProductId) ?? null;
+  }, [drawerProductId, products]);
 
   // Close sidebar when the window size is larger than md breakpoint
   useEffect(() => {
@@ -72,15 +78,7 @@ export default function DashboardLayout() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useWatchForUpdatedProducts(
-    fetcher,
-    drawerProduct,
-    setDrawerProduct,
-    pollingForVersionIds,
-    setPollingForVersionIds,
-    products,
-    setProducts
-  );
+  useWatchForUpdatedProducts(fetcher, pollingForVersionIds, setPollingForVersionIds, setProducts);
 
   const openMainDrawer = useCallback(() => {
     setIsMainDrawerOpen(true);
@@ -98,26 +96,6 @@ export default function DashboardLayout() {
   const closeSecondaryDrawer = useCallback(() => {
     setIsSecondaryDrawerOpen(false);
   }, []);
-
-  useEffect(() => {
-    console.log("isMainDrawerOpen changed: ", isMainDrawerOpen);
-  }, [isMainDrawerOpen]);
-
-  useEffect(() => {
-    console.log("isSecondaryDrawerOpen changed: ", isSecondaryDrawerOpen);
-  }, [isSecondaryDrawerOpen]);
-
-  useEffect(() => {
-    console.log("drawerProduct changed: ", drawerProduct);
-  }, [drawerProduct]);
-
-  useEffect(() => {
-    console.log("secondaryDrawerChildren changed: ", secondaryDrawerChildren);
-  }, [secondaryDrawerChildren]);
-
-  useEffect(() => {
-    console.log("fetcher changed: ", fetcher);
-  }, [fetcher]);
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -174,7 +152,7 @@ export default function DashboardLayout() {
             openMainDrawer,
             toggleSecondaryDrawer,
             fetcherSubmit: fetcher.submit,
-            setDrawerProduct,
+            setDrawerProductId,
             products,
           }}
         />

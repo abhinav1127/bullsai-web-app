@@ -3,7 +3,6 @@ import { ActionButton } from "./Buttons";
 import type { Version } from "~/types/types";
 import type { FC } from "react";
 import { useCallback } from "react";
-import { toast } from "react-toastify";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 
 const ProductViewActionButtons: FC<{ selectedRows: Version[]; fetcherSubmit: fetcherSubmitType }> = ({
@@ -12,7 +11,7 @@ const ProductViewActionButtons: FC<{ selectedRows: Version[]; fetcherSubmit: fet
 }) => {
   const onActionButtonClicked = useCallback(
     async (versionAction: VersionAction) => {
-      await fetcherSubmit(
+      fetcherSubmit(
         { actionType: "performVersionAction", versions: JSON.stringify(selectedRows), versionAction },
         { method: "POST" }
       );
