@@ -1,5 +1,5 @@
-import { type FC, useCallback, useMemo, useRef } from "react";
-import type { Product, Version } from "../../types/types";
+import { type FC, useCallback, useRef } from "react";
+import type { Version } from "../../types/types";
 import { ProductViewMode, VersionStatus } from "../../types/enums";
 import { AgGridReact } from "ag-grid-react";
 import {

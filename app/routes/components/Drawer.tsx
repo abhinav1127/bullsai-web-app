@@ -40,7 +40,7 @@ interface DrawerManagerProps {
   drawerProduct: Product | null;
   drawerVersion: Version | null;
   setDrawerVersionId: Dispatch<SetStateAction<number | null>>;
-  drawerDefaultVersion: Version | null;
+  drawerDefaultVersion: Version | undefined | null;
   openVersionDrawer: () => void;
   fetcherSubmit: fetcherSubmitType;
 }

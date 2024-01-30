@@ -1,39 +1,18 @@
 import { json } from "@remix-run/node";
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
-import { Outlet, NavLink, useFetcher, useLoaderData } from "@remix-run/react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
+import { useState, useCallback, useMemo } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
-import {
-  Bars3CenterLeftIcon,
-  XMarkIcon,
-  HomeIcon,
-  TagIcon,
-  ClockIcon,
-  CogIcon,
-  ChartBarIcon,
-} from "@heroicons/react/24/outline";
-import { Logo } from "./components/Svgs";
+import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
 import { DrawerManager } from "./components/Drawer";
 import { ToastContainer } from "react-toastify";
 import DefaultActionFunction from "./actions/DefaultActionFunction";
-import type { Product, Version } from "~/types/types";
+import type { Product } from "~/types/types";
 import SampleData from "~/SampleData";
 import useWatchForUpdatedProducts from "./customHooks/useWatchForUpdatedProducts";
 import { findDrawerandDefaultVersions } from "./constants/productUtils";
-
-interface SidebarItem {
-  to: string;
-  icon: React.ReactNode;
-  label: string;
-}
-
-const sidebarItems: SidebarItem[] = [
-  { to: "/dashboard/home", icon: <HomeIcon className="h-4 w-4" />, label: "Home" },
-  { to: "/dashboard/products", icon: <TagIcon className="h-4 w-4" />, label: "Products" },
-  { to: "/dashboard/pending-versions", icon: <ClockIcon className="h-4 w-4" />, label: "Pending Versions" },
-  { to: "/dashboard/metrics", icon: <ChartBarIcon className="h-4 w-4" />, label: "Store Metrics" },
-  { to: "/dashboard/settings", icon: <CogIcon className="h-4 w-4" />, label: "Settings" },
-];
+import useSidebarState from "./customHooks/useSidebarState";
+import Sidebar from "./components/Sidebar";
 
 export const loader: LoaderFunction = async ({ request }) => {
   try {
@@ -52,8 +31,7 @@ export const action = DefaultActionFunction;
 
 export default function DashboardLayout() {
   const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const { isSidebarOpen, toggleSidebar } = useSidebarState();
   const fetcher = useFetcher<typeof action>();
   const [isProductDrawerOpen, setIsProductDrawerOpen] = useState(false);
   const [isVersionDrawerOpen, setIsVersionDrawerOpen] = useState(false);
@@ -69,18 +47,6 @@ export default function DashboardLayout() {
   const { drawerVersion, drawerDefaultVersion } = useMemo(() => {
     return findDrawerandDefaultVersions(products, drawerVersionId);
   }, [drawerVersionId, products]);
-
-  // Close sidebar when the window size is larger than md breakpoint
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsSidebarOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useWatchForUpdatedProducts(fetcher, pollingForVersionIds, setPollingForVersionIds, setProducts);
 
@@ -103,47 +69,7 @@ export default function DashboardLayout() {
   return (
     <div className="flex min-h-screen bg-white">
       {/* Sidebar */}
-      <div
-        className={`absolute inset-y-0 left-0 transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } w-64 bg-gradient-to-b from-primary to-primaryLight p-5 space-y-4 transition duration-300 ease-in-out z-10 md:relative md:translate-x-0`}
-      >
-        <div className="relative flex justify-between items-center">
-          <Logo className="h-16 w-16 fill-white" />
-          <button
-            onClick={toggleSidebar}
-            className="h-5 w-5 cursor-pointer text-white md:hidden"
-            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
-          >
-            {isSidebarOpen ? <XMarkIcon /> : <Bars3CenterLeftIcon />}
-          </button>
-        </div>
-        <ul className="mt-10">
-          {sidebarItems.map(({ to, icon, label }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                className={({ isActive }) =>
-                  isActive
-                    ? "flex items-center py-2 px-3 bg-primaryLight rounded-md text-white"
-                    : "flex items-center py-2 px-3 text-white hover:bg-primaryLight hover:rounded-md"
-                }
-              >
-                {icon} <span className="ml-2">{label}</span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Overlay */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black opacity-70 z-5 md:hidden"
-          onClick={toggleSidebar}
-          aria-label="Close sidebar"
-        ></div>
-      )}
+      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       {/* Main Content */}
       <div className="flex-1">

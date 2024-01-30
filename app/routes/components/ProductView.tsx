@@ -5,7 +5,7 @@ import { ProductViewMode, VersionStatus } from "../../types/enums";
 import ProductViewTable from "./ProductViewTable";
 import type { Product, Version } from "../../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
-import VersionView, { DrawerTitleSection } from "./VersionView";
+import { DrawerTitleSection } from "./VersionView";
 import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
 import ProductViewActionButtons from "./ProductViewActionButtons";
 import DefaultActionFunction from "../actions/DefaultActionFunction";
