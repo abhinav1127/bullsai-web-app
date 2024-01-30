@@ -15,9 +15,10 @@ export const action = DefaultActionFunction;
 
 const ProductView: FC<{
   product: Product | null;
-  toggleSecondaryDrawer: (component: React.ReactNode) => void;
+  openVersionDrawer: () => void;
+  setDrawerVersionId: (versionId: number) => void;
   fetcherSubmit: fetcherSubmitType;
-}> = memo(({ product, toggleSecondaryDrawer, fetcherSubmit }) => {
+}> = memo(({ product, openVersionDrawer, fetcherSubmit, setDrawerVersionId }) => {
   const [productViewMode, setProductViewMode] = useState<ProductViewMode>(ProductViewMode.Metrics);
   const [selectedRows, setSelectedRows] = useState<Version[]>([]);
 
@@ -44,9 +45,10 @@ const ProductView: FC<{
         return;
       }
 
-      toggleSecondaryDrawer(<VersionView version={version} defaultVersion={defaultVersion} />);
+      setDrawerVersionId(version.id);
+      openVersionDrawer();
     },
-    [defaultVersion, toggleSecondaryDrawer]
+    [defaultVersion, openVersionDrawer, setDrawerVersionId]
   );
 
   const rowData = useMemo(() => {

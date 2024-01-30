@@ -16,9 +16,10 @@ import { Logo } from "./components/Svgs";
 import { DrawerManager } from "./components/Drawer";
 import { ToastContainer } from "react-toastify";
 import DefaultActionFunction from "./actions/DefaultActionFunction";
-import type { Product } from "~/types/types";
+import type { Product, Version } from "~/types/types";
 import SampleData from "~/SampleData";
 import useWatchForUpdatedProducts from "./customHooks/useWatchForUpdatedProducts";
+import { findDrawerandDefaultVersions } from "./constants/productUtils";
 
 interface SidebarItem {
   to: string;
@@ -55,16 +56,19 @@ export default function DashboardLayout() {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const fetcher = useFetcher<typeof action>();
   const [isProductDrawerOpen, setIsProductDrawerOpen] = useState(false);
-  const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
-  const [secondaryDrawerChildren, setSecondaryDrawerChildren] = useState<React.ReactNode>(null);
+  const [isVersionDrawerOpen, setIsVersionDrawerOpen] = useState(false);
   const [drawerProductId, setDrawerProductId] = useState<number | null>(null);
+  const [drawerVersionId, setDrawerVersionId] = useState<number | null>(null);
   const [pollingForVersionIds, setPollingForVersionIds] = useState(new Set<number>());
-  const drawerProduct = useMemo(() => {
+  const drawerProduct: Product | null = useMemo(() => {
     if (!drawerProductId) {
       return null;
     }
     return products.find((product: Product) => product.id === drawerProductId) ?? null;
   }, [drawerProductId, products]);
+  const { drawerVersion, drawerDefaultVersion } = useMemo(() => {
+    return findDrawerandDefaultVersions(products, drawerVersionId);
+  }, [drawerVersionId, products]);
 
   // Close sidebar when the window size is larger than md breakpoint
   useEffect(() => {
@@ -84,17 +88,16 @@ export default function DashboardLayout() {
     setIsProductDrawerOpen(true);
   }, []);
 
-  const toggleSecondaryDrawer = useCallback((secondaryDrawerChildren: React.ReactNode) => {
-    setIsSecondaryDrawerOpen((prevState) => !prevState);
-    setSecondaryDrawerChildren(secondaryDrawerChildren);
+  const openVersionDrawer = useCallback(() => {
+    setIsVersionDrawerOpen(true);
   }, []);
 
   const closeProductDrawer = useCallback(() => {
     setIsProductDrawerOpen(false);
   }, []);
 
-  const closeSecondaryDrawer = useCallback(() => {
-    setIsSecondaryDrawerOpen(false);
+  const closeVersionDrawer = useCallback(() => {
+    setIsVersionDrawerOpen(false);
   }, []);
 
   return (
@@ -150,7 +153,7 @@ export default function DashboardLayout() {
         <Outlet
           context={{
             openProductDrawer,
-            toggleSecondaryDrawer,
+            openVersionDrawer: openVersionDrawer,
             fetcherSubmit: fetcher.submit,
             setDrawerProductId,
             products,
@@ -160,12 +163,14 @@ export default function DashboardLayout() {
 
       <DrawerManager
         isProductDrawerOpen={isProductDrawerOpen}
-        isSecondaryOpen={isSecondaryDrawerOpen}
+        isVersionDrawerOpen={isVersionDrawerOpen}
         onCloseProductDrawer={closeProductDrawer}
-        onCloseSecondary={closeSecondaryDrawer}
+        onCloseVersion={closeVersionDrawer}
         drawerProduct={drawerProduct}
-        secondaryChildren={secondaryDrawerChildren}
-        toggleSecondaryDrawer={toggleSecondaryDrawer}
+        drawerVersion={drawerVersion}
+        setDrawerVersionId={setDrawerVersionId}
+        drawerDefaultVersion={drawerDefaultVersion}
+        openVersionDrawer={openVersionDrawer}
         fetcherSubmit={fetcher.submit}
       />
 

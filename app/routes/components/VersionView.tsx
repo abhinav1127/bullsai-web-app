@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { Product, Version } from "../../types/types";
+import type { Version } from "../../types/types";
 import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ActionButton } from "./Buttons";
@@ -69,7 +69,10 @@ const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes
   );
 };
 
-const VersionView: FC<{ defaultVersion: Version; version: Version }> = ({ defaultVersion, version }) => {
+const VersionView: FC<{ defaultVersion: Version | null; version: Version | null }> = ({ defaultVersion, version }) => {
+  if (!version || !defaultVersion) {
+    return null;
+  }
   return (
     <div className="flex flex-col mx-auto p-4 h-5/6 md:h-[calc(100vh-50px)]">
       <DrawerTitleSection

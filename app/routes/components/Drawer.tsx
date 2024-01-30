@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import React, { memo } from "react";
-import type { Product } from "~/types/types";
+import type { Product, Version } from "~/types/types";
 import ProductView from "./ProductView";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
+import VersionView from "./VersionView";
 
 interface DrawerProps {
   isOpen: boolean;
@@ -33,48 +34,57 @@ const Drawer: React.FC<DrawerProps> = memo(({ isOpen, onClose, children, isPrima
 
 interface DrawerManagerProps {
   isProductDrawerOpen: boolean;
-  isSecondaryOpen: boolean;
+  isVersionDrawerOpen: boolean;
   onCloseProductDrawer: () => void;
-  onCloseSecondary: () => void;
-  secondaryChildren: ReactNode;
+  onCloseVersion: () => void;
   drawerProduct: Product | null;
-  toggleSecondaryDrawer: (component: React.ReactNode) => void;
+  drawerVersion: Version | null;
+  setDrawerVersionId: Dispatch<SetStateAction<number | null>>;
+  drawerDefaultVersion: Version | null;
+  openVersionDrawer: () => void;
   fetcherSubmit: fetcherSubmitType;
 }
 
 export const DrawerManager: React.FC<DrawerManagerProps> = memo(
   ({
     isProductDrawerOpen,
-    isSecondaryOpen,
+    isVersionDrawerOpen,
     onCloseProductDrawer,
-    onCloseSecondary,
-    secondaryChildren,
+    onCloseVersion,
     drawerProduct,
-    toggleSecondaryDrawer,
+    drawerVersion,
+    setDrawerVersionId,
+    drawerDefaultVersion,
+    openVersionDrawer,
     fetcherSubmit,
   }) => {
-    // Overlay should be shown if the secondary drawer is open
-    const showOverlay = isSecondaryOpen;
+    // Overlay should be shown if the Version drawer is open
+    const showOverlay = isVersionDrawerOpen;
 
     const className = showOverlay ? "fixed inset-0 bg-white bg-opacity-50 z-40" : "";
 
     return (
       <>
-        <div className={`${className}`} onClick={onCloseSecondary}>
+        <div className={`${className}`} onClick={onCloseVersion}>
           <Drawer
             isOpen={isProductDrawerOpen}
             onClose={onCloseProductDrawer}
             children={
               <ProductView
                 product={drawerProduct}
-                toggleSecondaryDrawer={toggleSecondaryDrawer}
+                setDrawerVersionId={setDrawerVersionId}
+                openVersionDrawer={openVersionDrawer}
                 fetcherSubmit={fetcherSubmit}
               />
             }
             isPrimary
           />
         </div>
-        <Drawer isOpen={isSecondaryOpen} onClose={onCloseSecondary} children={secondaryChildren} />
+        <Drawer
+          isOpen={isVersionDrawerOpen}
+          onClose={onCloseVersion}
+          children={<VersionView version={drawerVersion} defaultVersion={drawerDefaultVersion} />}
+        />
       </>
     );
   }
