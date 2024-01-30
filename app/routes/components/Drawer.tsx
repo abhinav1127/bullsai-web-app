@@ -4,6 +4,8 @@ import type { Product, Version } from "~/types/types";
 import ProductView from "./ProductView";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import VersionView from "./VersionView";
+import { XMarkIcon } from "@heroicons/react/24/solid";
+import useEscapeClick from "../customHooks/useEscapeClick";
 
 interface DrawerProps {
   isOpen: boolean;
@@ -15,6 +17,8 @@ interface DrawerProps {
 const Drawer: React.FC<DrawerProps> = memo(({ isOpen, onClose, children, isPrimary }) => {
   const widthClass = isPrimary ? "md:w-10/12" : "md:w-9/12";
 
+  useEscapeClick(onClose, isOpen);
+
   return (
     <>
       {isOpen && <div className="fixed inset-0 bg-white bg-opacity-50 z-40" onClick={onClose}></div>}
@@ -24,7 +28,7 @@ const Drawer: React.FC<DrawerProps> = memo(({ isOpen, onClose, children, isPrima
         } transition-transform duration-300 w-full ${widthClass}`}
       >
         <button onClick={onClose} className="mt-4 ml-4 mb-1">
-          Close
+          <XMarkIcon className="h-5 w-5" /> {/* Icon as the close button */}
         </button>
         {children}
       </div>

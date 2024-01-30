@@ -1,18 +1,17 @@
 import { json } from "@remix-run/node";
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
-import { useState, useCallback, useMemo } from "react";
+import { useState } from "react";
 import { ValidateProtectedPageRequest, handleResponseError } from "~/utils";
 import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
 import { DrawerManager } from "./components/Drawer";
 import { ToastContainer } from "react-toastify";
 import DefaultActionFunction from "./actions/DefaultActionFunction";
-import type { Product } from "~/types/types";
 import SampleData from "~/SampleData";
 import useWatchForUpdatedProducts from "./customHooks/useWatchForUpdatedProducts";
-import { findDrawerandDefaultVersions } from "./constants/productUtils";
 import useSidebarState from "./customHooks/useSidebarState";
 import Sidebar from "./components/Sidebar";
+import useDrawerState from "./customHooks/useDrawerState";
 
 export const loader: LoaderFunction = async ({ request }) => {
   try {
@@ -33,45 +32,28 @@ export default function DashboardLayout() {
   const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
   const { isSidebarOpen, toggleSidebar } = useSidebarState();
   const fetcher = useFetcher<typeof action>();
-  const [isProductDrawerOpen, setIsProductDrawerOpen] = useState(false);
-  const [isVersionDrawerOpen, setIsVersionDrawerOpen] = useState(false);
-  const [drawerProductId, setDrawerProductId] = useState<number | null>(null);
-  const [drawerVersionId, setDrawerVersionId] = useState<number | null>(null);
   const [pollingForVersionIds, setPollingForVersionIds] = useState(new Set<number>());
-  const drawerProduct: Product | null = useMemo(() => {
-    if (!drawerProductId) {
-      return null;
-    }
-    return products.find((product: Product) => product.id === drawerProductId) ?? null;
-  }, [drawerProductId, products]);
-  const { drawerVersion, drawerDefaultVersion } = useMemo(() => {
-    return findDrawerandDefaultVersions(products, drawerVersionId);
-  }, [drawerVersionId, products]);
 
   useWatchForUpdatedProducts(fetcher, pollingForVersionIds, setPollingForVersionIds, setProducts);
 
-  const openProductDrawer = useCallback(() => {
-    setIsProductDrawerOpen(true);
-  }, []);
-
-  const openVersionDrawer = useCallback(() => {
-    setIsVersionDrawerOpen(true);
-  }, []);
-
-  const closeProductDrawer = useCallback(() => {
-    setIsProductDrawerOpen(false);
-  }, []);
-
-  const closeVersionDrawer = useCallback(() => {
-    setIsVersionDrawerOpen(false);
-  }, []);
+  const {
+    isProductDrawerOpen,
+    isVersionDrawerOpen,
+    openProductDrawer,
+    openVersionDrawer,
+    closeProductDrawer,
+    closeVersionDrawer,
+    setDrawerProductId,
+    setDrawerVersionId,
+    drawerProduct,
+    drawerVersion,
+    drawerDefaultVersion,
+  } = useDrawerState(products);
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Sidebar */}
       <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      {/* Main Content */}
       <div className="flex-1">
         <button onClick={toggleSidebar} className="p-4 md:hidden" aria-label="Open sidebar">
           <Bars3CenterLeftIcon className="h-5 w-5 text-primary" />

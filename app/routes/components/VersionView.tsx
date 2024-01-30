@@ -69,7 +69,10 @@ const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes
   );
 };
 
-const VersionView: FC<{ defaultVersion: Version | null; version: Version | null }> = ({ defaultVersion, version }) => {
+const VersionView: FC<{ defaultVersion: Version | null | undefined; version: Version | null }> = ({
+  defaultVersion,
+  version,
+}) => {
   if (!version || !defaultVersion) {
     return null;
   }
