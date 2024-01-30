@@ -71,7 +71,7 @@ interface ProductsTableProps {
 }
 
 const ProductsTable: FC<ProductsTableProps> = ({ statusType, gridRef, setSelectedRows, products, outletContext }) => {
-  const { openMainDrawer, setDrawerProductId } = outletContext;
+  const { openProductDrawer, setDrawerProductId } = outletContext;
 
   const isExternalFilterPresent = useCallback(() => {
     return statusType !== "All Products";
@@ -95,7 +95,7 @@ const ProductsTable: FC<ProductsTableProps> = ({ statusType, gridRef, setSelecte
 
   const onProductClick = (product: Product) => {
     setDrawerProductId(product.id);
-    openMainDrawer();
+    openProductDrawer();
   };
 
   return (

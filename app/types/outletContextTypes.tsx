@@ -1,7 +1,7 @@
 import type { Product } from "./types";
 
 export interface OutletContextType {
-  openMainDrawer: () => void;
+  openProductDrawer: () => void;
   toggleSecondaryDrawer: (component: React.ReactNode) => void;
   fetcherSubmit: fetcherSubmitType;
   setDrawerProductId: (productId: number) => void;

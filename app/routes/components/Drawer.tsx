@@ -32,9 +32,9 @@ const Drawer: React.FC<DrawerProps> = memo(({ isOpen, onClose, children, isPrima
 });
 
 interface DrawerManagerProps {
-  isMainOpen: boolean;
+  isProductDrawerOpen: boolean;
   isSecondaryOpen: boolean;
-  onCloseMain: () => void;
+  onCloseProductDrawer: () => void;
   onCloseSecondary: () => void;
   secondaryChildren: ReactNode;
   drawerProduct: Product | null;
@@ -44,9 +44,9 @@ interface DrawerManagerProps {
 
 export const DrawerManager: React.FC<DrawerManagerProps> = memo(
   ({
-    isMainOpen,
+    isProductDrawerOpen,
     isSecondaryOpen,
-    onCloseMain,
+    onCloseProductDrawer,
     onCloseSecondary,
     secondaryChildren,
     drawerProduct,
@@ -62,8 +62,8 @@ export const DrawerManager: React.FC<DrawerManagerProps> = memo(
       <>
         <div className={`${className}`} onClick={onCloseSecondary}>
           <Drawer
-            isOpen={isMainOpen}
-            onClose={onCloseMain}
+            isOpen={isProductDrawerOpen}
+            onClose={onCloseProductDrawer}
             children={
               <ProductView
                 product={drawerProduct}

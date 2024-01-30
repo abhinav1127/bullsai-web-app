@@ -54,7 +54,7 @@ export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const fetcher = useFetcher<typeof action>();
-  const [isMainDrawerOpen, setIsMainDrawerOpen] = useState(false);
+  const [isProductDrawerOpen, setIsProductDrawerOpen] = useState(false);
   const [isSecondaryDrawerOpen, setIsSecondaryDrawerOpen] = useState(false);
   const [secondaryDrawerChildren, setSecondaryDrawerChildren] = useState<React.ReactNode>(null);
   const [drawerProductId, setDrawerProductId] = useState<number | null>(null);
@@ -80,8 +80,8 @@ export default function DashboardLayout() {
 
   useWatchForUpdatedProducts(fetcher, pollingForVersionIds, setPollingForVersionIds, setProducts);
 
-  const openMainDrawer = useCallback(() => {
-    setIsMainDrawerOpen(true);
+  const openProductDrawer = useCallback(() => {
+    setIsProductDrawerOpen(true);
   }, []);
 
   const toggleSecondaryDrawer = useCallback((secondaryDrawerChildren: React.ReactNode) => {
@@ -89,8 +89,8 @@ export default function DashboardLayout() {
     setSecondaryDrawerChildren(secondaryDrawerChildren);
   }, []);
 
-  const closeMainDrawer = useCallback(() => {
-    setIsMainDrawerOpen(false);
+  const closeProductDrawer = useCallback(() => {
+    setIsProductDrawerOpen(false);
   }, []);
 
   const closeSecondaryDrawer = useCallback(() => {
@@ -149,7 +149,7 @@ export default function DashboardLayout() {
         </button>
         <Outlet
           context={{
-            openMainDrawer,
+            openProductDrawer,
             toggleSecondaryDrawer,
             fetcherSubmit: fetcher.submit,
             setDrawerProductId,
@@ -159,9 +159,9 @@ export default function DashboardLayout() {
       </div>
 
       <DrawerManager
-        isMainOpen={isMainDrawerOpen}
+        isProductDrawerOpen={isProductDrawerOpen}
         isSecondaryOpen={isSecondaryDrawerOpen}
-        onCloseMain={closeMainDrawer}
+        onCloseProductDrawer={closeProductDrawer}
         onCloseSecondary={closeSecondaryDrawer}
         drawerProduct={drawerProduct}
         secondaryChildren={secondaryDrawerChildren}
