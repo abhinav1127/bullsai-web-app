@@ -3,11 +3,13 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@re
 import stylesheet from "~/tailwind.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { Tooltip } from "react-tooltip";
+import tiptapStyles from "./styles/TipTapStyles.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
   { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/react-toastify/dist/ReactToastify.min.css" },
+  { rel: "stylesheet", href: tiptapStyles },
   {
     rel: "icon",
     href: "/bullsai.png",
@@ -23,7 +25,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body id="root">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

@@ -4,10 +4,12 @@ import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ActionButton } from "./Buttons";
 import { VersionAction, VersionStatus } from "../../types/enums";
-import React from "react";
+import React, { useState } from "react";
 import { InformationCardBadge } from "./Badges";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import useVersionActionHook from "../customHooks/useVersionActionHook";
+import Tiptap from "./tiptap/TipTap";
+import useEditVersion from "../customHooks/useEditVersion";
 
 export const DrawerTitleSection: FC<{
   title: string;
@@ -48,6 +50,7 @@ const VersionComparisonSection: FC<{ version: Version; badgeLabel: string; backg
           />
         </div>
         <p className="text-gray-600 text-sm">{version.description}</p>
+        <Tiptap />
       </div>
     </div>
   );
@@ -71,25 +74,46 @@ const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes
   );
 };
 
-// move version action buttons here as a component
-const VersionActionButtons: FC<{ version: Version; fetcherSubmit: fetcherSubmitType }> = ({
+interface VersionActionButtonsProps {
+  version: Version;
+  fetcherSubmit: fetcherSubmitType;
+  status: VersionStatus;
+  isEditing: boolean;
+  onEditClick: () => void;
+  onSaveClick: () => void;
+  onCancelSave: () => void;
+}
+
+const VersionActionButtons: FC<VersionActionButtonsProps> = ({
   version,
   fetcherSubmit,
+  status,
+  isEditing,
+  onEditClick,
+  onSaveClick,
+  onCancelSave,
 }) => {
   const onActionButtonClicked = useVersionActionHook(fetcherSubmit, [version]);
 
   return (
     <div className="flex justify-end flex-shrink-0 relative">
-      {version.status === VersionStatus.Running && (
+      {status === VersionStatus.Running && (
         <ActionButton text="Pause Version" onClick={() => onActionButtonClicked(VersionAction.Pause)} />
       )}
-      {version.status === VersionStatus.Pending && (
+      {status === VersionStatus.Pending && (
         <React.Fragment>
           <ActionButton text="Approve Version" onClick={() => onActionButtonClicked(VersionAction.Approve)} />
           <ActionButton text="Reject Version" onClick={() => onActionButtonClicked(VersionAction.Reject)} />
         </React.Fragment>
       )}
-      <ActionButton text="Edit Version" onClick={() => {}} />
+      {isEditing ? (
+        <React.Fragment>
+          <ActionButton text="Save Changes" onClick={onSaveClick} />
+          <ActionButton text="Cancel" onClick={onCancelSave} />
+        </React.Fragment>
+      ) : (
+        <ActionButton text="Edit Version" onClick={onEditClick} />
+      )}
       <ActionButton text="View in Store" onClick={() => {}} noMarginRight />
     </div>
   );
@@ -100,13 +124,17 @@ const VersionView: FC<{
   version: Version | null;
   fetcherSubmit: fetcherSubmitType;
 }> = ({ defaultVersion, version, fetcherSubmit }) => {
+  const { isEditing, editedTitle, editedDescription, editedImage, handleEditClick, handleSaveClick, onCancelSave } =
+    useEditVersion(version, fetcherSubmit);
+
   if (!version || !defaultVersion) {
     return null;
   }
+
   return (
     <div className="flex flex-col mx-auto p-4 h-5/6 md:h-[calc(100vh-50px)]">
       <DrawerTitleSection
-        title={version.productTitle}
+        title={version.versionTitle}
         statusRenderer={<VersionStatusRenderer value={version.status} data={version} noMargin />}
         rightSideComponent={<VersionMetricsSummaryCard statistics={version.statistics} />}
       />
@@ -114,7 +142,15 @@ const VersionView: FC<{
       <div className="flex justify-between my-1 gap-3 items-end	">
         <TargetCustomerAttributesCard attributes={version.attributes} />
         <div className="flex justify-end flex-shrink-0 relative">
-          <VersionActionButtons version={version} fetcherSubmit={fetcherSubmit} />
+          <VersionActionButtons
+            version={version}
+            fetcherSubmit={fetcherSubmit}
+            status={version.status}
+            isEditing={isEditing}
+            onEditClick={handleEditClick}
+            onSaveClick={handleSaveClick}
+            onCancelSave={onCancelSave}
+          />
         </div>
       </div>
 

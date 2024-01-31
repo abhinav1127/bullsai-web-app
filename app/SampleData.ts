@@ -25,7 +25,8 @@ export const SampleData: Product[] = [
         productTitle: "Product 1",
         heroImage:
           "https://cdn.thewirecutter.com/wp-content/media/2022/12/imacbuyingdesktop-2048px-0074-3x2-1.jpg?auto=webp&quality=75&width=1024",
-        description: "Description for Product 1 Version ADescription for Product 1 Version ADescription for Product 1 ",
+        description:
+          "<p>Description for Product 1 Version ADescription for Product 1 Version ADescription for Product 1 </p>",
         attributes: ["attr1attr1attr1attr1", "attr2", "attr2", "attr2", "attr2"],
         statistics: {
           views: 50,
@@ -86,7 +87,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Pending,
         productTitle: "Product 4",
         heroImage: "image-url-4",
-        description: "Description for Product 4 Version D",
+        description: "<p>Description for Product 4 Version D</p>",
         attributes: ["attr7", "attr8"],
         statistics: {
           views: 125,
@@ -122,7 +123,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Running,
         productTitle: "Product 2",
         heroImage: "image-url-3",
-        description: "Description for Product 2 Default Version",
+        description: "<p>Description for Product 2 Default Version</p>",
         attributes: ["attr5", "attr6"],
         statistics: {
           views: 100,
@@ -141,7 +142,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Default,
         productTitle: "Product 1",
         heroImage: "image-url-3",
-        description: "Default Product Description",
+        description: "<p>Default Product Description</p>",
         attributes: [],
         statistics: {
           views: 100,
@@ -178,7 +179,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Default,
         productTitle: "Product 1",
         heroImage: "image-url-3",
-        description: "Default Product Description",
+        description: "<p>Default Product Description</p>",
         attributes: [],
         statistics: {
           views: 100,
@@ -214,7 +215,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Pending,
         productTitle: "Product 4",
         heroImage: "image-url-4",
-        description: "Description for Product 4 Version D",
+        description: "<p>Description for Product 4 Version D</p>",
         attributes: ["attr7", "attr8"],
         statistics: {
           views: 125,
@@ -233,7 +234,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Default,
         productTitle: "Product 1",
         heroImage: "image-url-3",
-        description: "Default Product Description",
+        description: "<p>Default Product Description</p>",
         attributes: [],
         statistics: {
           views: 100,
@@ -269,7 +270,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Default,
         productTitle: "Product 1",
         heroImage: "image-url-3",
-        description: "Default Product Description",
+        description: "<p>Default Product Description</p>",
         attributes: [],
         statistics: {
           views: 100,
@@ -305,7 +306,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Rejected,
         productTitle: "Product 6",
         heroImage: "image-url-5",
-        description: "Description for Product 6 Version E",
+        description: "<p>Description for Product 6 Version E</p>",
         attributes: ["attr9", "attr10"],
         statistics: {
           views: 175,
@@ -324,7 +325,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Default,
         productTitle: "Product 1",
         heroImage: "image-url-3",
-        description: "Default Product Description",
+        description: "<p>Default Product Description</p>",
         attributes: [],
         statistics: {
           views: 100,
@@ -356,7 +357,7 @@ export const SampleData: Product[] = [
         status: VersionStatus.Default,
         productTitle: "Product 1",
         heroImage: "image-url-3",
-        description: "Default Product Description",
+        description: "<p>Default Product Description</p>",
         attributes: [],
         statistics: {
           views: 100,
@@ -380,7 +381,7 @@ export const DemoGeneratingVersionsArr = [
     status: VersionStatus.Generating,
     productTitle: "",
     heroImage: "",
-    description: "",
+    description: "<p></p>",
     attributes: [],
     statistics: {
       views: 0,
@@ -399,7 +400,7 @@ export const DemoGeneratingVersionsArr = [
     status: VersionStatus.Generating,
     productTitle: "",
     heroImage: "",
-    description: "",
+    description: "<p></p>",
     attributes: [],
     statistics: {
       views: 0,
@@ -418,7 +419,7 @@ export const DemoGeneratingVersionsArr = [
     status: VersionStatus.Generating,
     productTitle: "",
     heroImage: "",
-    description: "",
+    description: "<p></p>",
     attributes: [],
     statistics: {
       views: 0,
@@ -440,7 +441,7 @@ export const DemoGeneratedVersions = [
     status: VersionStatus.Pending,
     productTitle: "Title 1",
     heroImage: "image-url-1",
-    description: "description 1",
+    description: "<p>description 1</p>",
     attributes: ["attr1", "attr2"],
     statistics: {
       views: 0,
@@ -459,7 +460,7 @@ export const DemoGeneratedVersions = [
     status: VersionStatus.Pending,
     productTitle: "Title 2",
     heroImage: "image-url-2",
-    description: "description 2",
+    description: "<p>description 2</p>",
     attributes: ["attr1", "attr2"],
     statistics: {
       views: 0,
@@ -478,7 +479,7 @@ export const DemoGeneratedVersions = [
     status: VersionStatus.Pending,
     productTitle: "Title 3",
     heroImage: "image-url-3",
-    description: "description 3",
+    description: "<p>description 3</p>",
     attributes: ["attr1", "attr2"],
     statistics: {
       views: 0,
