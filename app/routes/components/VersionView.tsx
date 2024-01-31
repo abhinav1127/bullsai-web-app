@@ -3,9 +3,11 @@ import type { Version } from "../../types/types";
 import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ActionButton } from "./Buttons";
-import { VersionStatus } from "../../types/enums";
+import { VersionAction, VersionStatus } from "../../types/enums";
 import React from "react";
 import { InformationCardBadge } from "./Badges";
+import type { fetcherSubmitType } from "~/types/outletContextTypes";
+import useVersionActionHook from "../customHooks/useVersionActionHook";
 
 export const DrawerTitleSection: FC<{
   title: string;
@@ -69,10 +71,35 @@ const TargetCustomerAttributesCard: FC<{ attributes: string[] }> = ({ attributes
   );
 };
 
-const VersionView: FC<{ defaultVersion: Version | null | undefined; version: Version | null }> = ({
-  defaultVersion,
+// move version action buttons here as a component
+const VersionActionButtons: FC<{ version: Version; fetcherSubmit: fetcherSubmitType }> = ({
   version,
+  fetcherSubmit,
 }) => {
+  const onActionButtonClicked = useVersionActionHook(fetcherSubmit, [version]);
+
+  return (
+    <div className="flex justify-end flex-shrink-0 relative">
+      {version.status === VersionStatus.Running && (
+        <ActionButton text="Pause Version" onClick={() => onActionButtonClicked(VersionAction.Pause)} />
+      )}
+      {version.status === VersionStatus.Pending && (
+        <React.Fragment>
+          <ActionButton text="Approve Version" onClick={() => onActionButtonClicked(VersionAction.Approve)} />
+          <ActionButton text="Reject Version" onClick={() => onActionButtonClicked(VersionAction.Reject)} />
+        </React.Fragment>
+      )}
+      <ActionButton text="Edit Version" onClick={() => {}} />
+      <ActionButton text="View in Store" onClick={() => {}} noMarginRight />
+    </div>
+  );
+};
+
+const VersionView: FC<{
+  defaultVersion: Version | null | undefined;
+  version: Version | null;
+  fetcherSubmit: fetcherSubmitType;
+}> = ({ defaultVersion, version, fetcherSubmit }) => {
   if (!version || !defaultVersion) {
     return null;
   }
@@ -87,15 +114,7 @@ const VersionView: FC<{ defaultVersion: Version | null | undefined; version: Ver
       <div className="flex justify-between my-1 gap-3 items-end	">
         <TargetCustomerAttributesCard attributes={version.attributes} />
         <div className="flex justify-end flex-shrink-0 relative">
-          {version.status === VersionStatus.Running && <ActionButton text="Pause Version" onClick={() => {}} />}
-          {version.status === VersionStatus.Pending && (
-            <React.Fragment>
-              <ActionButton text="Approve Version" onClick={() => {}} />
-              <ActionButton text="Reject Version" onClick={() => {}} />
-            </React.Fragment>
-          )}
-          <ActionButton text="Edit Version" onClick={() => {}} />
-          <ActionButton text="View in Store" onClick={() => {}} noMarginRight />
+          <VersionActionButtons version={version} fetcherSubmit={fetcherSubmit} />
         </div>
       </div>
 

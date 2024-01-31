@@ -87,7 +87,9 @@ export const DrawerManager: React.FC<DrawerManagerProps> = memo(
         <Drawer
           isOpen={isVersionDrawerOpen}
           onClose={onCloseVersion}
-          children={<VersionView version={drawerVersion} defaultVersion={drawerDefaultVersion} />}
+          children={
+            <VersionView version={drawerVersion} defaultVersion={drawerDefaultVersion} fetcherSubmit={fetcherSubmit} />
+          }
         />
       </>
     );

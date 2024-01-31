@@ -2,22 +2,15 @@ import { VersionAction, VersionStatus } from "~/types/enums";
 import { ActionButton } from "./Buttons";
 import type { Version } from "~/types/types";
 import type { FC } from "react";
-import { useCallback } from "react";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
+import useVersionActionHook from "../customHooks/useVersionActionHook";
 
 const ProductViewActionButtons: FC<{ selectedRows: Version[]; fetcherSubmit: fetcherSubmitType }> = ({
   selectedRows,
   fetcherSubmit,
 }) => {
-  const onActionButtonClicked = useCallback(
-    async (versionAction: VersionAction) => {
-      fetcherSubmit(
-        { actionType: "performVersionAction", versions: JSON.stringify(selectedRows), versionAction },
-        { method: "POST" }
-      );
-    },
-    [selectedRows, fetcherSubmit]
-  );
+  const onActionButtonClicked = useVersionActionHook(fetcherSubmit, selectedRows);
+
   return (
     <div className="flex flex-shrink-0">
       {selectedRows.some((version) => version.status === VersionStatus.Pending) && (
