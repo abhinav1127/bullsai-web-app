@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import classNames from "classnames";
 // => Tiptap packages
-import type { Editor } from "@tiptap/react";
+import type { Editor, HTMLContent } from "@tiptap/react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -13,12 +13,16 @@ import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
 import Code from "@tiptap/extension-code";
 import History from "@tiptap/extension-history";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import ListItem from "@tiptap/extension-list-item";
+
 // Custom
-import content from "./content";
 import * as Icons from "../Svgs";
 import { LinkModal } from "./LinkModal";
 
-export function SimpleEditor() {
+export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
+  console.log("content", content);
   const editor = useEditor({
     extensions: [
       Document,
@@ -33,6 +37,9 @@ export function SimpleEditor() {
       Italic,
       Strike,
       Code,
+      BulletList,
+      OrderedList,
+      ListItem,
     ],
     content,
   }) as Editor;
@@ -89,7 +96,7 @@ export function SimpleEditor() {
   }
 
   return (
-    <div className="editor">
+    <div className="editor editor-with-menu">
       <div className="menu">
         <button
           className="menu-button"
@@ -153,6 +160,18 @@ export function SimpleEditor() {
         >
           <Icons.Code />
         </button>
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={editor.isActive("bulletList") ? "is-active" : ""}
+        >
+          <Icons.BulletList />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={editor.isActive("orderedList") ? "is-active" : ""}
+        >
+          <Icons.OrderedList />
+        </button>
       </div>
 
       <BubbleMenu
@@ -186,6 +205,30 @@ export function SimpleEditor() {
       />
     </div>
   );
-}
+};
 
-export default SimpleEditor;
+export const SimpleEditor: React.FC<{ content: string }> = ({ content }) => {
+  const editor = useEditor({
+    extensions: [
+      Document,
+      History,
+      Paragraph,
+      Text,
+      Link.configure({
+        openOnClick: false,
+      }),
+      Bold,
+      Underline,
+      Italic,
+      Strike,
+      Code,
+    ],
+    content,
+  }) as Editor;
+
+  return (
+    <div className="editor simple-editor">
+      <EditorContent editor={editor} />
+    </div>
+  );
+};

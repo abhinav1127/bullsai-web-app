@@ -9,6 +9,7 @@
   --color-aqua: #a0ded0;
   --color-pale-aqua: #c0ebe1;
   --color-lightest-blue: #f8fcff;
+  --color-link: #0000ee;
   --color-blue: #4c88e9;
   --color-black: #242e39;
   --color-gray-1: #3b424b;
@@ -131,9 +132,16 @@
 
 .editor .ProseMirror {
   margin-top: 4px;
-  padding: 48px 8px 8px;
   border: 2px solid var(--color-gray-4);
   border-radius: 4px;
+}
+
+.editor-with-menu .ProseMirror {
+  padding: 48px 8px 8px;
+}
+
+.simple-editor .ProseMirror {
+  padding: 8px;
 }
 
 .editor .editor-mini .ProseMirror {
@@ -150,7 +158,7 @@
 }
 
 .editor a {
-  color: var(--color-pink);
+  color: var(--color-link);
 }
 
 .editor p {

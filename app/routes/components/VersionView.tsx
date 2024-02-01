@@ -4,11 +4,11 @@ import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ActionButton } from "./Buttons";
 import { VersionAction, VersionStatus } from "../../types/enums";
-import React, { useState } from "react";
+import React from "react";
 import { InformationCardBadge } from "./Badges";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import useVersionActionHook from "../customHooks/useVersionActionHook";
-import Tiptap from "./tiptap/TipTap";
+import { EditorWithMenu, SimpleEditor } from "./tiptap/TipTap";
 import useEditVersion from "../customHooks/useEditVersion";
 
 export const DrawerTitleSection: FC<{
@@ -28,11 +28,12 @@ export const DrawerTitleSection: FC<{
   );
 };
 
-const VersionComparisonSection: FC<{ version: Version; badgeLabel: string; backgroundColor: string }> = ({
-  version,
-  badgeLabel,
-  backgroundColor,
-}) => {
+const VersionComparisonSection: FC<{
+  version: Version;
+  badgeLabel: string;
+  backgroundColor: string;
+  isEditing?: boolean;
+}> = ({ version, badgeLabel, backgroundColor, isEditing }) => {
   return (
     <div className="flex flex-col flex-1">
       <span
@@ -41,18 +42,45 @@ const VersionComparisonSection: FC<{ version: Version; badgeLabel: string; backg
         {badgeLabel}
       </span>
       <div className="overflow-scroll h-full border rounded-lg p-4 flex-initial">
-        <p className="text-lg font-medium mt-2 pb-1 text-center border-b">{version.productTitle}</p>
-        <div className="flex justify-center my-6">
-          <img
-            src={version.heroImage}
-            alt={version.productTitle}
-            className="min-h-40 h-48 max-w-full object-cover rounded-xl"
-          />
-        </div>
-        <p className="text-gray-600 text-sm">{version.description}</p>
-        <Tiptap />
+        {isEditing ? (
+          <EditingVersionDetailsSection version={version} />
+        ) : (
+          <NormalVersionDetailsSection version={version} />
+        )}
       </div>
     </div>
+  );
+};
+
+const NormalVersionDetailsSection: FC<{ version: Version }> = ({ version }) => {
+  return (
+    <React.Fragment>
+      <p className="text-lg font-medium mt-2 pb-1 text-center border-b">{version.productTitle}</p>
+      <div className="flex justify-center my-6">
+        <img
+          src={version.heroImage}
+          alt={version.productTitle}
+          className="min-h-40 h-48 max-w-full object-cover rounded-xl"
+        />
+      </div>
+      <p className="text-gray-600 text-sm">{version.description}</p>
+    </React.Fragment>
+  );
+};
+
+const EditingVersionDetailsSection: FC<{ version: Version }> = ({ version }) => {
+  return (
+    <React.Fragment>
+      <SimpleEditor content={version.productTitle} />
+      <div className="flex justify-center my-6">
+        <img
+          src={version.heroImage}
+          alt={version.productTitle}
+          className="min-h-40 h-48 max-w-full object-cover rounded-xl"
+        />
+      </div>
+      <EditorWithMenu content={version.description} />
+    </React.Fragment>
   );
 };
 
@@ -156,7 +184,12 @@ const VersionView: FC<{
 
       <div className="flex mt-4 md:max-h-[calc(100vh-200px)] w-full overflow-scroll gap-2">
         <VersionComparisonSection version={defaultVersion} badgeLabel="Default Version" backgroundColor="bg-blue-500" />
-        <VersionComparisonSection version={version} badgeLabel="Personalized Version" backgroundColor="bg-green-700" />
+        <VersionComparisonSection
+          version={version}
+          badgeLabel="Personalized Version"
+          backgroundColor="bg-green-700"
+          isEditing={isEditing}
+        />
       </div>
     </div>
   );

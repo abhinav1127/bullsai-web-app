@@ -168,7 +168,75 @@ export const X = ({ size = 16, color = "currentColor" }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <line x1="18" y1="6" x2="6" y2="18"></line>
-    <line x1="6" y1="6" x2="18" y2="18"></line>
+    <line x1="18" y1="4" x2="6" y2="20"></line>
+    <line x1="6" y1="4" x2="18" y2="20"></line>
+  </svg>
+);
+
+// export const BulletList = ({ size = 16, color = "currentColor" }) => (
+//   <svg
+//     viewBox="0 0 1024 1024"
+//     version="1.1"
+//     width={size}
+//     height={size}
+//     xmlns="http://www.w3.org/2000/svg"
+//     fill="none"
+//     stroke={color}
+//     strokeWidth="2"
+//     strokeLinecap="round"
+//     strokeLinejoin="round"
+//   >
+//     <path
+//       d="M426.666667 170.666667h426.666666a42.666667 42.666667 0 0 1 0 85.333333H426.666667a42.666667 42.666667 0 1 1 0-85.333333z m0 298.666666h426.666666a42.666667 42.666667 0 0 1 0 85.333334H426.666667a42.666667 42.666667 0 0 1 0-85.333334z m0 298.666667h426.666666a42.666667 42.666667 0 0 1 0 85.333333H426.666667a42.666667 42.666667 0 0 1 0-85.333333zM213.333333 298.666667a85.333333 85.333333 0 1 1 0-170.666667 85.333333 85.333333 0 0 1 0 170.666667z m0 298.666666a85.333333 85.333333 0 1 1 0-170.666666 85.333333 85.333333 0 0 1 0 170.666666z m0 298.666667a85.333333 85.333333 0 1 1 0-170.666667 85.333333 85.333333 0 0 1 0 170.666667z"
+//       fill={color}
+//     />
+//   </svg>
+// );
+
+export const BulletList = ({ size = 16, color = "currentColor" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="4" cy="4" r="1"></circle>
+    <circle cx="4" cy="12" r="1"></circle>
+    <circle cx="4" cy="20" r="1"></circle>
+    <line x1="8" y1="4" x2="20" y2="4"></line>
+    <line x1="8" y1="12" x2="20" y2="12"></line>
+    <line x1="8" y1="20" x2="20" y2="20"></line>
+  </svg>
+);
+
+export const OrderedList = ({ size = 16, color = "currentColor" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <text x="3" y="6" fontSize="8" fontFamily="Arial" fill={color} strokeWidth={1}>
+      1
+    </text>
+    <text x="3" y="14" fontSize="8" fontFamily="Arial" fill={color} strokeWidth={1}>
+      2
+    </text>
+    <text x="3" y="22" fontSize="8" fontFamily="Arial" fill={color} strokeWidth={1}>
+      3
+    </text>
+    <line x1="10" y1="4" x2="20" y2="4"></line>
+    <line x1="10" y1="12" x2="20" y2="12"></line>
+    <line x1="10" y1="20" x2="20" y2="20"></line>
   </svg>
 );
