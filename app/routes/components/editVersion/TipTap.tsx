@@ -22,7 +22,6 @@ import * as Icons from "../Svgs";
 import { LinkModal } from "./LinkModal";
 
 export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
-  console.log("content", content);
   const editor = useEditor({
     extensions: [
       Document,
@@ -194,10 +193,8 @@ export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
       <EditorContent editor={editor} />
 
       <LinkModal
-        url={url}
+        initialUrl={url}
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Edit Link Modal"
         closeModal={closeModal}
         onChangeUrl={(e) => setUrl(e.target.value)}
         onSaveLink={saveLink}

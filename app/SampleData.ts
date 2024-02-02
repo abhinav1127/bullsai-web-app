@@ -1,5 +1,5 @@
 import { ProductStatus, VersionStatus } from "./types/enums";
-import type { Product } from "./types/types";
+import type { Image, Product } from "./types/types";
 
 export const SampleData: Product[] = [
   {
@@ -490,6 +490,44 @@ export const DemoGeneratedVersions = [
       conversionRateLift: 0,
       addToCartRateLift: 0,
     },
+  },
+];
+
+export const sampleImages: Image[] = [
+  {
+    id: 1,
+    url: "https://cdn.thewirecutter.com/wp-content/media/2022/12/imacbuyingdesktop-2048px-0074-3x2-1.jpg?auto=webp&quality=75&width=1024",
+    product_id: 1, // assuming this image is for product 1
+    alt: "Image 1 alt text",
+    ai_description: "AI generated description for Image 1",
+  },
+  {
+    id: 2,
+    url: "https://media.wired.com/photos/5fb2cc575c9914713ead03de/master/pass/Gear-Apple-MacBook-Air-top-down-SOURCE-Apple.jpg",
+    product_id: 2, // assuming this image is for product 2
+    alt: "Image 2 alt text",
+    ai_description: "AI generated description for Image 2",
+  },
+  {
+    id: 3,
+    url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.kingston.com%2Fen%2Fblog%2Fpc-performance%2Ftips-to-speed-up-mac&psig=AOvVaw3RQvcVyj0awLdYK-kHZJPU&ust=1706911298466000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMCCqJ-Si4QDFQAAAAAdAAAAABAj",
+    product_id: 3, // assuming this image is for product 3
+    alt: "Image 3 alt text",
+    ai_description: "AI generated description for Image 3",
+  },
+  {
+    id: 4,
+    url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fmac&psig=AOvVaw3RQvcVyj0awLdYK-kHZJPU&ust=1706911298466000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMCCqJ-Si4QDFQAAAAAdAAAAABAs",
+    product_id: 4, // assuming this image is for product 4
+    alt: "Image 4 alt text",
+    ai_description: "AI generated description for Image 4",
+  },
+  {
+    id: 5,
+    url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.intego.com%2Fmac-security-blog%2Fhow-to-set-up-your-own-mac-server-with-an-old-or-new-mac%2F&psig=AOvVaw3RQvcVyj0awLdYK-kHZJPU&ust=1706911298466000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMCCqJ-Si4QDFQAAAAAdAAAAABAa",
+    product_id: 5, // assuming this image is for product 5
+    alt: "Image 5 alt text",
+    ai_description: "AI generated description for Image 5",
   },
 ];
 

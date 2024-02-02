@@ -1,5 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { sampleImages } from "~/SampleData";
 import { performProductAction } from "~/productActions.server";
 import type { ProductAction, VersionAction } from "~/types/enums";
 import { performVersionAction, pollForVersionUpdates } from "~/versionActions.server";
@@ -33,6 +34,9 @@ const DefaultActionFunction: ActionFunction = async (props) => {
           },
           { status: 200 }
         );
+      case "getVersionImages":
+        console.log("getVersionImages");
+        return json({ images: sampleImages }, { status: 200 });
       default:
         return json({});
     }

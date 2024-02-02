@@ -40,3 +40,11 @@ export interface VersionStatistics {
   conversionRateLift: number;
   addToCartRateLift: number;
 }
+
+export interface Image {
+  id: number;
+  url: string;
+  product_id: number;
+  alt: string;
+  ai_description: string;
+}
