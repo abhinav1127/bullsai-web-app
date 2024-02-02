@@ -33,7 +33,7 @@ export const LinkModal: React.FC<ILinkModalProps> = ({
   // Content of the modal
   const modalContent = (
     <div>
-      <input className="modal-input" ref={inputRef} autoFocus value={url} onChange={onChangeUrl} />
+      <input className="modal-input p-2" ref={inputRef} autoFocus value={url} onChange={onChangeUrl} />
     </div>
   );
 

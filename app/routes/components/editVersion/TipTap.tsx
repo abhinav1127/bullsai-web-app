@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import classNames from "classnames";
 // => Tiptap packages
 import type { Editor } from "@tiptap/react";
@@ -13,86 +13,31 @@ import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
 import Code from "@tiptap/extension-code";
 import History from "@tiptap/extension-history";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import ListItem from "@tiptap/extension-list-item";
 
 // Custom
 import * as Icons from "../Svgs";
 import { LinkModal } from "./LinkModal";
+import useTipTap from "~/routes/customHooks/useTipTapButtons";
 
 export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
-  const editor = useEditor({
-    extensions: [
-      Document,
-      History,
-      Paragraph,
-      Text,
-      Link.configure({
-        openOnClick: false,
-      }),
-      Bold,
-      Underline,
-      Italic,
-      Strike,
-      Code,
-      BulletList,
-      OrderedList,
-      ListItem,
-    ],
-    content,
-  }) as Editor;
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [url, setUrl] = useState<string>("");
+  const tipTap = useTipTap(content);
+  if (!tipTap) return null;
 
-  const openModal = useCallback(() => {
-    console.log(editor.chain().focus());
-    setUrl(editor.getAttributes("link").href);
-    setIsOpen(true);
-  }, [editor]);
-
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-    setUrl("");
-  }, []);
-
-  const saveLink = useCallback(() => {
-    if (url) {
-      editor.chain().focus().extendMarkRange("link").setLink({ href: url, target: "_blank" }).run();
-    } else {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
-    }
-    closeModal();
-  }, [editor, url, closeModal]);
-
-  const removeLink = useCallback(() => {
-    editor.chain().focus().extendMarkRange("link").unsetLink().run();
-    closeModal();
-  }, [editor, closeModal]);
-
-  const toggleBold = useCallback(() => {
-    editor.chain().focus().toggleBold().run();
-  }, [editor]);
-
-  const toggleUnderline = useCallback(() => {
-    editor.chain().focus().toggleUnderline().run();
-  }, [editor]);
-
-  const toggleItalic = useCallback(() => {
-    editor.chain().focus().toggleItalic().run();
-  }, [editor]);
-
-  const toggleStrike = useCallback(() => {
-    editor.chain().focus().toggleStrike().run();
-  }, [editor]);
-
-  const toggleCode = useCallback(() => {
-    editor.chain().focus().toggleCode().run();
-  }, [editor]);
-
-  if (!editor) {
-    return null;
-  }
+  const {
+    editor,
+    modalIsOpen,
+    url,
+    setUrl,
+    openModal,
+    closeModal,
+    saveLink,
+    removeLink,
+    toggleBold,
+    toggleUnderline,
+    toggleItalic,
+    toggleStrike,
+    toggleCode,
+  } = tipTap;
 
   return (
     <div className="editor editor-with-menu">
