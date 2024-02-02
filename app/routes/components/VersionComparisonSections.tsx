@@ -6,6 +6,7 @@ import { ActionButton } from "./Buttons";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import { ImageModal } from "./editVersion/ImageModal";
 import type { EditVersionType } from "../customHooks/useEditVersion";
+import DOMPurify from "dompurify";
 
 interface VersionComparisonSectionProps {
   version: Version;
@@ -47,17 +48,21 @@ export const VersionComparisonSection: FC<VersionComparisonSectionProps> = ({
 };
 
 const NormalVersionDetailsSection: FC<{ version: Version }> = ({ version }) => {
+  const safeDescription = DOMPurify.sanitize(version.description);
   return (
     <React.Fragment>
       <p className="text-lg font-medium mt-2 pb-1 text-center border-b">{version.productTitle}</p>
-      <div className="flex flex-col justify-center my-6">
+      <div className="flex flex-col justify-center my-6 items-center gap-2">
         <img
           src={version.heroImage}
           alt={version.productTitle}
-          className="min-h-40 h-48 max-w-full rounded-xl object-contain"
+          className="min-h-40 h-48 max-w-full rounded-xl object-contain items-center"
         />
       </div>
-      <p className="text-gray-600 text-sm">{version.description}</p>
+      <div
+        className="leading-normal break-words text-gray-600 text-sm"
+        dangerouslySetInnerHTML={{ __html: safeDescription }}
+      ></div>
     </React.Fragment>
   );
 };

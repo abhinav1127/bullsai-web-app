@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { memo, useCallback, useMemo, useState } from "react";
 import { ProductMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ProductViewMode, VersionStatus } from "../../types/enums";
-import ProductViewTable from "./ProductViewTable";
+import VersionsTable from "./VersionsTable";
 import type { Product, Version } from "../../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
 import { DrawerTitleSection } from "./VersionView";
@@ -78,7 +78,7 @@ const ProductView: FC<{
       </div>
 
       <div className="flex flex-col flex-grow">
-        <ProductViewTable
+        <VersionsTable
           viewMode={productViewMode}
           defaultVersion={defaultVersion!}
           setSelectedRows={setSelectedRows}

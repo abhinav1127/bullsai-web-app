@@ -3,6 +3,7 @@ import {
   ArrayRenderer,
   ClickableIndicatorCellRenderer,
   ImageRenderer,
+  TruncatedHTMLRenderer,
   TruncatedRenderer,
 } from "../components/AdditionalRenderers";
 import { VersionStatusRenderer, VersionStatusRendererForTable } from "../components/StatusRenderers";
@@ -97,7 +98,7 @@ export const versionDetailsColDefs = [
     field: "description",
     minWidth: 300,
     width: 450,
-    cellRenderer: TruncatedRenderer,
+    cellRenderer: TruncatedHTMLRenderer,
     wrapText: true,
     cellStyle: { wordBreak: "normal" },
   },

@@ -10,7 +10,7 @@ import {
 } from "../constants/tableConstants";
 import { defaultVersionDisplayString } from "~/constants";
 
-interface ProductMetricsTableProps {
+interface VersionMetricsTableProps {
   viewMode: ProductViewMode;
   defaultVersion: Version;
   setSelectedRows: (selectedRows: Version[]) => void;
@@ -18,7 +18,7 @@ interface ProductMetricsTableProps {
   rowData: Version[];
 }
 
-const ProductViewTable: FC<ProductMetricsTableProps> = ({
+const VersionsTable: FC<VersionMetricsTableProps> = ({
   viewMode,
   defaultVersion,
   setSelectedRows,
@@ -58,4 +58,4 @@ const ProductViewTable: FC<ProductMetricsTableProps> = ({
   );
 };
 
-export default ProductViewTable;
+export default VersionsTable;

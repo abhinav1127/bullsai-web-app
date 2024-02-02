@@ -2,6 +2,7 @@ import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24
 import { defaultVersionDisplayString } from "~/constants";
 import type { Version } from "../../types/types";
 import { LoadingSpinner } from "../constants/Svgs";
+import DOMPurify from "dompurify";
 
 export const ClickableIndicatorCellRenderer: React.FC<{ data: Version }> = ({ data }) => {
   let iconIndicator = <ChevronRightIcon className="w-6 h-6" />;
@@ -30,6 +31,11 @@ export const TruncatedRenderer2Line = ({ value }: { value: string }) => {
 
 export const TruncatedRenderer = ({ value }: { value: string }) => {
   return <div className="leading-normal line-clamp-4 break-words">{value}</div>;
+};
+
+export const TruncatedHTMLRenderer = ({ value }: { value: string }) => {
+  const safeHTML = DOMPurify.sanitize(value);
+  return <div className="leading-normal line-clamp-4 break-words" dangerouslySetInnerHTML={{ __html: safeHTML }}></div>;
 };
 
 export const ArrayRenderer = ({ value }: { value: string[] }) => {

@@ -9,7 +9,7 @@ import { InformationCardBadge } from "./Badges";
 import { ActionButton } from "./Buttons";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { VersionStatusRenderer } from "./StatusRenderers";
-import { VersionComparisonSection } from "./VersionComparisonSection";
+import { VersionComparisonSection } from "./VersionComparisonSections";
 
 export const DrawerTitleSection: FC<{
   title: string;

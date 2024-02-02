@@ -133,7 +133,7 @@ export const EditorWithMenu: React.FC<{ content: string; setEditedContent: (cont
         <button className="button" onClick={openModal}>
           Edit
         </button>
-        <button className="button-remove" onClick={removeLink}>
+        <button className="button" onClick={removeLink}>
           Remove
         </button>
       </BubbleMenu>
