@@ -87,6 +87,10 @@ function useTipTap(content: string, setEditedContent: (content: string) => void)
     editor.chain().focus().toggleCode().run();
   }, [editor]);
 
+  const toggleBulletList = useCallback(() => {
+    editor.chain().focus().toggleBulletList().run();
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
@@ -106,6 +110,7 @@ function useTipTap(content: string, setEditedContent: (content: string) => void)
     toggleItalic,
     toggleStrike,
     toggleCode,
+    toggleBulletList,
   };
 }
 

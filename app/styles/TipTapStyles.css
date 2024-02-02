@@ -157,8 +157,12 @@
   margin-top: 16px;
 }
 
-a {
-  color: var(--color-link);
+.editor ul {
+  padding: 0 1rem;
+}
+
+.editor ol {
+  padding: 0 1rem;
 }
 
 .editor p {

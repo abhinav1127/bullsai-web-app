@@ -7,6 +7,7 @@ import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import { ImageModal } from "./editVersion/ImageModal";
 import type { EditVersionType } from "../customHooks/useEditVersion";
 import DOMPurify from "dompurify";
+import Prose from "./Prose";
 
 interface VersionComparisonSectionProps {
   version: Version;
@@ -59,10 +60,12 @@ const NormalVersionDetailsSection: FC<{ version: Version }> = ({ version }) => {
           className="min-h-40 h-48 max-w-full rounded-xl object-contain items-center"
         />
       </div>
-      <div
-        className="leading-normal break-words text-gray-600 text-sm"
-        dangerouslySetInnerHTML={{ __html: safeDescription }}
-      ></div>
+      <Prose>
+        <div
+          className="leading-normal break-words text-gray-600 text-sm"
+          dangerouslySetInnerHTML={{ __html: safeDescription }}
+        ></div>
+      </Prose>
     </React.Fragment>
   );
 };

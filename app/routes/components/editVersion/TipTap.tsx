@@ -18,6 +18,7 @@ import History from "@tiptap/extension-history";
 import * as Icons from "../../constants/Svgs";
 import { LinkModal } from "./LinkModal";
 import useTipTap from "~/routes/customHooks/useTipTapButtons";
+import Prose from "../Prose";
 
 export const EditorWithMenu: React.FC<{ content: string; setEditedContent: (content: string) => void }> = ({
   content,
@@ -40,6 +41,7 @@ export const EditorWithMenu: React.FC<{ content: string; setEditedContent: (cont
     toggleItalic,
     toggleStrike,
     toggleCode,
+    toggleBulletList,
   } = tipTap;
 
   return (
@@ -108,8 +110,10 @@ export const EditorWithMenu: React.FC<{ content: string; setEditedContent: (cont
           <Icons.Code />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive("bulletList") ? "is-active" : ""}
+          className={classNames("menu-button", {
+            "is-active": editor.isActive("bulletList"),
+          })}
+          onClick={toggleBulletList}
         >
           <Icons.BulletList />
         </button>
@@ -138,8 +142,9 @@ export const EditorWithMenu: React.FC<{ content: string; setEditedContent: (cont
         </button>
       </BubbleMenu>
 
-      <EditorContent editor={editor} />
-
+      <Prose>
+        <EditorContent editor={editor} />
+      </Prose>
       <LinkModal
         url={url}
         isOpen={modalIsOpen}
@@ -179,7 +184,9 @@ export const SimpleEditor: React.FC<{ content: string; setEditedContent: (conten
 
   return (
     <div className="editor simple-editor">
-      <EditorContent editor={editor} />
+      <div className="prose">
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 };
