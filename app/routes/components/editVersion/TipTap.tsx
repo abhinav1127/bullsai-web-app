@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import classNames from "classnames";
 // => Tiptap packages
-import type { Editor, HTMLContent } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -193,7 +193,7 @@ export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
       <EditorContent editor={editor} />
 
       <LinkModal
-        initialUrl={url}
+        url={url}
         isOpen={modalIsOpen}
         closeModal={closeModal}
         onChangeUrl={(e) => setUrl(e.target.value)}

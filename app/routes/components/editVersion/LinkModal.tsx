@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import type { ModalActionButton } from "./GenericModal";
 import GenericModal from "./GenericModal"; // Ensure this import points to where your GenericModal is defined
-import * as Icons from "../Svgs";
 
 interface ILinkModalProps extends ReactModal.Props {
   url: string;
@@ -19,10 +18,22 @@ export const LinkModal: React.FC<ILinkModalProps> = ({
   onSaveLink,
   onRemoveLink,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  console.log("rendering LinkModal");
+
+  // Focus the input when the modal is opened, was not working without setTimeout
+  useEffect(() => {
+    setTimeout(() => {
+      if (isOpen && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 10);
+  }, [isOpen]);
+
   // Content of the modal
   const modalContent = (
     <div>
-      <input className="modal-input" autoFocus value={url} onChange={onChangeUrl} />
+      <input className="modal-input" ref={inputRef} autoFocus value={url} onChange={onChangeUrl} />
     </div>
   );
 
