@@ -2,8 +2,9 @@ import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { sampleImages } from "~/SampleData";
 import { performProductAction } from "~/productActions.server";
-import type { ProductAction, VersionAction } from "~/types/enums";
-import { performVersionAction, pollForVersionUpdates } from "~/versionActions.server";
+import type { ProductAction } from "~/types/enums";
+import { VersionAction } from "~/types/enums";
+import { performVersionAction, pollForVersionUpdates, updateVersion } from "~/versionActions.server";
 
 const DefaultActionFunction: ActionFunction = async (props) => {
   const request = props.request;
@@ -36,7 +37,16 @@ const DefaultActionFunction: ActionFunction = async (props) => {
         );
       case "getVersionImages":
         console.log("getVersionImages");
-        return json({ images: sampleImages }, { status: 200 });
+        return json({ productImages: sampleImages }, { status: 200 });
+      case "updateVersion":
+        const updatedVersion = await updateVersion(
+          JSON.parse(formData.get("originalVersion")!),
+          formData.get("updatedTitle")!,
+          formData.get("updatedDescription")!,
+          formData.get("updatedImageUrl")!
+        );
+        return json({ updatedVersions: [updatedVersion], versionAction: VersionAction.Update }, { status: 200 });
+
       default:
         return json({});
     }

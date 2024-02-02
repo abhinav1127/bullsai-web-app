@@ -19,8 +19,11 @@ import * as Icons from "../Svgs";
 import { LinkModal } from "./LinkModal";
 import useTipTap from "~/routes/customHooks/useTipTapButtons";
 
-export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
-  const tipTap = useTipTap(content);
+export const EditorWithMenu: React.FC<{ content: string; setEditedContent: (content: string) => void }> = ({
+  content,
+  setEditedContent,
+}) => {
+  const tipTap = useTipTap(content, setEditedContent);
   if (!tipTap) return null;
 
   const {
@@ -149,7 +152,10 @@ export const EditorWithMenu: React.FC<{ content: string }> = ({ content }) => {
   );
 };
 
-export const SimpleEditor: React.FC<{ content: string }> = ({ content }) => {
+export const SimpleEditor: React.FC<{ content: string; setEditedContent: (content: string) => void }> = ({
+  content,
+  setEditedContent,
+}) => {
   const editor = useEditor({
     extensions: [
       Document,
@@ -166,6 +172,9 @@ export const SimpleEditor: React.FC<{ content: string }> = ({ content }) => {
       Code,
     ],
     content,
+    onUpdate({ editor }) {
+      setEditedContent(editor.getHTML());
+    },
   }) as Editor;
 
   return (

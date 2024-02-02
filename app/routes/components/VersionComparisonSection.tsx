@@ -1,9 +1,11 @@
 import type { FC } from "react";
-import type { Version } from "../../types/types";
-import React, { useCallback } from "react";
+import type { Image, Version } from "../../types/types";
+import React, { useCallback, useState } from "react";
 import { EditorWithMenu, SimpleEditor } from "./editVersion/TipTap";
 import { ActionButton } from "./Buttons";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
+import { ImageModal } from "./editVersion/ImageModal";
+import type { EditVersionType } from "../customHooks/useEditVersion";
 
 interface VersionComparisonSectionProps {
   version: Version;
@@ -11,6 +13,7 @@ interface VersionComparisonSectionProps {
   backgroundColor: string;
   fetcherSubmit: fetcherSubmitType;
   isEditing?: boolean;
+  editVersionType?: EditVersionType;
 }
 
 export const VersionComparisonSection: FC<VersionComparisonSectionProps> = ({
@@ -19,6 +22,7 @@ export const VersionComparisonSection: FC<VersionComparisonSectionProps> = ({
   backgroundColor,
   isEditing,
   fetcherSubmit,
+  editVersionType,
 }) => {
   return (
     <div className="flex flex-col flex-1">
@@ -28,8 +32,12 @@ export const VersionComparisonSection: FC<VersionComparisonSectionProps> = ({
         {badgeLabel}
       </span>
       <div className="overflow-scroll h-full border rounded-lg p-4 flex-initial">
-        {isEditing ? (
-          <EditingVersionDetailsSection version={version} fetcherSubmit={fetcherSubmit} />
+        {editVersionType?.isEditing ? (
+          <EditingVersionDetailsSection
+            version={version}
+            fetcherSubmit={fetcherSubmit}
+            editVersionType={editVersionType}
+          />
         ) : (
           <NormalVersionDetailsSection version={version} />
         )}
@@ -54,26 +62,46 @@ const NormalVersionDetailsSection: FC<{ version: Version }> = ({ version }) => {
   );
 };
 
-const EditingVersionDetailsSection: FC<{ version: Version; fetcherSubmit: fetcherSubmitType }> = ({
-  version,
-  fetcherSubmit,
-}) => {
+const EditingVersionDetailsSection: FC<{
+  version: Version;
+  fetcherSubmit: fetcherSubmitType;
+  editVersionType: EditVersionType;
+}> = ({ version, fetcherSubmit, editVersionType }) => {
+  const [imageModalIsOpen, setIsOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState(version.heroImage);
+
+  const setImage = useCallback(
+    (image: Image) => {
+      setImageUrl(image.url);
+      editVersionType.setEditedImage(image.url);
+    },
+    [setImageUrl, editVersionType]
+  );
+
   const onChangeImageClicked = useCallback(async () => {
     fetcherSubmit({ actionType: "getVersionImages", productId: version.productId }, { method: "POST" });
+    setIsOpen(true);
   }, [version, fetcherSubmit]);
 
   return (
     <React.Fragment>
-      <SimpleEditor content={version.productTitle} />
+      <SimpleEditor content={version.productTitle} setEditedContent={editVersionType.setEditedTitle} />
       <div className="flex flex-col justify-center my-6 items-center gap-2">
         <img
-          src={version.heroImage}
+          src={imageUrl}
           alt={version.productTitle}
           className="min-h-40 h-48 max-w-full rounded-xl object-contain items-center"
         />
         <ActionButton text="Change Image" onClick={() => onChangeImageClicked()} />
       </div>
-      <EditorWithMenu content={version.description} />
+      <EditorWithMenu content={version.description} setEditedContent={editVersionType.setEditedDescription} />
+
+      <ImageModal
+        isOpen={imageModalIsOpen}
+        closeModal={() => setIsOpen(false)}
+        setVersionImage={(image: Image) => setImage(image)}
+        heroImageUrl={imageUrl}
+      />
     </React.Fragment>
   );
 };

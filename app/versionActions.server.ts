@@ -66,3 +66,12 @@ const handleVersionActionForRunningVersions = (versions: Version[], action: Vers
       }
     });
 };
+
+export const updateVersion = (version: Version, title: string, description: string, imageUrl: string): Version => {
+  return {
+    ...version,
+    productTitle: title,
+    description,
+    heroImage: imageUrl,
+  };
+};

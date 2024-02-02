@@ -14,7 +14,7 @@ import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 
-function useTipTap(content: string) {
+function useTipTap(content: string, setEditedContent: (content: string) => void) {
   const editor = useEditor({
     extensions: [
       Document,
@@ -34,6 +34,9 @@ function useTipTap(content: string) {
       ListItem,
     ],
     content,
+    onUpdate({ editor }) {
+      setEditedContent(editor.getHTML());
+    },
   }) as Editor;
 
   const [modalIsOpen, setIsOpen] = useState(false);

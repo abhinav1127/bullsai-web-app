@@ -19,7 +19,6 @@ export const LinkModal: React.FC<ILinkModalProps> = ({
   onRemoveLink,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  console.log("rendering LinkModal");
 
   // Focus the input when the modal is opened, was not working without setTimeout
   useEffect(() => {

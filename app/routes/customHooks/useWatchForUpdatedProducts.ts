@@ -79,7 +79,7 @@ function useWatchForUpdatedProducts(
             )
         );
       }
-      toast.success(`${getPastTense(versionAction)} Versions!`);
+      toast.success(`${getPastTense(versionAction)} Version(s)!`);
     },
     [setProducts, setPollingForVersionIds]
   );

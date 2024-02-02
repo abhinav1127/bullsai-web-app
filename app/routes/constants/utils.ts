@@ -11,3 +11,9 @@ export const percentageValueFormatter = (params) => {
   }
   return toFixedIfNecessary(params.value) + "%";
 };
+
+export function stripHtml(html: string) {
+  let tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}

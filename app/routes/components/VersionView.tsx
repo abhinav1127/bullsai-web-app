@@ -1,14 +1,14 @@
 import type { FC } from "react";
-import type { Version } from "../../types/types";
-import { VersionStatusRenderer } from "./StatusRenderers";
-import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
-import { ActionButton } from "./Buttons";
-import { VersionAction, VersionStatus } from "../../types/enums";
 import React from "react";
-import { InformationCardBadge } from "./Badges";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
-import useVersionActionHook from "../customHooks/useVersionActionHook";
+import { VersionAction, VersionStatus } from "../../types/enums";
+import type { Version } from "../../types/types";
 import useEditVersion from "../customHooks/useEditVersion";
+import useVersionActionHook from "../customHooks/useVersionActionHook";
+import { InformationCardBadge } from "./Badges";
+import { ActionButton } from "./Buttons";
+import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
+import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionComparisonSection } from "./VersionComparisonSection";
 
 export const DrawerTitleSection: FC<{
@@ -69,24 +69,26 @@ const VersionActionButtons: FC<VersionActionButtonsProps> = ({
 
   return (
     <div className="flex justify-end flex-shrink-0 relative">
-      {status === VersionStatus.Running && (
-        <ActionButton text="Pause Version" onClick={() => onActionButtonClicked(VersionAction.Pause)} />
-      )}
-      {status === VersionStatus.Pending && (
-        <React.Fragment>
-          <ActionButton text="Approve Version" onClick={() => onActionButtonClicked(VersionAction.Approve)} />
-          <ActionButton text="Reject Version" onClick={() => onActionButtonClicked(VersionAction.Reject)} />
-        </React.Fragment>
-      )}
       {isEditing ? (
         <React.Fragment>
           <ActionButton text="Save Changes" onClick={onSaveClick} />
-          <ActionButton text="Cancel" onClick={onCancelSave} />
+          <ActionButton text="Discard Changes" onClick={onCancelSave} noMarginRight />
         </React.Fragment>
       ) : (
-        <ActionButton text="Edit Version" onClick={onEditClick} />
+        <React.Fragment>
+          {status === VersionStatus.Running && (
+            <ActionButton text="Pause Version" onClick={() => onActionButtonClicked(VersionAction.Pause)} />
+          )}
+          {status === VersionStatus.Pending && (
+            <React.Fragment>
+              <ActionButton text="Approve Version" onClick={() => onActionButtonClicked(VersionAction.Approve)} />
+              <ActionButton text="Reject Version" onClick={() => onActionButtonClicked(VersionAction.Reject)} />
+            </React.Fragment>
+          )}
+          <ActionButton text="Edit Version" onClick={onEditClick} />
+          <ActionButton text="View in Store" onClick={() => {}} noMarginRight />
+        </React.Fragment>
       )}
-      <ActionButton text="View in Store" onClick={() => {}} noMarginRight />
     </div>
   );
 };
@@ -96,8 +98,7 @@ const VersionView: FC<{
   version: Version | null;
   fetcherSubmit: fetcherSubmitType;
 }> = ({ defaultVersion, version, fetcherSubmit }) => {
-  const { isEditing, editedTitle, editedDescription, editedImage, handleEditClick, handleSaveClick, onCancelSave } =
-    useEditVersion(version, fetcherSubmit);
+  const { editVersionType, handleEditClick, handleSaveClick, onCancelSave } = useEditVersion(version, fetcherSubmit);
 
   if (!version || !defaultVersion) {
     return null;
@@ -118,7 +119,7 @@ const VersionView: FC<{
             version={version}
             fetcherSubmit={fetcherSubmit}
             status={version.status}
-            isEditing={isEditing}
+            isEditing={editVersionType.isEditing}
             onEditClick={handleEditClick}
             onSaveClick={handleSaveClick}
             onCancelSave={onCancelSave}
@@ -137,8 +138,8 @@ const VersionView: FC<{
           version={version}
           badgeLabel="Personalized Version"
           backgroundColor="bg-green-700"
-          isEditing={isEditing}
           fetcherSubmit={fetcherSubmit}
+          editVersionType={editVersionType}
         />
       </div>
     </div>

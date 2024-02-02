@@ -12,6 +12,7 @@ export enum VersionAction {
   Approve = "Approve",
   Reject = "Reject",
   Pause = "Pause",
+  Update = "Update",
 }
 
 export function getPastTense(versionAction: VersionAction | undefined): string {
@@ -22,6 +23,8 @@ export function getPastTense(versionAction: VersionAction | undefined): string {
       return "Rejected";
     case VersionAction.Pause:
       return "Paused";
+    case VersionAction.Update:
+      return "Updated";
     case undefined:
       // if undefined, assume that it has just been generated
       return "Generated";
