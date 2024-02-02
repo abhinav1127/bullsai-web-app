@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import type { Image } from "~/types/types";
 import type { ModalActionButton } from "./GenericModal";
 import GenericModal from "./GenericModal";
-import { LoadingSpinner } from "../Svgs";
+import { LoadingSpinner } from "../../constants/Svgs";
 
 interface IImageModalProps extends ReactModal.Props {
   isOpen: boolean;

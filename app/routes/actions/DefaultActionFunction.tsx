@@ -1,6 +1,5 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { sampleImages } from "~/SampleData";
 import { getProductImages, performProductAction } from "~/productActions.server";
 import type { ProductAction } from "~/types/enums";
 import { VersionAction } from "~/types/enums";

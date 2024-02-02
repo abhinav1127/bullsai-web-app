@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { ProductMetricsSummaryCard } from "./MetricsSummaryCards";
 import { ProductViewMode, VersionStatus } from "../../types/enums";
 import ProductViewTable from "./ProductViewTable";

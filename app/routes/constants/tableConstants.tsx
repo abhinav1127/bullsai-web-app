@@ -1,17 +1,11 @@
-import { ProductStatus, VersionStatus } from "~/types/enums";
+import { VersionStatus } from "~/types/enums";
 import {
   ArrayRenderer,
   ClickableIndicatorCellRenderer,
   ImageRenderer,
   TruncatedRenderer,
-  TruncatedRenderer2Line,
 } from "../components/AdditionalRenderers";
-import {
-  ProductStatusRenderer,
-  VersionStatusRenderer,
-  VersionStatusRendererForTable,
-} from "../components/StatusRenderers";
-import { VersionsRenderer } from "../components/VersionsRenderer";
+import { VersionStatusRenderer, VersionStatusRendererForTable } from "../components/StatusRenderers";
 import { percentageValueFormatter } from "./utils";
 
 export const getRowStyle = (params) => {

@@ -1,9 +1,8 @@
-import { PlayCircleIcon, ExclamationTriangleIcon, CogIcon } from "@heroicons/react/24/outline";
-import type { Version } from "../../types/types";
+import { CogIcon, ExclamationTriangleIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
 import type { FC } from "react";
-import { VersionStatus } from "../../types/enums";
 import React from "react";
-import { LoadingSpinner } from "./Svgs";
+import { VersionStatus } from "../../types/enums";
+import type { Version } from "../../types/types";
 
 interface VersionsRendererProps {
   value: Version[];

@@ -9,7 +9,7 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import { NavLink } from "@remix-run/react";
-import { Logo } from "./Svgs";
+import { Logo } from "../constants/Svgs";
 
 interface SidebarItem {
   to: string;

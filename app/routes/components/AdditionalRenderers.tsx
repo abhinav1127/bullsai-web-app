@@ -1,7 +1,7 @@
 import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { defaultVersionDisplayString } from "~/constants";
 import type { Version } from "../../types/types";
-import { LoadingSpinner } from "./Svgs";
+import { LoadingSpinner } from "../constants/Svgs";
 
 export const ClickableIndicatorCellRenderer: React.FC<{ data: Version }> = ({ data }) => {
   let iconIndicator = <ChevronRightIcon className="w-6 h-6" />;

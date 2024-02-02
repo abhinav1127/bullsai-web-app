@@ -15,7 +15,7 @@ import Code from "@tiptap/extension-code";
 import History from "@tiptap/extension-history";
 
 // Custom
-import * as Icons from "../Svgs";
+import * as Icons from "../../constants/Svgs";
 import { LinkModal } from "./LinkModal";
 import useTipTap from "~/routes/customHooks/useTipTapButtons";
 
