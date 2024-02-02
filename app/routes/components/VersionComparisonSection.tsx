@@ -79,7 +79,7 @@ const EditingVersionDetailsSection: FC<{
   );
 
   const onChangeImageClicked = useCallback(async () => {
-    fetcherSubmit({ actionType: "getVersionImages", productId: version.productId }, { method: "POST" });
+    fetcherSubmit({ actionType: "getProductImages", productId: version.productId }, { method: "POST" });
     setIsOpen(true);
   }, [version, fetcherSubmit]);
 

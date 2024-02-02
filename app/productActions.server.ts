@@ -1,6 +1,6 @@
-import { DemoGeneratingVersionsArr } from "./SampleData";
+import { DemoGeneratingVersionsArr, sampleImages } from "./SampleData";
 import { ProductAction, ProductStatus } from "./types/enums";
-import type { Product } from "./types/types";
+import type { Image, Product } from "./types/types";
 
 export const performProductAction = async (products: Product[], action: ProductAction): Promise<Product[]> => {
   switch (action) {
@@ -45,4 +45,14 @@ const deactivateProducts = (products: Product[]): Product[] => {
       ...product,
       status: ProductStatus.Inactive,
     }));
+};
+
+export const getProductImages = async (productId: string): Promise<Image[]> => {
+  let parsedProductId = parseInt(productId, 10);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("Fetching images for product id: ", parsedProductId);
+      resolve(sampleImages);
+    }, 1000);
+  });
 };

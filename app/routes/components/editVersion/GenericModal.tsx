@@ -49,7 +49,7 @@ const GenericModal: React.FC<GenericModalProps> = ({ isOpen, onRequestClose, tit
         {/* Modal Header */}
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
           <h2 className="text-lg font-semibold">{title}</h2>
-          <button onClick={onRequestClose} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onRequestClose} className="text-gray-400 hover:text-gray-600 pl-3">
             <span className="text-2xl">&times;</span>
           </button>
         </div>
