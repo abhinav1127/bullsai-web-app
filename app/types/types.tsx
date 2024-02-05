@@ -29,6 +29,7 @@ export interface Version {
   description: string;
   attributes: string[];
   statistics: VersionStatistics;
+  createdAt: Date;
 }
 
 export interface VersionStatistics {

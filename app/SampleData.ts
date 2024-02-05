@@ -28,6 +28,7 @@ export const SampleData: Product[] = [
         description:
           "<p>Description for Product 1 Version ADescription for Product 1 Version ADescription for Product 1 </p>",
         attributes: ["attr1attr1attr1attr1", "attr2", "attr2", "attr2", "attr2"],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 50,
           conversionRate: 1.5,
@@ -49,6 +50,7 @@ export const SampleData: Product[] = [
         description:
           "<p>Description for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version B</p>",
         attributes: ["College Stidemts", "attr4"],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 60,
           conversionRate: 1.7,
@@ -70,6 +72,7 @@ export const SampleData: Product[] = [
         description:
           "<p><strong>The Mac</strong>, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.          The Mac, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.          The Mac, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.   The Mac, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.          The Mac, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.          The Mac, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.          The Mac, short for Macintosh (its official name until 1999), is a family of personal computers designed and marketed by Apple Inc. The product lineup includes the MacBook Air and MacBook Pro laptops, and the iMac, Mac Mini, Mac Studio, and Mac Pro desktops. Macs are sold with the macOS operating system.                 </p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -89,6 +92,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-4",
         description: "<p>Description for Product 4 Version D</p>",
         attributes: ["attr7", "attr8"],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 125,
           conversionRate: 1.8,
@@ -125,6 +129,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Description for Product 2 Default Version</p>",
         attributes: ["attr5", "attr6"],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -144,6 +149,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Default Product Description</p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -181,6 +187,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Default Product Description</p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -217,6 +224,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-4",
         description: "<p>Description for Product 4 Version D</p>",
         attributes: ["attr7", "attr8"],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 125,
           conversionRate: 1.8,
@@ -236,6 +244,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Default Product Description</p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -272,6 +281,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Default Product Description</p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -308,6 +318,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-5",
         description: "<p>Description for Product 6 Version E</p>",
         attributes: ["attr9", "attr10"],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 175,
           conversionRate: 2.2,
@@ -327,6 +338,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Default Product Description</p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -359,6 +371,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-3",
         description: "<p>Default Product Description</p>",
         attributes: [],
+        createdAt: new Date("2024-02-05"),
         statistics: {
           views: 100,
           conversionRate: 2.0,
@@ -383,6 +396,7 @@ export const DemoGeneratingVersionsArr = [
     heroImage: "",
     description: "<p></p>",
     attributes: [],
+    createdAt: new Date("2024-02-05"),
     statistics: {
       views: 0,
       conversionRate: 0,
@@ -402,6 +416,7 @@ export const DemoGeneratingVersionsArr = [
     heroImage: "",
     description: "<p></p>",
     attributes: [],
+    createdAt: new Date("2024-02-05"),
     statistics: {
       views: 0,
       conversionRate: 0,
@@ -421,6 +436,7 @@ export const DemoGeneratingVersionsArr = [
     heroImage: "",
     description: "<p></p>",
     attributes: [],
+    createdAt: new Date("2024-02-05"),
     statistics: {
       views: 0,
       conversionRate: 0,
@@ -443,6 +459,7 @@ export const DemoGeneratedVersions = [
     heroImage: "image-url-1",
     description: "<p>description 1</p>",
     attributes: ["attr1", "attr2"],
+    createdAt: new Date("2024-02-05"),
     statistics: {
       views: 0,
       conversionRate: 0,
@@ -462,6 +479,7 @@ export const DemoGeneratedVersions = [
     heroImage: "image-url-2",
     description: "<p>description 2</p>",
     attributes: ["attr1", "attr2"],
+    createdAt: new Date("2024-02-05"),
     statistics: {
       views: 0,
       conversionRate: 0,
@@ -481,6 +499,7 @@ export const DemoGeneratedVersions = [
     heroImage: "image-url-3",
     description: "<p>description 3</p>",
     attributes: ["attr1", "attr2"],
+    createdAt: new Date("2024-02-05"),
     statistics: {
       views: 0,
       conversionRate: 0,

@@ -14,6 +14,7 @@ import {
   TruncatedRenderer,
 } from "./components/AdditionalRenderers";
 import { productViewDefaultColDef } from "./constants/tableConstants";
+import PendingVersionActionButtons from "./components/PendingVersionActionButtons";
 
 export function links() {
   return [
@@ -76,7 +77,7 @@ export default function PendingVerisonPage() {
   const outletContext = useOutletContext<OutletContextType>();
   const { fetcherSubmit, products, setDrawerVersionId, openVersionDrawer } = outletContext;
   const gridRef = useRef<AgGridReact>(null);
-  const [selectedRows, setSelectedRows] = useState<Product[]>([]);
+  const [selectedRows, setSelectedRows] = useState<VersionWithOriginalTitle[]>([]);
 
   const onVersionClick = (version: VersionWithOriginalTitle) => {
     setDrawerVersionId(version.id);
@@ -85,7 +86,7 @@ export default function PendingVerisonPage() {
 
   const onSelectionChanged = useCallback(() => {
     const selectedNodes = gridRef.current?.api.getSelectedNodes();
-    const selectedData: Product[] = selectedNodes?.map((node) => node.data) || [];
+    const selectedData: VersionWithOriginalTitle[] = selectedNodes?.map((node) => node.data) || [];
     setSelectedRows(selectedData);
   }, [gridRef, setSelectedRows]);
 
@@ -106,6 +107,10 @@ export default function PendingVerisonPage() {
   return (
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
       <h1 className="text-3xl font-bold mb-8">Pending Versions</h1>
+
+      {/* <div className="flex justify-between items-end mb-4 border-b flex-wrap"> */}
+      <PendingVersionActionButtons selectedRows={selectedRows} fetcherSubmit={fetcherSubmit} />
+      {/* </div> */}
 
       <div className="flex flex-col flex-grow">
         <div className="ag-theme-quartz container flex-grow">
