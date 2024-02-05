@@ -1,20 +1,21 @@
 import { useOutletContext } from "@remix-run/react";
-import { AgGridReact } from "ag-grid-react";
 import AgGridStyles from "ag-grid-community/styles/ag-grid.css";
 import AgThemeQuartzStyles from "ag-grid-community/styles/ag-theme-quartz.css";
+import { AgGridReact } from "ag-grid-react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { VersionStatus } from "~/types/enums";
 import type { OutletContextType } from "~/types/outletContextTypes";
-import type { Product, VersionWithOriginalTitle } from "~/types/types";
+import type { VersionWithOriginalTitle } from "~/types/types";
 import {
   ArrayRenderer,
   ClickableIndicatorCellRenderer,
   ImageRenderer,
   TruncatedHTMLRenderer,
   TruncatedRenderer,
+  USDateRenderer,
 } from "./components/AdditionalRenderers";
-import { productViewDefaultColDef } from "./constants/tableConstants";
 import PendingVersionActionButtons from "./components/PendingVersionActionButtons";
+import { productViewDefaultColDef } from "./constants/tableConstants";
 
 export function links() {
   return [
@@ -34,6 +35,14 @@ export const colDefs = [
     wrapText: true,
     cellStyle: { wordBreak: "normal" },
     minWidth: 150,
+  },
+  {
+    headerName: "Created At",
+    field: "createdAt",
+    cellRenderer: USDateRenderer,
+    wrapText: true,
+    cellStyle: { wordBreak: "normal" },
+    minWidth: 80,
   },
   {
     headerName: "Attributes",

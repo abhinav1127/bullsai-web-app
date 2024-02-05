@@ -50,7 +50,7 @@ export const SampleData: Product[] = [
         description:
           "<p>Description for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version B</p>",
         attributes: ["College Stidemts", "attr4"],
-        createdAt: new Date("2024-02-05"),
+        createdAt: new Date("2024-02-02"),
         statistics: {
           views: 60,
           conversionRate: 1.7,
@@ -92,7 +92,7 @@ export const SampleData: Product[] = [
         heroImage: "image-url-4",
         description: "<p>Description for Product 4 Version D</p>",
         attributes: ["attr7", "attr8"],
-        createdAt: new Date("2024-02-05"),
+        createdAt: new Date("2023-12-03"),
         statistics: {
           views: 125,
           conversionRate: 1.8,

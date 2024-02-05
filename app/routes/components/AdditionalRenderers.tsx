@@ -41,3 +41,7 @@ export const TruncatedHTMLRenderer = ({ value }: { value: string }) => {
 export const ArrayRenderer = ({ value }: { value: string[] }) => {
   return <div className={`leading-normal break-words`}>{value.join(", ")}</div>;
 };
+
+export const USDateRenderer = ({ value }: { value: string }) => {
+  return <div>{new Date(value).toLocaleDateString("en-US")}</div>;
+};
