@@ -48,3 +48,7 @@ export interface Image {
   alt: string;
   ai_description: string;
 }
+
+export interface VersionWithOriginalTitle extends Version {
+  originalProductTitle: string;
+}
