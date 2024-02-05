@@ -20,17 +20,18 @@ const PendingVersionActionButtons: FC<{
   );
 
   return (
-    <div className="flex flex-shrink-0 mb-4 border-b flex-wrap justify-end">
-      {selectedRows.length > 0 && (
-        <ActionButton text="Approve Selected Versions" onClick={() => onActionButtonClicked(VersionAction.Approve)} />
-      )}
-      {selectedRows.length > 0 && (
-        <ActionButton
-          text="Reject Selected Products"
-          onClick={() => onActionButtonClicked(VersionAction.Reject)}
-          noMarginRight
-        />
-      )}
+    <div className="flex flex-shrink-0 mb-6 border-b flex-wrap justify-end">
+      <ActionButton
+        text="Approve Selected Versions"
+        onClick={() => onActionButtonClicked(VersionAction.Approve)}
+        disabled={selectedRows.length === 0}
+      />
+      <ActionButton
+        text="Reject Selected Products"
+        onClick={() => onActionButtonClicked(VersionAction.Reject)}
+        noMarginRight
+        disabled={selectedRows.length === 0}
+      />
     </div>
   );
 };
