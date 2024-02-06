@@ -5,6 +5,8 @@ export interface OutletContextType {
   fetcherSubmit: fetcherSubmitType;
   setDrawerProductId: (productId: number) => void;
   products: Product[];
+  openVersionDrawer: () => void;
+  setDrawerVersionId: (versionId: number) => void;
 }
 
 export type fetcherSubmitType = (target: any, options?: any) => void;

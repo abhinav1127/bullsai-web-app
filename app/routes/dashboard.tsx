@@ -61,10 +61,11 @@ export default function DashboardLayout() {
         <Outlet
           context={{
             openProductDrawer,
-            openVersionDrawer: openVersionDrawer,
             fetcherSubmit: fetcher.submit,
             setDrawerProductId,
             products,
+            openVersionDrawer,
+            setDrawerVersionId,
           }}
         />
       </div>

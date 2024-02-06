@@ -1,10 +1,12 @@
 import { VersionStatus } from "~/types/enums";
+import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import {
   ArrayRenderer,
   ClickableIndicatorCellRenderer,
   ImageRenderer,
   TruncatedHTMLRenderer,
   TruncatedRenderer,
+  VersionActionRenderer,
 } from "../components/AdditionalRenderers";
 import { VersionStatusRenderer, VersionStatusRendererForTable } from "../components/StatusRenderers";
 import { percentageValueFormatter } from "./utils";
@@ -113,3 +115,19 @@ export const versionDetailsColDefs = [
     filter: true,
   },
 ];
+
+export const VersionActionColId = "versionAction";
+export const versionRendererColDef = (fetcherSubmit: fetcherSubmitType) => ({
+  headerName: "",
+  cellRenderer: VersionActionRenderer,
+  colId: VersionActionColId,
+  cellRendererParams: {
+    fetcherSubmit: fetcherSubmit,
+  },
+  width: 100,
+  minWidth: 100,
+  maxWidth: 100,
+  suppressSizeToFit: true,
+  suppressMovable: true,
+  filter: false,
+});

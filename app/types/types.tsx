@@ -29,6 +29,7 @@ export interface Version {
   description: string;
   attributes: string[];
   statistics: VersionStatistics;
+  createdAt: Date;
 }
 
 export interface VersionStatistics {
@@ -47,4 +48,8 @@ export interface Image {
   product_id: number;
   alt: string;
   ai_description: string;
+}
+
+export interface VersionWithOriginalTitle extends Version {
+  originalProductTitle: string;
 }
