@@ -13,10 +13,9 @@ import {
   TruncatedHTMLRenderer,
   TruncatedRenderer,
   USDateRenderer,
-  VersionActionRenderer,
 } from "./components/AdditionalRenderers";
 import PendingVersionActionButtons from "./components/PendingVersionActionButtons";
-import { productViewDefaultColDef } from "./constants/tableConstants";
+import { VersionActionColId, productViewDefaultColDef, versionRendererColDef } from "./constants/tableConstants";
 
 export function links() {
   return [
@@ -25,7 +24,7 @@ export function links() {
   ];
 }
 
-export const colDefs = [
+export const baseColDefs = [
   {
     headerName: "Version Title",
     field: "versionTitle",
@@ -73,16 +72,6 @@ export const colDefs = [
   },
   {
     headerName: "",
-    cellRenderer: VersionActionRenderer,
-    width: 100,
-    minWidth: 100,
-    maxWidth: 100,
-    suppressSizeToFit: true,
-    suppressMovable: true,
-    filter: false,
-  },
-  {
-    headerName: "",
     cellRenderer: ClickableIndicatorCellRenderer,
     width: 50,
     minWidth: 50,
@@ -99,7 +88,8 @@ export default function PendingVerisonPage() {
   const gridRef = useRef<AgGridReact>(null);
   const [selectedRows, setSelectedRows] = useState<VersionWithOriginalTitle[]>([]);
 
-  const onVersionClick = (version: VersionWithOriginalTitle) => {
+  const onVersionClick = (version: VersionWithOriginalTitle, colId: string) => {
+    if (colId === VersionActionColId) return; // suppress click event for action column
     setDrawerVersionId(version.id);
     openVersionDrawer();
   };
@@ -124,6 +114,12 @@ export default function PendingVerisonPage() {
     return pendingVersions;
   }, [products]);
 
+  let colDefs = [
+    ...baseColDefs.slice(0, -1),
+    versionRendererColDef(fetcherSubmit),
+    baseColDefs[baseColDefs.length - 1],
+  ];
+
   return (
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
       <h1 className="text-3xl font-bold mb-8">Pending Versions</h1>
@@ -139,10 +135,11 @@ export default function PendingVerisonPage() {
             rowData={rowData}
             onSelectionChanged={onSelectionChanged}
             rowSelection={"multiple"}
+            pagination={true}
             suppressRowClickSelection={true}
             rowHeight={90}
-            onRowClicked={(e) => onVersionClick(e.data)}
-            overlayNoRowsTemplate={"No remaining pending versions!"}
+            onCellClicked={(e) => onVersionClick(e.data, e.column.getColId())}
+            overlayNoRowsTemplate={"No pending versions"}
           />
         </div>
       </div>
