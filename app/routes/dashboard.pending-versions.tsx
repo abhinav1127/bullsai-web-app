@@ -117,9 +117,7 @@ export default function PendingVerisonPage() {
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
       <h1 className="text-3xl font-bold mb-8">Pending Versions</h1>
 
-      {/* <div className="flex justify-between items-end mb-4 border-b flex-wrap"> */}
       <PendingVersionActionButtons selectedRows={selectedRows} fetcherSubmit={fetcherSubmit} />
-      {/* </div> */}
 
       <div className="flex flex-col flex-grow">
         <div className="ag-theme-quartz container flex-grow">
@@ -133,6 +131,7 @@ export default function PendingVerisonPage() {
             suppressRowClickSelection={true}
             rowHeight={90}
             onRowClicked={(e) => onVersionClick(e.data)}
+            overlayNoRowsTemplate={"No remaining pending versions!"}
           />
         </div>
       </div>
