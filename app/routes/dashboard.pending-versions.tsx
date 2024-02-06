@@ -13,6 +13,7 @@ import {
   TruncatedHTMLRenderer,
   TruncatedRenderer,
   USDateRenderer,
+  VersionActionRenderer,
 } from "./components/AdditionalRenderers";
 import PendingVersionActionButtons from "./components/PendingVersionActionButtons";
 import { productViewDefaultColDef } from "./constants/tableConstants";
@@ -69,6 +70,16 @@ export const colDefs = [
     cellRenderer: TruncatedHTMLRenderer,
     wrapText: true,
     cellStyle: { wordBreak: "normal" },
+  },
+  {
+    headerName: "",
+    cellRenderer: VersionActionRenderer,
+    width: 100,
+    minWidth: 100,
+    maxWidth: 100,
+    suppressSizeToFit: true,
+    suppressMovable: true,
+    filter: false,
   },
   {
     headerName: "",

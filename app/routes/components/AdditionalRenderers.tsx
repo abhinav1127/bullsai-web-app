@@ -1,4 +1,4 @@
-import { ChevronRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon, ArrowTopRightOnSquareIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { defaultVersionDisplayString } from "~/constants";
 import type { Version } from "../../types/types";
 import { LoadingSpinner } from "../constants/Svgs";
@@ -44,4 +44,17 @@ export const ArrayRenderer = ({ value }: { value: string[] }) => {
 
 export const USDateRenderer = ({ value }: { value: string }) => {
   return <div>{new Date(value).toLocaleDateString("en-US")}</div>;
+};
+
+export const VersionActionRenderer = () => {
+  return (
+    <div className="flex items-center justify-center h-full  p-1">
+      <div className="bg-white border-green-700 border p-1 rounded-sm m-1 hover:bg-green-100">
+        <CheckIcon className="h-5 w-5 text-green-700" />
+      </div>
+      <div className="bg-white border-red-700 border p-1 rounded-sm m-1 hover:bg-red-100">
+        <XMarkIcon className="h-5 w-5 text-red-700" />
+      </div>
+    </div>
+  );
 };
