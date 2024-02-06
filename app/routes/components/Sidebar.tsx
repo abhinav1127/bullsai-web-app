@@ -33,8 +33,10 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isSidebarOpen: boolean }> =
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } w-64 bg-gradient-to-b from-primary to-primaryLight p-5 space-y-4 transition duration-300 ease-in-out z-10 md:relative md:translate-x-0`}
       >
-        <div className="relative flex justify-between items-center">
-          <Logo className="h-16 w-16 fill-white" />
+        <div className="relative flex justify-between items-center w-full">
+          <div className="flex-grow">
+            <Logo className="h-16 w-16 fill-white mx-auto" />
+          </div>
           <button
             onClick={toggleSidebar}
             className="h-5 w-5 cursor-pointer text-white md:hidden"
