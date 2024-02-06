@@ -16,6 +16,7 @@ import {
 } from "./components/AdditionalRenderers";
 import PendingVersionActionButtons from "./components/PendingVersionActionButtons";
 import { VersionActionColId, productViewDefaultColDef, versionRendererColDef } from "./constants/tableConstants";
+import NoPendingVersionsOverlay from "./components/NoPendingVersionsOverlay";
 
 export function links() {
   return [
@@ -139,7 +140,7 @@ export default function PendingVerisonPage() {
             suppressRowClickSelection={true}
             rowHeight={90}
             onCellClicked={(e) => onVersionClick(e.data, e.column.getColId())}
-            overlayNoRowsTemplate={"No pending versions"}
+            noRowsOverlayComponent={NoPendingVersionsOverlay}
           />
         </div>
       </div>
