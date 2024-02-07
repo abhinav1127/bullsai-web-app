@@ -7,7 +7,7 @@ import type { Product, Version } from "../../types/types";
 import { ProductStatusRenderer } from "./StatusRenderers";
 import { DrawerTitleSection } from "./VersionView";
 import ProductViewModeFilterTabs from "./ProductViewModeFilterTabs";
-import ProductViewActionButtons from "./ProductViewActionButtons";
+import ProductViewActionButtons from "./ActionButtons/ProductViewActionButtons";
 import DefaultActionFunction from "../actions/DefaultActionFunction";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 

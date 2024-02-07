@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type { Image, Version } from "../../types/types";
 import React, { useCallback, useState } from "react";
 import { EditorWithMenu, SimpleEditor } from "./editVersion/TipTap";
-import { ActionButton } from "./Buttons";
+import { ActionButton } from "./ActionButtons/ActionButton";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import { ImageModal } from "./editVersion/ImageModal";
 import type { EditVersionType } from "../customHooks/useEditVersion";

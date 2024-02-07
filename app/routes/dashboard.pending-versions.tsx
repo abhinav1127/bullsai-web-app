@@ -14,7 +14,7 @@ import {
   TruncatedRenderer,
   USDateRenderer,
 } from "./components/AdditionalRenderers";
-import PendingVersionActionButtons from "./components/PendingVersionActionButtons";
+import PendingVersionActionButtons from "./components/ActionButtons/PendingVersionActionButtons";
 import { VersionActionColId, productViewDefaultColDef, versionRendererColDef } from "./constants/tableConstants";
 import NoPendingVersionsOverlay from "./components/NoPendingVersionsOverlay";
 

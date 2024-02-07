@@ -1,9 +1,9 @@
 import { VersionAction, VersionStatus } from "~/types/enums";
-import { ActionButton } from "./Buttons";
+import { ActionButton } from "./ActionButton";
 import type { Version } from "~/types/types";
 import type { FC } from "react";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
-import useVersionActionHook from "../customHooks/useVersionActionHook";
+import useVersionActionHook from "../../customHooks/useVersionActionHook";
 
 const ProductViewActionButtons: FC<{ selectedRows: Version[]; fetcherSubmit: fetcherSubmitType }> = ({
   selectedRows,

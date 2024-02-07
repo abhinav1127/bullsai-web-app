@@ -1,5 +1,5 @@
 import { ProductAction, ProductStatus } from "~/types/enums";
-import { ActionButton } from "./Buttons";
+import { ActionButton } from "./ActionButton";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { toast } from "react-toastify";
