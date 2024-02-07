@@ -9,7 +9,7 @@ import type { Product } from "../types/types";
 import ProductSearchBar from "./components/ProductSearchBar";
 import ProductStatusRadioFilter from "./components/ProductStatusFilter";
 import ProductsTable from "./components/ProductsTable";
-import ProductActionButtons from "./components/ProductsActionButtons";
+import ProductActionButtons from "./components/ActionButtons/ProductsActionButtons";
 
 export function links() {
   return [

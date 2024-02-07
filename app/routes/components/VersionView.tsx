@@ -6,7 +6,7 @@ import type { Version } from "../../types/types";
 import useEditVersion from "../customHooks/useEditVersion";
 import useVersionActionHook from "../customHooks/useVersionActionHook";
 import { InformationCardBadge } from "./Badges";
-import { ActionButton } from "./Buttons";
+import { ActionButton } from "./ActionButtons/ActionButton";
 import { VersionMetricsSummaryCard } from "./MetricsSummaryCards";
 import { VersionStatusRenderer } from "./StatusRenderers";
 import { VersionComparisonSection } from "./VersionComparisonSections";

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { VersionAction } from "~/types/enums";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import type { VersionWithOriginalTitle } from "~/types/types";
-import { ActionButton } from "./Buttons";
+import { ActionButton } from "./ActionButton";
 
 const PendingVersionActionButtons: FC<{
   selectedRows: VersionWithOriginalTitle[];
