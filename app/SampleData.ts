@@ -550,4 +550,32 @@ export const sampleImages: Image[] = [
   },
 ];
 
+export interface Store {
+  id: number;
+  name: string;
+  description: string;
+  status: string;
+  storeSettings: StoreSettings;
+}
+
+export interface StoreSettings {
+  bannedWords: string[];
+  selectImageInstructions: string;
+  generateDescriptionInstructions: string;
+  exampleDescription: string;
+}
+
+export const sampleStore: Store = {
+  id: 1,
+  name: "Sample Store",
+  description: "This is sample store",
+  status: "ACTIVE",
+  storeSettings: {
+    bannedWords: ["banned", "words"],
+    selectImageInstructions: "Select an image",
+    generateDescriptionInstructions: "Generate description",
+    exampleDescription: "This is an example description",
+  },
+};
+
 export default SampleData;

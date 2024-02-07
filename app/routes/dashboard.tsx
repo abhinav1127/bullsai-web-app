@@ -7,16 +7,18 @@ import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
 import { DrawerManager } from "./components/Drawer";
 import { ToastContainer } from "react-toastify";
 import DefaultActionFunction from "./actions/DefaultActionFunction";
-import SampleData from "~/SampleData";
+import type { Store } from "~/SampleData";
+import SampleData, { sampleStore } from "~/SampleData";
 import useWatchForUpdatedProducts from "./customHooks/useWatchForUpdatedProducts";
 import useSidebarState from "./customHooks/useSidebarState";
 import Sidebar from "./components/Sidebar";
 import useDrawerState from "./customHooks/useDrawerState";
+import type { Product } from "~/types/types";
 
 export const loader: LoaderFunction = async ({ request }) => {
   try {
     await ValidateProtectedPageRequest(request);
-    return json({ products: SampleData });
+    return json({ products: SampleData, store: sampleStore });
   } catch (error) {
     return handleResponseError(error);
   }
@@ -29,6 +31,7 @@ export const meta: MetaFunction = () => {
 export const action = DefaultActionFunction;
 
 export default function DashboardLayout() {
+  const loaderData = useLoaderData<{ products: Product[]; store: Store }>();
   const [products, setProducts] = useState(useLoaderData<typeof loader>().products);
   const { isSidebarOpen, toggleSidebar } = useSidebarState();
   const fetcher = useFetcher<typeof action>();
@@ -66,6 +69,7 @@ export default function DashboardLayout() {
             products,
             openVersionDrawer,
             setDrawerVersionId,
+            store: loaderData.store,
           }}
         />
       </div>

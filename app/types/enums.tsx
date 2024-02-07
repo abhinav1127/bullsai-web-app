@@ -51,3 +51,9 @@ export enum ProductStatusFilter {
   Active = "Active",
   Inactive = "Inactive",
 }
+
+export enum StoreStatus {
+  Active = "Active",
+  Inactive = "Inactive",
+  Disabled = "Disabled",
+}
