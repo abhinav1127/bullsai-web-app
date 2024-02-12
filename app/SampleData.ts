@@ -8,6 +8,7 @@ export const SampleData: Product[] = [
     storeId: 101,
     status: ProductStatus.Inactive,
     title: "MOON FRUIT Retinol Alternative Serum",
+    handle: "moon-fruit-1-bakuchiol-peptides-retinol-alternative-serum",
     statistics: {
       views: 7923,
       // conversionRateLift: 34.2,
@@ -17,6 +18,50 @@ export const SampleData: Product[] = [
     },
     defaultVersionId: 130,
     versions: [
+      {
+        id: 101,
+        productId: 1,
+        versionTitle: "hydration",
+        status: VersionStatus.Running,
+        productTitle: "Product 1",
+        heroImage:
+          "https://cdn.thewirecutter.com/wp-content/media/2022/12/imacbuyingdesktop-2048px-0074-3x2-1.jpg?auto=webp&quality=75&width=1024",
+        description:
+          "<p>Description for Product 1 Version ADescription for Product 1 Version ADescription for Product 1 </p>",
+        attributes: ["attr1attr1attr1attr1", "attr2", "attr2", "attr2", "attr2"],
+        createdAt: new Date("2024-02-05"),
+        statistics: {
+          views: 50,
+          conversionRate: 1.5,
+          marginalRevenue: 50,
+          displayPercentage: 60,
+          addToCartRate: 30,
+          conversionRateLift: 2.5,
+          addToCartRateLift: 1.5,
+        },
+      },
+      {
+        id: 102,
+        productId: 1,
+        versionTitle: "College Students",
+        status: VersionStatus.Pending,
+        productTitle: "Product 1",
+        heroImage:
+          "https://media.wired.com/photos/5fb2cc575c9914713ead03de/master/pass/Gear-Apple-MacBook-Air-top-down-SOURCE-Apple.jpg",
+        description:
+          "<p>Description for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version BDescription for Product 1 Version B</p>",
+        attributes: ["College Stidemts", "attr4"],
+        createdAt: new Date("2024-02-02"),
+        statistics: {
+          views: 60,
+          conversionRate: 1.7,
+          marginalRevenue: 60,
+          displayPercentage: 70,
+          addToCartRate: 35,
+          conversionRateLift: 2.5,
+          addToCartRateLift: 1.5,
+        },
+      },
       {
         id: 130,
         productId: 1,
@@ -48,6 +93,7 @@ export const SampleData: Product[] = [
     storeId: 101,
     status: ProductStatus.Active,
     title: "Product 2",
+    handle: "Product 2".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 200,
       conversionRateLift: 3.0,
@@ -106,6 +152,7 @@ export const SampleData: Product[] = [
     storeId: 103,
     status: ProductStatus.Inactive,
     title: "Product 3",
+    handle: "Product 3".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 150,
       // conversionRateLift: 2.5,
@@ -144,6 +191,7 @@ export const SampleData: Product[] = [
     storeId: 104,
     status: ProductStatus.Active,
     title: "Product 4",
+    handle: "Product 4".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 250,
       conversionRateLift: 3.5,
@@ -201,6 +249,7 @@ export const SampleData: Product[] = [
     storeId: 105,
     status: ProductStatus.Inactive,
     title: "Product 5",
+    handle: "Product 5".toLowerCase().replace(/ /g, "-"),
     defaultVersionId: 135,
     statistics: {
       views: 300,
@@ -238,6 +287,7 @@ export const SampleData: Product[] = [
     storeId: 106,
     status: ProductStatus.Active,
     title: "Product 6",
+    handle: "Product 6".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 350,
       conversionRateLift: 4.5,
@@ -295,6 +345,7 @@ export const SampleData: Product[] = [
     storeId: 107,
     status: ProductStatus.Inactive,
     title: "Product 7",
+    handle: "Product 7".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 400,
     },

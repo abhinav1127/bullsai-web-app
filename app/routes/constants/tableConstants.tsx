@@ -2,7 +2,7 @@ import { VersionStatus } from "~/types/enums";
 import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import {
   ArrayRenderer,
-  ClickableIndicatorCellRenderer,
+  VersionClickableCellRenderer,
   ImageRenderer,
   TruncatedHTMLRenderer,
   TruncatedRenderer,
@@ -10,6 +10,7 @@ import {
 } from "../components/AdditionalRenderers";
 import { VersionStatusRenderer, VersionStatusRendererForTable } from "../components/StatusRenderers";
 import { percentageValueFormatter } from "./utils";
+import type { Product } from "~/types/types";
 
 export const getRowStyle = (params) => {
   if (params.node.data.status === VersionStatus.Generating) {
@@ -53,16 +54,6 @@ export const metricsColDefs = [
       return "$" + String(params.value).toLocaleString();
     },
   },
-  {
-    headerName: "",
-    cellRenderer: ClickableIndicatorCellRenderer,
-    width: 50,
-    minWidth: 50,
-    maxWidth: 50,
-    suppressSizeToFit: true,
-    suppressMovable: true,
-    filter: true,
-  },
 ];
 
 export const versionDetailsColDefs = [
@@ -104,16 +95,6 @@ export const versionDetailsColDefs = [
     wrapText: true,
     cellStyle: { wordBreak: "normal" },
   },
-  {
-    headerName: "",
-    cellRenderer: ClickableIndicatorCellRenderer,
-    width: 50,
-    minWidth: 50,
-    maxWidth: 50,
-    suppressSizeToFit: true,
-    suppressMovable: true,
-    filter: true,
-  },
 ];
 
 export const VersionActionColId = "versionAction";
@@ -123,6 +104,20 @@ export const versionRendererColDef = (fetcherSubmit: fetcherSubmitType) => ({
   colId: VersionActionColId,
   cellRendererParams: {
     fetcherSubmit: fetcherSubmit,
+  },
+  width: 100,
+  minWidth: 100,
+  maxWidth: 100,
+  suppressSizeToFit: true,
+  suppressMovable: true,
+  filter: false,
+});
+
+export const VersionClickableCellRendererColDef = (product: Product) => ({
+  headerName: "",
+  cellRenderer: VersionClickableCellRenderer,
+  cellRendererParams: {
+    product: product,
   },
   width: 100,
   minWidth: 100,

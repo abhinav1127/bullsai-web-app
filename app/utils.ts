@@ -67,3 +67,7 @@ export function handleResponseError(error: unknown): Response {
   console.error("An error occurred:", error);
   return new Response("Internal Server Error", { status: 500 });
 }
+
+export function toLowerCaseAndDashes(input: string): string {
+  return input.toLowerCase().replace(/\s/g, "-");
+}

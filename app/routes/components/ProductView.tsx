@@ -84,6 +84,7 @@ const ProductView: FC<{
           setSelectedRows={setSelectedRows}
           onVersionClick={onVersionClick}
           rowData={rowData}
+          product={product}
         />
       </div>
     </div>

@@ -1,18 +1,36 @@
-import { ChevronRightIcon, ArrowTopRightOnSquareIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { defaultVersionDisplayString } from "~/constants";
-import type { Version, VersionWithOriginalTitle } from "../../types/types";
-import { LoadingSpinner } from "../constants/Svgs";
+import { ArrowTopRightOnSquareIcon, CheckIcon, ChevronRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import DOMPurify from "dompurify";
-import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import { useCallback } from "react";
 import { VersionAction } from "~/types/enums";
+import type { fetcherSubmitType } from "~/types/outletContextTypes";
+import type { Product, Version, VersionWithOriginalTitle } from "../../types/types";
+import { LoadingSpinner } from "../constants/Svgs";
+import { defaultVersionDisplayString } from "~/constants";
+import { toLowerCaseAndDashes } from "~/utils";
 
-export const ClickableIndicatorCellRenderer: React.FC<{ data: Version }> = ({ data }) => {
-  let iconIndicator = <ChevronRightIcon className="w-6 h-6" />;
-  if (data.versionTitle === defaultVersionDisplayString) {
-    iconIndicator = <ArrowTopRightOnSquareIcon className="w-6 h-6" />;
-  } else if (data.status === "Generating") {
-    iconIndicator = <LoadingSpinner additionalClasses="h-8 w-8 -mx-0.5 -my-0.5" />;
+export const ClickableIndicatorCellRenderer: React.FC<{ data: Version }> = ({ data }) => (
+  <div className="flex items-center justify-center h-full cursor-pointer hover:text-primary">
+    <ChevronRightIcon className="w-6 h-6" />
+  </div>
+);
+
+export const VersionClickableCellRenderer: React.FC<{ data: Version; product: Product }> = ({ data, product }) => {
+  console.log(product);
+  let iconIndicator = <LoadingSpinner additionalClasses="h-8 w-8 -mx-0.5 -my-0.5" />;
+  if (data.status !== "Generating") {
+    const baseStoreUrl = "https://www.herbivorebotanicals.com/collections/anti-aging/products/";
+    const handle =
+      data.versionTitle === defaultVersionDisplayString
+        ? product.handle
+        : `${product.handle}?utm=${toLowerCaseAndDashes(data.versionTitle)}`;
+    iconIndicator = (
+      <div className="flex gap-3">
+        <a href={baseStoreUrl + handle} target="_blank" rel="noopener noreferrer">
+          <ArrowTopRightOnSquareIcon className="w-5 h-5" />
+        </a>
+        <ChevronRightIcon className="w-5 h-5" />
+      </div>
+    );
   }
 
   return (

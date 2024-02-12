@@ -1,8 +1,9 @@
 import { type FC, useCallback, useRef } from "react";
-import type { Version } from "../../types/types";
+import type { Product, Version } from "../../types/types";
 import { ProductViewMode, VersionStatus } from "../../types/enums";
 import { AgGridReact } from "ag-grid-react";
 import {
+  VersionClickableCellRendererColDef,
   getRowStyle,
   metricsColDefs,
   productViewDefaultColDef,
@@ -16,6 +17,7 @@ interface VersionMetricsTableProps {
   setSelectedRows: (selectedRows: Version[]) => void;
   onVersionClick: (version: Version) => void;
   rowData: Version[];
+  product: Product;
 }
 
 const VersionsTable: FC<VersionMetricsTableProps> = ({
@@ -24,6 +26,7 @@ const VersionsTable: FC<VersionMetricsTableProps> = ({
   setSelectedRows,
   onVersionClick,
   rowData,
+  product,
 }) => {
   const gridRef = useRef<AgGridReact>(null);
 
@@ -33,12 +36,16 @@ const VersionsTable: FC<VersionMetricsTableProps> = ({
     setSelectedRows(selectedData);
   }, [setSelectedRows]);
 
+  const baseColDefs = viewMode === ProductViewMode.Metrics ? metricsColDefs : versionDetailsColDefs;
+  const colDefs = [...baseColDefs, VersionClickableCellRendererColDef(product)];
+  console.log(colDefs);
+
   return (
     <div className="ag-theme-quartz container flex-grow">
       <AgGridReact
         defaultColDef={productViewDefaultColDef}
         ref={gridRef}
-        columnDefs={viewMode === ProductViewMode.Metrics ? metricsColDefs : versionDetailsColDefs}
+        columnDefs={colDefs}
         rowData={rowData}
         onSelectionChanged={onSelectionChanged}
         rowSelection={"multiple"}

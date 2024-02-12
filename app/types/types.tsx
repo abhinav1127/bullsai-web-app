@@ -6,6 +6,7 @@ export interface Product {
   storeId: number;
   status: ProductStatus;
   title: string;
+  handle: string;
   statistics: ProductStatistics;
   versions: Version[];
   defaultVersionId: number;
