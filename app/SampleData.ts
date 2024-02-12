@@ -49,6 +49,7 @@ export const SampleData: Product[] = [
     storeId: 101,
     status: ProductStatus.Active,
     title: "BAMBOO CHARCOAL Cleansing Bar Soap",
+    handle: "BAMBOO CHARCOAL Cleansing Bar Soap".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 20554,
       conversionRateLift: 32.4,
@@ -189,6 +190,7 @@ export const SampleData: Product[] = [
     storeId: 103,
     status: ProductStatus.Inactive,
     title: "PINK CLOUD Rosewater + Tremella Creamy Jelly Cleanser",
+    handle: "PINK CLOUD Rosewater + Tremella Creamy Jelly Cleanser".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 18831,
       // conversionRateLift: 2.5,
@@ -227,6 +229,7 @@ export const SampleData: Product[] = [
     storeId: 104,
     status: ProductStatus.Active,
     title: "ROSE HIBISCUS Hydrating Face Mist",
+    handle: "ROSE HIBISCUS Hydrating Face Mist".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 24673,
       conversionRateLift: 26.8,
@@ -366,6 +369,7 @@ export const SampleData: Product[] = [
     storeId: 105,
     status: ProductStatus.Active,
     title: "WRINKLE-FIGHTING DUO Moon Fruit Serum + Phoenix Face Oil",
+    handle: "WRINKLE-FIGHTING DUO Moon Fruit Serum + Phoenix Face Oil".toLowerCase().replace(/ /g, "-"),
     defaultVersionId: 500,
     statistics: {
       views: 9264,
@@ -443,6 +447,7 @@ export const SampleData: Product[] = [
     storeId: 106,
     status: ProductStatus.Active,
     title: "MOMMY GLOW - Pregnancy-Safe Skincare Bundle",
+    handle: "MOMMY GLOW - Pregnancy-Safe Skincare Bundle".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 5927,
       conversionRateLift: 16.8,
@@ -540,6 +545,7 @@ export const SampleData: Product[] = [
     storeId: 107,
     status: ProductStatus.Active,
     title: "COCO MINT Coconut Oil Body Scrub",
+    handle: "COCO MINT Coconut Oil Body Scrub".toLowerCase().replace(/ /g, "-"),
     statistics: {
       views: 27351,
       conversionRateLift: 36.4,
