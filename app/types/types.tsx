@@ -54,3 +54,18 @@ export interface Image {
 export interface VersionWithOriginalTitle extends Version {
   originalProductTitle: string;
 }
+
+export interface Store {
+  id: number;
+  name: string;
+  description: string;
+  status: string;
+  storeSettings: StoreSettings;
+}
+
+export interface StoreSettings {
+  bannedWords: string[];
+  selectImageInstructions: string;
+  generateDescriptionInstructions: string;
+  exampleDescription: string;
+}

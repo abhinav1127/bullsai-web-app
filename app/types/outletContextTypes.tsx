@@ -1,4 +1,4 @@
-import type { Product } from "./types";
+import type { Product, Store } from "./types";
 
 export interface OutletContextType {
   openProductDrawer: () => void;
@@ -7,6 +7,7 @@ export interface OutletContextType {
   products: Product[];
   openVersionDrawer: () => void;
   setDrawerVersionId: (versionId: number) => void;
+  store: Store;
 }
 
 export type fetcherSubmitType = (target: any, options?: any) => void;

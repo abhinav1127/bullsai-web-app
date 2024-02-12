@@ -131,7 +131,6 @@
 }
 
 .editor .ProseMirror {
-  margin-top: 4px;
   border: 2px solid var(--color-gray-4);
   border-radius: 4px;
 }
