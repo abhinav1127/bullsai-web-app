@@ -42,7 +42,7 @@ export const metricsColDefs = [
   { headerName: "Status", field: "status", cellRenderer: VersionStatusRendererForTable, minWidth: 90, width: 120 },
   { headerName: "Views", field: "statistics.views" },
   { headerName: "Display %", field: "statistics.displayPercentage", valueFormatter: percentageValueFormatter },
-  { headerName: "CVR Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "CR Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
   { headerName: "ATC Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
     headerName: "Revenue Added",
