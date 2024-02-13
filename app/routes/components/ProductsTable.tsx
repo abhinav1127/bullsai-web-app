@@ -37,7 +37,7 @@ const colDefs = [
     field: "statistics.personalizedPercentage",
     valueFormatter: percentageValueFormatter,
   },
-  { headerName: "CVR Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
+  { headerName: "CR Lift", field: "statistics.conversionRateLift", valueFormatter: percentageValueFormatter },
   { headerName: "ATC Lift", field: "statistics.addToCartRateLift", valueFormatter: percentageValueFormatter },
   {
     headerName: "Revenue Added",
