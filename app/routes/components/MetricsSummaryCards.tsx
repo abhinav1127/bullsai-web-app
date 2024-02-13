@@ -46,8 +46,8 @@ export const ProductMetricsSummaryCard: FC<{ statistics: ProductStatistics }> = 
             percentSymbol
             black
           />
-          <MetricDisplay statistic={statistics.conversionRateLift} description="CR Lift" percentSymbol />
-          <MetricDisplay statistic={statistics.addToCartRateLift} description="ATC Lift" percentSymbol />
+          <MetricDisplay statistic={statistics.conversionRateLift} description="Conversion Lift" percentSymbol />
+          <MetricDisplay statistic={statistics.addToCartRateLift} description="Add to Cart Lift" percentSymbol />
           <MetricDisplay statistic={statistics.marginalRevenue} description="Rev Added" dollarSymbol />
         </div>
       </div>
@@ -64,8 +64,8 @@ export const VersionMetricsSummaryCard: FC<{ statistics: VersionStatistics }> = 
         <div className="flex space-x-6 p-4 bg-white border rounded-lg">
           <MetricDisplay statistic={statistics.views} description="Views" black />
           <MetricDisplay statistic={statistics.displayPercentage} description="Display %" percentSymbol black />
-          <MetricDisplay statistic={statistics.conversionRateLift} description="CR Lift" percentSymbol />
-          <MetricDisplay statistic={statistics.addToCartRateLift} description="ATC Lift" percentSymbol />
+          <MetricDisplay statistic={statistics.conversionRateLift} description="Conversion Lift" percentSymbol />
+          <MetricDisplay statistic={statistics.addToCartRateLift} description="Add to Cart Lift" percentSymbol />
           <MetricDisplay statistic={statistics.marginalRevenue} description="Rev Added" dollarSymbol />
         </div>
       </div>
