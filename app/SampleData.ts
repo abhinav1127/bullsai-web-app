@@ -1162,30 +1162,30 @@ export const DemoGeneratedVersions = [
       addToCartRateLift: 0,
     },
   },
+  // {
+  //   id: 1003,
+  //   productId: 1,
+  //   versionTitle: "Dry Skin - Hydration Focus",
+  //   status: VersionStatus.Pending,
+  //   productTitle: "MOON FRUIT Hydrating Serum for Dry Skin - Retinol Alternative",
+  //   heroImage:
+  //     "https://www.herbivorebotanicals.com/cdn/shop/files/CLOUD-JELLY-112090-V_05_5b87e752-546c-47a8-a8ef-ca3987f9af52.jpg?v=1703098951&amp;width=1500",
+  //   description:
+  //     "<p>Keep your skin deeply hydrated with Moon Fruit serum, enriched with Peptide and Bakuchiol, a gentle alternative to retinol. Its unique formula locks in moisture to alleviate chronic dryness, simultaneously smoothing out wrinkles and keeping your pores clear for a supple, refreshed complexion.</p>",
+  //   attributes: ["Past Purchased: Dry Skin Products"],
+  //   createdAt: new Date("2024-02-05"),
+  //   statistics: {
+  //     views: 0,
+  //     conversionRate: 0,
+  //     marginalRevenue: 0,
+  //     displayPercentage: 0,
+  //     addToCartRate: 0,
+  //     conversionRateLift: 0,
+  //     addToCartRateLift: 0,
+  //   },
+  // },
   {
     id: 1003,
-    productId: 1,
-    versionTitle: "Dry Skin - Hydration Focus",
-    status: VersionStatus.Pending,
-    productTitle: "MOON FRUIT Hydrating Serum for Dry Skin - Retinol Alternative",
-    heroImage:
-      "https://www.herbivorebotanicals.com/cdn/shop/files/CLOUD-JELLY-112090-V_05_5b87e752-546c-47a8-a8ef-ca3987f9af52.jpg?v=1703098951&amp;width=1500",
-    description:
-      "<p>Keep your skin deeply hydrated with Moon Fruit serum, enriched with Peptide and Bakuchiol, a gentle alternative to retinol. Its unique formula locks in moisture to alleviate chronic dryness, simultaneously smoothing out wrinkles and keeping your pores clear for a supple, refreshed complexion.</p>",
-    attributes: ["Past Purchased: Dry Skin Products"],
-    createdAt: new Date("2024-02-05"),
-    statistics: {
-      views: 0,
-      conversionRate: 0,
-      marginalRevenue: 0,
-      displayPercentage: 0,
-      addToCartRate: 0,
-      conversionRateLift: 0,
-      addToCartRateLift: 0,
-    },
-  },
-  {
-    id: 1004,
     productId: 1,
     versionTitle: "Male Focus - Male Skin + Gift for Girlfriend",
     status: VersionStatus.Pending,
