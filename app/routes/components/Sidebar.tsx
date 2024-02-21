@@ -1,14 +1,14 @@
-import React from "react";
 import {
   Bars3CenterLeftIcon,
-  XMarkIcon,
+  ChartBarIcon,
+  ChatBubbleLeftIcon,
+  ClockIcon,
   HomeIcon,
   TagIcon,
-  ClockIcon,
-  CogIcon,
-  ChartBarIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { NavLink } from "@remix-run/react";
+import React from "react";
 import { Logo } from "../constants/Svgs";
 
 interface SidebarItem {
@@ -22,7 +22,7 @@ const sidebarItems: SidebarItem[] = [
   { to: "/dashboard/products", icon: <TagIcon className="h-4 w-4" />, label: "Products" },
   { to: "/dashboard/pending-versions", icon: <ClockIcon className="h-4 w-4" />, label: "Pending Versions" },
   { to: "/dashboard/metrics", icon: <ChartBarIcon className="h-4 w-4" />, label: "Store Metrics" },
-  { to: "/dashboard/settings", icon: <CogIcon className="h-4 w-4" />, label: "Settings" },
+  { to: "/dashboard/brand-voice", icon: <ChatBubbleLeftIcon className="h-4 w-4" />, label: "Brand Voice" },
 ];
 
 const Sidebar: React.FC<{ toggleSidebar: () => void; isSidebarOpen: boolean }> = ({ toggleSidebar, isSidebarOpen }) => {

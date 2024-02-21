@@ -24,6 +24,19 @@ const TextSetting: React.FC<TextSettingProps> = ({ label, type, value, onChange 
   </div>
 );
 
+const TextAreaSetting: React.FC<TextSettingProps> = ({ label, type, value, onChange }) => (
+  <div className="mb-4">
+    <label className="block text-gray-700 text-sm font-semibold mb-1">{label}</label>
+    <textarea
+      className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white cursor-text"
+      placeholder={label}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      rows={3}
+    />
+  </div>
+);
+
 const RichTextSetting: React.FC<TextSettingProps> = ({ label, type, value, onChange }) => (
   <div className="mb-4 flex flex-col gap-2">
     <label className="block text-gray-700 text-sm font-semibold mb-1">{label}</label>
@@ -47,12 +60,11 @@ const SettingGroup: React.FC<SettingGroupProps> = ({ title, children }) => (
   </div>
 );
 
-const SettingsPage = () => {
+const BrandVoicePage = () => {
   const { fetcherSubmit, store } = useOutletContext<OutletContextType>();
-  const [storeName, setStoreName] = useState(store.name);
-  const [storeDescription, setStoreDescription] = useState(store.description);
+  const [messaging, setMessaging] = useState(store.name);
+  const [brandDescription, setBrandDescription] = useState(store.description);
   const [bannedWords, setBannedWords] = useState(store.storeSettings.bannedWords);
-  const [selectImageInstructions, setSelectImageInstructions] = useState(store.storeSettings.selectImageInstructions);
   const [descriptionInstructions, setDescriptionInstructions] = useState(
     store.storeSettings.generateDescriptionInstructions
   );
@@ -60,22 +72,20 @@ const SettingsPage = () => {
 
   const discardChanges = useCallback(() => {
     console.log("discardChanges");
-    setStoreName(store.name);
-    setStoreDescription(store.description);
+    setMessaging(store.name);
+    setBrandDescription(store.description);
     setBannedWords(store.storeSettings.bannedWords);
-    setSelectImageInstructions(store.storeSettings.selectImageInstructions);
     setDescriptionInstructions(store.storeSettings.generateDescriptionInstructions);
     setExampleDescription(store.storeSettings.exampleDescription);
   }, [store]);
 
   return (
     <div className="flex flex-col ag-theme-quartz container mx-auto p-4 h-screen">
-      <h1 className="text-3xl font-bold mb-8">Settings</h1>
+      <h1 className="text-3xl font-bold mb-8">Brand Voice</h1>
       <SettingsActionButtons
-        storeName={storeName}
-        storeDescription={storeDescription}
+        messaging={messaging}
+        brandDescription={brandDescription}
         bannedWords={bannedWords}
-        selectImageInstructions={selectImageInstructions}
         generateDescriptionInstructions={descriptionInstructions}
         exampleDescription={exampleDescription}
         store={store}
@@ -83,14 +93,14 @@ const SettingsPage = () => {
         discardChanges={discardChanges}
       />
       <div className="container mx-auto p-4">
-        <SettingGroup title="Store Information">
-          <TextSetting label="Store Name" type="text" value={storeName} onChange={(e) => setStoreName(e)} />
-          <TextSetting
-            label="Store Description"
+        <SettingGroup title="Brand Information">
+          <TextAreaSetting
+            label="Brand Description"
             type="text"
-            value={storeDescription}
-            onChange={(e) => setStoreDescription(e)}
+            value={brandDescription}
+            onChange={(e) => setBrandDescription(e)}
           />
+          <TextSetting label="Messaging & Tone" type="text" value={messaging} onChange={(e) => setMessaging(e)} />
         </SettingGroup>
         <hr className="my-8" />
         <SettingGroup title="AI Instructions">
@@ -100,20 +110,14 @@ const SettingsPage = () => {
             value={bannedWords.join(", ")}
             onChange={(e) => setBannedWords([e])}
           />
-          <TextSetting
-            label="Select Image Instructions"
-            type="text"
-            value={selectImageInstructions}
-            onChange={(e) => setSelectImageInstructions(e)}
-          />
-          <TextSetting
+          <TextAreaSetting
             label="Description Instructions"
             type="text"
             value={descriptionInstructions}
             onChange={(e) => setDescriptionInstructions(e)}
           />
           <RichTextSetting
-            label="Example Description"
+            label="Ideal Example Description"
             type="text"
             value={exampleDescription}
             onChange={(e) => setExampleDescription(e)}
@@ -124,4 +128,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default BrandVoicePage;

@@ -5,10 +5,9 @@ import type { fetcherSubmitType } from "~/types/outletContextTypes";
 import { ActionButton } from "./ActionButton";
 
 interface SettingsActionButtonsProps {
-  storeName: string;
-  storeDescription: string;
+  messaging: string;
+  brandDescription: string;
   bannedWords: string[];
-  selectImageInstructions: string;
   generateDescriptionInstructions: string;
   exampleDescription: string;
   store: Store;
@@ -18,10 +17,9 @@ interface SettingsActionButtonsProps {
 
 const SettingsActionButtons: FC<SettingsActionButtonsProps> = ({
   fetcherSubmit,
-  storeName,
-  storeDescription,
+  messaging,
+  brandDescription,
   bannedWords,
-  selectImageInstructions,
   generateDescriptionInstructions,
   exampleDescription,
   store,
@@ -34,8 +32,8 @@ const SettingsActionButtons: FC<SettingsActionButtonsProps> = ({
     const { bannedWords, selectImageInstructions, generateDescriptionInstructions, exampleDescription } =
       store.storeSettings;
     if (
-      storeName !== store.name ||
-      storeDescription !== store.description ||
+      messaging !== store.name ||
+      brandDescription !== store.description ||
       bannedWords !== store.storeSettings.bannedWords ||
       selectImageInstructions !== store.storeSettings.selectImageInstructions ||
       generateDescriptionInstructions !== store.storeSettings.generateDescriptionInstructions ||
@@ -45,15 +43,7 @@ const SettingsActionButtons: FC<SettingsActionButtonsProps> = ({
     } else {
       setFieldChanged(false);
     }
-  }, [
-    storeName,
-    storeDescription,
-    bannedWords,
-    selectImageInstructions,
-    generateDescriptionInstructions,
-    exampleDescription,
-    store,
-  ]);
+  }, [messaging, brandDescription, bannedWords, generateDescriptionInstructions, exampleDescription, store]);
 
   const saveSettings = async () => {
     await fetcherSubmit({ actionType: "updateStoreSettings" }, { method: "POST" });
