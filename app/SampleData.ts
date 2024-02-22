@@ -1281,7 +1281,7 @@ export const sampleImages: Image[] = [
 
 export interface Store {
   id: number;
-  name: string;
+  tone: string;
   description: string;
   status: string;
   storeSettings: StoreSettings;
@@ -1289,22 +1289,34 @@ export interface Store {
 
 export interface StoreSettings {
   bannedWords: string[];
-  selectImageInstructions: string;
   generateDescriptionInstructions: string;
   exampleDescription: string;
 }
 
 export const sampleStore: Store = {
   id: 1,
-  name: "Sample Store",
-  description: "This is sample store",
+  tone: "Aspirational and knowledgeable. Informative but concise",
+  description:
+    "We sell skincare products for a wide variety of people in their skincare journey. Our products are high quality but affordable. Our ingredients are sustainable and don't use harmful chemicals.",
   status: "ACTIVE",
   storeSettings: {
-    bannedWords: ["banned", "words"],
-    selectImageInstructions: "Select an image",
-    generateDescriptionInstructions: "Generate description",
-    exampleDescription: "This is an example description",
+    bannedWords: ["Separate each term with a comma. Curse words are automatically banned."],
+    generateDescriptionInstructions: "I want descriptions to include a bullet point list when possible",
+    exampleDescription: "Optional. Input a product description that you would consider ideal.",
   },
 };
+
+// PLACEHOLDER TEXT
+// export const sampleStore: Store = {
+//   id: 1,
+//   tone: "What are some adjectives to describe your brand's tone?",
+//   description: "How would you describe your brand to a stranger?",
+//   status: "ACTIVE",
+//   storeSettings: {
+//     bannedWords: ["Separate each term with a comma. Curse words are automatically banned."],
+//     generateDescriptionInstructions: "Describe any custom instructions for generating descriptions",
+//     exampleDescription: "Optional. Input a product description that you would consider ideal.",
+//   },
+// };
 
 export default SampleData;

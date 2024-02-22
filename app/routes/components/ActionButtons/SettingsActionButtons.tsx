@@ -32,7 +32,7 @@ const SettingsActionButtons: FC<SettingsActionButtonsProps> = ({
     const { bannedWords, selectImageInstructions, generateDescriptionInstructions, exampleDescription } =
       store.storeSettings;
     if (
-      messaging !== store.name ||
+      messaging !== store.tone ||
       brandDescription !== store.description ||
       bannedWords !== store.storeSettings.bannedWords ||
       selectImageInstructions !== store.storeSettings.selectImageInstructions ||
