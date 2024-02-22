@@ -58,7 +58,9 @@ const DashboardMetrics: React.FC = () => {
 
   // Sample data for each metric
   const metricData: Record<MetricType, number[]> = {
-    "Cumulative Added Revenue": [12000, 19000, 17000, 22000, 23000, 21000, 25000, 26000, 24000, 28000, 27000, 30000],
+    "Cumulative Added Revenue": [
+      12000, 29000, 41000, 38000, 59000, 79000, 81000, 95000, 102000, 123000, 138000, 142000,
+    ],
     "Conversion Rate Lift": [1.2, 1.9, 1.7, 2.2, 2.3, 2.1, 2.5, 2.6, 2.4, 2.8, 2.7, 3.0],
     "Add to Cart Lift": [0.8, 1.0, 0.9, 1.1, 1.3, 1.2, 1.5, 1.6, 1.4, 1.8, 1.7, 1.9],
     "% Personalized": [20, 30, 40, 50, 60, 70, 80, 90, 85, 75, 65, 55],
@@ -100,7 +102,7 @@ const DashboardMetrics: React.FC = () => {
             <HomepageMetricSection
               title="Lifetime Added Revenue"
               sectionIcon={CurrencyDollarIcon}
-              content={<p className="text-2xl font-bold">$546</p>}
+              content={<p className="text-2xl font-bold">$142,858</p>}
             />
           </div>
           <div className="p-4">
