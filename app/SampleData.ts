@@ -1093,7 +1093,7 @@ export const SampleData: Product[] = [
         link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html",
       },
       {
-        id: 801,
+        id: 1001,
         productId: 8,
         versionTitle: "Novice Swimmers",
         status: VersionStatus.Running,
@@ -1102,7 +1102,9 @@ export const SampleData: Product[] = [
         description:
           "<p>Whether you're a seasoned swimmer or just starting out, this classic brief by Speedo won't get in the way of your aquatic activities. Enjoy the freedom and confidence provided by its durable LYCRA XTRA LIFE construction, perfect for all your pool adventures.</p>",
         attributes: [
-          "Viewed: Novice instructional materials, Referral Source: beginner swimmer, Website Behavior: viewed 'how to start' guide",
+          "Viewed: Novice instructional materials",
+          "Referral Source: beginner swimmer",
+          "Website Behavior: viewed 'how to start' guide",
         ],
         createdAt: new Date("2024-02-05"),
         statistics: {
@@ -1117,7 +1119,7 @@ export const SampleData: Product[] = [
         link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html?utm=novice",
       },
       {
-        id: 802,
+        id: 1002,
         productId: 8,
         versionTitle: "Intermediate & Advanced Swimmers",
         status: VersionStatus.Running,
@@ -1139,7 +1141,7 @@ export const SampleData: Product[] = [
         link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html?utm=experienced",
       },
       {
-        id: 802,
+        id: 1003,
         productId: 8,
         versionTitle: "Teams & Performance Swimmers",
         status: VersionStatus.Running,
