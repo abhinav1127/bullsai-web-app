@@ -18,14 +18,14 @@ export const VersionClickableCellRenderer: React.FC<{ data: Version; product: Pr
   console.log(product);
   let iconIndicator = <LoadingSpinner additionalClasses="h-8 w-8 -mx-0.5 -my-0.5" />;
   if (data.status !== "Generating") {
-    const baseStoreUrl = "https://www.herbivorebotanicals.com/collections/anti-aging/products/";
-    const handle =
-      data.versionTitle === defaultVersionDisplayString
-        ? product.handle
-        : `${product.handle}?utm=${toLowerCaseAndDashes(data.versionTitle)}`;
+    // const baseStoreUrl = "https://www.herbivorebotanicals.com/collections/anti-aging/products/";
+    // const handle =
+    //   data.versionTitle === defaultVersionDisplayString
+    //     ? product.handle
+    //     : `${product.handle}?utm=${toLowerCaseAndDashes(data.versionTitle)}`;
     iconIndicator = (
       <div className="flex gap-3">
-        <a href={baseStoreUrl + handle} target="_blank" rel="noopener noreferrer">
+        <a href={data.link} target="_blank" rel="noopener noreferrer">
           <ArrowTopRightOnSquareIcon className="w-5 h-5" />
         </a>
         <ChevronRightIcon className="w-5 h-5" />

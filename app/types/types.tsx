@@ -31,6 +31,7 @@ export interface Version {
   attributes: string[];
   statistics: VersionStatistics;
   createdAt: Date;
+  link?: string;
 }
 
 export interface VersionStatistics {

@@ -39,6 +39,7 @@ export const SampleData: Product[] = [
           conversionRateLift: 0,
           addToCartRateLift: 0,
         },
+        link: "https://www.herbivorebotanicals.com/collections/anti-aging/products/moon-fruit-1-bakuchiol-peptides-retinol-alternative-serum",
       },
     ],
   },
@@ -1089,6 +1090,7 @@ export const SampleData: Product[] = [
           conversionRateLift: 15,
           addToCartRateLift: 12,
         },
+        link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html",
       },
       {
         id: 801,
@@ -1112,6 +1114,7 @@ export const SampleData: Product[] = [
           conversionRateLift: 18,
           addToCartRateLift: 15,
         },
+        link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html?utm=novice",
       },
       {
         id: 802,
@@ -1133,6 +1136,7 @@ export const SampleData: Product[] = [
           conversionRateLift: 17,
           addToCartRateLift: 14,
         },
+        link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html?utm=experienced",
       },
       {
         id: 802,
@@ -1155,6 +1159,7 @@ export const SampleData: Product[] = [
           conversionRateLift: 20,
           addToCartRateLift: 16,
         },
+        link: "https://us.speedo.com/powerflex-solid-brief-adult/13233976.html?utm=team",
       },
     ],
   },
@@ -1265,6 +1270,7 @@ export const DemoGeneratedVersions = [
       conversionRateLift: 0,
       addToCartRateLift: 0,
     },
+    link: "https://www.herbivorebotanicals.com/collections/anti-aging/products/moon-fruit-1-bakuchiol-peptides-retinol-alternative-serum?utm=middle-aged---wrinkle-focus",
   },
   {
     id: 1002,
@@ -1286,6 +1292,7 @@ export const DemoGeneratedVersions = [
       conversionRateLift: 0,
       addToCartRateLift: 0,
     },
+    link: "https://www.herbivorebotanicals.com/collections/anti-aging/products/moon-fruit-1-bakuchiol-peptides-retinol-alternative-serum?utm=young-adult---acne-focus",
   },
   {
     id: 1003,
@@ -1308,6 +1315,7 @@ export const DemoGeneratedVersions = [
       conversionRateLift: 0,
       addToCartRateLift: 0,
     },
+    link: "https://www.herbivorebotanicals.com/collections/anti-aging/products/moon-fruit-1-bakuchiol-peptides-retinol-alternative-serum?utm=dry-skin---hydration-focus",
   },
   {
     id: 1004,
@@ -1329,6 +1337,7 @@ export const DemoGeneratedVersions = [
       conversionRateLift: 0,
       addToCartRateLift: 0,
     },
+    link: "https://www.herbivorebotanicals.com/collections/anti-aging/products/moon-fruit-1-bakuchiol-peptides-retinol-alternative-serum?utm=male",
   },
 ];
 
