@@ -1096,7 +1096,7 @@ export const SampleData: Product[] = [
         id: 1001,
         productId: 8,
         versionTitle: "Novice Swimmers",
-        status: VersionStatus.Running,
+        status: VersionStatus.Pending,
         productTitle: "Powerflex - Solid Brief Adult",
         heroImage: "https://static.thcdn.com/images/large/webp//productimg/1600/1600/13233976-1385005319087151.jpg",
         description:
@@ -1122,7 +1122,7 @@ export const SampleData: Product[] = [
         id: 1002,
         productId: 8,
         versionTitle: "Intermediate & Advanced Swimmers",
-        status: VersionStatus.Running,
+        status: VersionStatus.Pending,
         productTitle: "Powerflex - Performance Solid Brief Adult",
         heroImage: "https://as2.ftcdn.net/v2/jpg/02/69/97/69/1000_F_269976944_A6YuNbgEeFYJC5ctoUiw8KBsHNz9lpVl.jpg",
         description:
@@ -1144,7 +1144,7 @@ export const SampleData: Product[] = [
         id: 1003,
         productId: 8,
         versionTitle: "Teams & Performance Swimmers",
-        status: VersionStatus.Running,
+        status: VersionStatus.Pending,
         productTitle: "Powerflex - Performance Solid Brief Adult",
         heroImage:
           "https://d3mojdi32uv7q.cloudfront.net/images/2017/2/25/DSC1643_new_story.jpg?width=1920quality=80&format=jpg",
