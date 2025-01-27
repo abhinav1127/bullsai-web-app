@@ -2,6 +2,8 @@
 
 BullsAI is a SaaS that enables hyper-personalized product content for online shoppers. By utilizing shopper metadata and AI, BullsAI dynamically adjusts product images, descriptions, and titles to create a tailored shopping experience for every individual. This personalization ensures that shoppers are presented with the most relevant content, increasing engagement and conversion rates.
 
+By Ash Rathie and Abhinav Tirath
+
 ---
 
 ## Key Features
